@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mama_bg"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="40dp">
+
+        <!-- Titre -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bienvenue Mama"
+            android:textSize="32sp"
+            android:textColor="@color/mama_primary"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Créez votre compte pour commencer"
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:layout_marginBottom="40dp"/>
+
+        <!-- Champ Nom -->
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@android:drawable/editbox_background_normal"
+            android:hint="Nom complet"
+            android:paddingStart="15dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Champ Email -->
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@android:drawable/editbox_background_normal"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingStart="15dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Champ Mot de passe -->
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@android:drawable/editbox_background_normal"
+            android:hint="Mot de passe"
+            android:inputType="textPassword"
+            android:paddingStart="15dp"
+            android:layout_marginBottom="30dp"/>
+
+        <!-- Bouton Inscription -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="S'INSCRIRE"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/mama_primary"
+            android:textColor="@color/white"/>
+
+        <!-- Lien vers Login -->
+        <TextView
+            android:id="@+id/tvGoToLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="J'ai déjà un compte"
+            android:textColor="@color/mama_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"/>
+
+    </LinearLayout>
+</ScrollView>

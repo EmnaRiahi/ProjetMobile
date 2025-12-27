@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="mama_primary">#E91E63</color> <!-- Rose foncé -->
+    <color name="mama_accent">#F48FB1</color>  <!-- Rose clair -->
+    <color name="mama_bg">#FCE4EC</color>      <!-- Fond très clair -->
+    <color name="text_color">#4A4A4A</color>   <!-- Gris foncé pour le texte -->
 </resources>

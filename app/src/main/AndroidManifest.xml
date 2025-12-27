@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mama">
-    <!-- Permissions nécessaires pour la suite (Internet pour l'API, Localisation pour l'urgence) -->
+
+    <!-- 1. PERMISSIONS -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -18,23 +19,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mama"
         tools:targetApi="31">
-        <activity
-            android:name=".EmergencyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ForgotPasswordActivity"
-            android:exported="false" /> <!-- 1. LOGIN ACTIVITY : C'est elle qui doit se lancer en premier (LAUNCHER) -->
+
+        <!-- ACTIVITÉS SECONDAIRES -->
+        <activity android:name=".ActivityWeatherActivity" />
+        <activity android:name=".NutritionActivity" />
+        <activity android:name=".SymptomsActivity" />
+        <activity android:name=".HealthActivity" />
+
+        <!-- LE TABLEAU DE BORD (Celle qui manquait !) -->
+        <activity android:name=".HomeDashboardActivity" />
+
+        <!-- 2. LOGIN (POINT DE DÉPART) -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- 2. REGISTER ACTIVITY : Pour l'inscription -->
-        <activity android:name=".RegisterActivity" /> <!-- 3. MAIN ACTIVITY : L'accueil après connexion -->
+        </activity>
+
+        <!-- AUTRES -->
         <activity android:name=".MainActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".EmergencyActivity" />
+        <activity android:name=".AppointmentsActivity" />
+
     </application>
 
 </manifest>

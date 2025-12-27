@@ -43,8 +43,10 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(isLogged){
                         Toast.makeText(LoginActivity.this, "Connexion réussie !", Toast.LENGTH_SHORT).show();
-                        // Aller vers l'accueil (MainActivity)
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                        // --- MODIFICATION ICI ---
+                        // On redirige vers le nouveau Tableau de Bord (HomeDashboardActivity)
+                        Intent intent = new Intent(LoginActivity.this, HomeDashboardActivity.class);
                         startActivity(intent);
                         finish(); // Ferme Login pour ne pas revenir en arrière
                     } else {
@@ -61,6 +63,8 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
+
+        // Mot de passe oublié
         tvForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

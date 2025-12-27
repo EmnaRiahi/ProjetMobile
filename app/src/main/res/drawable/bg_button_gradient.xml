@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <!-- Dégradé diagonal du Rose clair vers Rose foncé -->
+    <gradient
+        android:startColor="#FF9E9E"
+        android:endColor="#FF6B6B"
+        android:angle="45"/>
+
+    <!-- Arrondis très prononcés (Pill shape) -->
+    <corners android:radius="30dp"/>
+
+    <!-- Effet de clic (Ripple) sera géré par le bouton lui-même -->
+</shape>

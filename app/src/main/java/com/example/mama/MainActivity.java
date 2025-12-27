@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Button btnAppointments, btnLogout;
     TextView tvWelcome;
 
-    // Capteurs pour le Shake
+    // Capteurs pour le Shake (Secousse)
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private float mAccel;
@@ -60,12 +60,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        // 2. Clic sur Rendez-vous (On le fera plus tard)
+        // 2. Clic sur Rendez-vous (MODIFIÉ : Ouvre maintenant la liste des RDV)
         btnAppointments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Gestion des rendez-vous bientôt disponible !", Toast.LENGTH_SHORT).show();
-                // Future étape : startActivity(new Intent(MainActivity.this, AppointmentActivity.class));
+                Intent intent = new Intent(MainActivity.this, AppointmentsActivity.class);
+                startActivity(intent);
             }
         });
 

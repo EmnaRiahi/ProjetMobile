@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="mama_primary">#E91E63</color> <!-- Rose foncé -->
-    <color name="mama_accent">#F48FB1</color>  <!-- Rose clair -->
-    <color name="mama_bg">#FCE4EC</color>      <!-- Fond très clair -->
-    <color name="text_color">#4A4A4A</color>   <!-- Gris foncé pour le texte -->
+    <!-- PALETTE MODERNE -->
+    <color name="mama_primary">#FF6B6B</color>
+    <color name="mama_primary_dark">#EE5253</color>
+    <color name="mama_accent">#54A0FF</color>
+
+    <!-- FONDS -->
+    <color name="mama_background">#FFF9FA</color>
+    <color name="mama_bg">#FFF9FA</color>
+
+    <!-- TEXTES ET BASIQUES -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#2D3436</color>
+    <color name="grey_light">#F1F2F6</color>
+    <color name="grey_text">#636E72</color>
+    <color name="text_color">#636E72</color>
 </resources>

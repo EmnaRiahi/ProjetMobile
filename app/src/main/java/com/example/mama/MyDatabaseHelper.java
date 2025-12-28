@@ -9,17 +9,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Mama.db";
-    // IMPORTANT : J'ai changé la version à 2 pour forcer la mise à jour de la structure
-    private static final int DATABASE_VERSION = 2;
+    // ON PASSE EN VERSION 3 POUR LA MISE À JOUR
+    private static final int DATABASE_VERSION = 3;
 
-    // --- CONSTANTES TABLE UTILISATEURS ---
+    // Table Users
     private static final String TABLE_NAME = "users";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_FULLNAME = "fullname";
     private static final String COLUMN_EMAIL = "email";
     private static final String COLUMN_PASSWORD = "password";
+    // Nouveaux champs
+    private static final String COLUMN_WEEK = "pregnancy_week";
+    private static final String COLUMN_SYMPTOMS = "symptoms";
 
-    // --- CONSTANTES TABLE RENDEZ-VOUS ---
+    // Table RDV
     private static final String TABLE_RDV = "appointments";
     private static final String COL_RDV_ID = "id";
     private static final String COL_RDV_TITLE = "title";
@@ -32,17 +35,19 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // 1. Création de la table Users
-        String queryUser = "CREATE TABLE " + TABLE_NAME +
-                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        // Création table Users avec les nouveaux champs
+        String queryUser = "CREATE TABLE " + TABLE_NAME + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_FULLNAME + " TEXT, " +
                 COLUMN_EMAIL + " TEXT, " +
-                COLUMN_PASSWORD + " TEXT);";
+                COLUMN_PASSWORD + " TEXT, " +
+                COLUMN_WEEK + " INTEGER, " +
+                COLUMN_SYMPTOMS + " TEXT);";
         db.execSQL(queryUser);
 
-        // 2. Création de la table Rendez-vous
-        String queryRdv = "CREATE TABLE " + TABLE_RDV +
-                " (" + COL_RDV_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        // Création table RDV
+        String queryRdv = "CREATE TABLE " + TABLE_RDV + " (" +
+                COL_RDV_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_RDV_TITLE + " TEXT, " +
                 COL_RDV_DATE + " TEXT, " +
                 COL_RDV_TIME + " TEXT);";
@@ -51,30 +56,27 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // En cas de mise à jour, on supprime tout et on recrée
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RDV);
         onCreate(db);
     }
 
-    // ---------------------------------------------------
-    // PARTIE GESTION UTILISATEURS (USER)
-    // ---------------------------------------------------
-
-    public void addUser(String fullname, String email, String password){
+    // --- AJOUTER UTILISATEUR (MODIFIÉ) ---
+    public void addUser(String fullname, String email, String password, int week, String symptoms){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_FULLNAME, fullname);
         cv.put(COLUMN_EMAIL, email);
         cv.put(COLUMN_PASSWORD, password);
+        cv.put(COLUMN_WEEK, week);
+        cv.put(COLUMN_SYMPTOMS, symptoms);
         db.insert(TABLE_NAME, null, cv);
     }
 
+    // --- AUTRES MÉTHODES (INCHANGÉES) ---
     public boolean checkUser(String email, String password){
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME +
-                " WHERE " + COLUMN_EMAIL + " = ? AND " + COLUMN_PASSWORD + " = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{email, password});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_EMAIL + " = ? AND " + COLUMN_PASSWORD + " = ?", new String[]{email, password});
         boolean exists = cursor.getCount() > 0;
         cursor.close();
         return exists;
@@ -96,11 +98,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    // ---------------------------------------------------
-    // PARTIE GESTION RENDEZ-VOUS (APPOINTMENTS)
-    // ---------------------------------------------------
-
-    // Ajouter un RDV
+    // --- MÉTHODES RDV ---
     public void addAppointment(String title, String date, String time){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -110,13 +108,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_RDV, null, cv);
     }
 
-    // Récupérer tous les RDV (du plus récent au plus ancien)
     public Cursor getAllAppointments(){
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_RDV + " ORDER BY " + COL_RDV_ID + " DESC", null);
     }
 
-    // Supprimer un RDV par son ID
     public void deleteAppointment(String id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_RDV, COL_RDV_ID + "=?", new String[]{id});

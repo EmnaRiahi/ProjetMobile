@@ -11,55 +11,60 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText etName, etEmail, etPassword;
+    EditText etName, etEmail, etPassword, etWeek, etSymptoms;
     Button btnRegister;
     TextView tvGoToLogin;
-    MyDatabaseHelper myDB; // Notre base de données SQLite
+    MyDatabaseHelper myDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Liaison avec le XML
         etName = findViewById(R.id.etName);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        etWeek = findViewById(R.id.etWeek);         // Nouveau
+        etSymptoms = findViewById(R.id.etSymptoms); // Nouveau
         btnRegister = findViewById(R.id.btnRegister);
         tvGoToLogin = findViewById(R.id.tvGoToLogin);
 
-        // Initialisation de la BDD
         myDB = new MyDatabaseHelper(this);
 
-        // Clic sur S'inscrire
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String name = etName.getText().toString().trim();
                 String email = etEmail.getText().toString().trim();
                 String pass = etPassword.getText().toString().trim();
+                String weekStr = etWeek.getText().toString().trim();
+                String symptoms = etSymptoms.getText().toString().trim();
 
-                if(name.isEmpty() || email.isEmpty() || pass.isEmpty()){
-                    Toast.makeText(RegisterActivity.this, "Veuillez remplir tout les champs", Toast.LENGTH_SHORT).show();
+                if(name.isEmpty() || email.isEmpty() || pass.isEmpty() || weekStr.isEmpty()){
+                    Toast.makeText(RegisterActivity.this, "Veuillez remplir les champs obligatoires", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Ajout dans SQLite
-                    myDB.addUser(name, email, pass);
-                    Toast.makeText(RegisterActivity.this, "Inscription réussie !", Toast.LENGTH_SHORT).show();
+                    int week = Integer.parseInt(weekStr);
 
-                    // Redirection vers Login
+                    // Vérification simple de la semaine
+                    if(week < 1 || week > 42) {
+                        Toast.makeText(RegisterActivity.this, "Semaine invalide (1-42)", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // Ajout dans la base avec les nouvelles infos
+                    myDB.addUser(name, email, pass, week, symptoms);
+
+                    Toast.makeText(RegisterActivity.this, "Compte créé ! Bienvenue.", Toast.LENGTH_SHORT).show();
+
                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                     finish();
                 }
             }
         });
 
-        // Clic sur "J'ai déjà un compte"
-        tvGoToLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                finish();
-            }
+        tvGoToLogin.setOnClickListener(v -> {
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish();
         });
     }
 }

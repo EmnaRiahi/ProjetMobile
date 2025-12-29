@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mama">
 
-    <!-- 1. PERMISSIONS -->
+    <!-- PERMISSIONS -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -20,16 +20,17 @@
         android:theme="@style/Theme.Mama"
         tools:targetApi="31">
 
+        <!-- CELLE QUI MANQUAIT (CHATBOT) -->
+        <activity android:name=".ChatActivity" />
+
         <!-- ACTIVITÉS SECONDAIRES -->
         <activity android:name=".ActivityWeatherActivity" />
         <activity android:name=".NutritionActivity" />
         <activity android:name=".SymptomsActivity" />
         <activity android:name=".HealthActivity" />
-
-        <!-- LE TABLEAU DE BORD (Celle qui manquait !) -->
         <activity android:name=".HomeDashboardActivity" />
 
-        <!-- 2. LOGIN (POINT DE DÉPART) -->
+        <!-- LOGIN (POINT DE DÉPART) -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">

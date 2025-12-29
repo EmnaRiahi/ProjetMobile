@@ -67,6 +67,8 @@ public class HomeDashboardActivity extends AppCompatActivity implements SensorEv
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         });
+        findViewById(R.id.fabChat).setOnClickListener(v -> startActivity(new Intent(this, ChatActivity.class)));
+
     }
 
     // --- LOGIQUE SECOUSSE (Copier-Coller de l'ancienne) ---

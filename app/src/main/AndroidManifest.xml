@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mama">
-
     <!-- PERMISSIONS -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,6 +12,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Pour faire vibrer le téléphone -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
     <application
         android:allowBackup="true"
@@ -24,28 +24,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mama"
         tools:targetApi="31">
-
-        <!-- CELLE QUI MANQUAIT (CHATBOT) -->
-        <activity android:name=".ChatActivity" />
-
-        <!-- ACTIVITÉS SECONDAIRES -->
+        <!-- moatez screens  -->
+        <activity
+            android:name=".sport.SportDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sport.HistoryActivity"
+            android:exported="false" />
+     <!-- CELLE QUI MANQUAIT (CHATBOT) -->
+        <activity android:name=".ChatActivity" /> <!-- ACTIVITÉS SECONDAIRES -->
         <activity android:name=".ActivityWeatherActivity" />
         <activity android:name=".NutritionActivity" />
         <activity android:name=".SymptomsActivity" />
         <activity android:name=".HealthActivity" />
-        <activity android:name=".HomeDashboardActivity" />
-
-        <!-- LOGIN (POINT DE DÉPART) -->
+        <activity android:name=".HomeDashboardActivity" /> <!-- LOGIN (POINT DE DÉPART) -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- AUTRES -->
+        </activity> <!-- AUTRES -->
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ForgotPasswordActivity" />

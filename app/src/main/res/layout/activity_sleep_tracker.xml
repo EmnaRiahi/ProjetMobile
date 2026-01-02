@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mama_background"
+    tools:context=".SleepTrackingActivity">
+
+    <!-- HEADER -->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Analyse du Sommeil"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <!-- CORPS -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@id/header"
+        android:padding="24dp">
+
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:background="@drawable/bg_sleep_toggle"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textOn="STOP"
+            android:textOff="START"/>
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appuyez sur 'START' pour commencer"
+            android:textColor="@color/grey_text"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- CARTE DE RÉSULTATS -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/resultsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <GridLayout
+                android:id="@+id/tvResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:padding="16dp">
+
+                <!-- Durée Totale -->
+                <ImageView android:src="@drawable/ic_time" style="@style/SleepIcon"/>
+                <TextView android:id="@+id/tvTotalDuration" style="@style/SleepResultText" tools:text="8h 15m\nTotal"/>
+
+                <!-- Sommeil Profond -->
+                <ImageView android:src="@drawable/ic_sleep_deep" style="@style/SleepIcon"/>
+                <TextView android:id="@+id/tvDeepSleep" style="@style/SleepResultText" tools:text="6h 30m\nProfond"/>
+                
+                <!-- Sommeil Léger -->
+                <ImageView android:src="@drawable/ic_sleep_light" style="@style/SleepIcon"/>
+                <TextView android:id="@+id/tvLightSleep" style="@style/SleepResultText" tools:text="1h 45m\nLéger"/>
+
+                <!-- Événements Sonores -->
+                <ImageView android:src="@drawable/ic_sound_event" style="@style/SleepIcon"/>
+                <TextView android:id="@+id/tvSoundEventsResult" style="@style/SleepResultText" tools:text="12\nSons détectés"/>
+
+            </GridLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/btnListenRecordings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Écouter les enregistrements"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/mama_primary"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +23,10 @@
         android:theme="@style/Theme.Mama"
         tools:targetApi="31">
 
+        <service
+            android:name=".SleepTrackingService"
+            android:foregroundServiceType="microphone" />
+
         <!-- CELLE QUI MANQUAIT (CHATBOT) -->
         <activity android:name=".ChatActivity" />
 
@@ -29,6 +36,11 @@
         <activity android:name=".SymptomsActivity" />
         <activity android:name=".HealthActivity" />
         <activity android:name=".HomeDashboardActivity" />
+        <activity android:name=".HealthTrackerActivity" />
+        <activity android:name=".WeeklyInfoActivity" />
+        <activity android:name=".SleepTrackingActivity" />
+        <activity android:name=".RecordingsActivity" />
+
 
         <!-- LOGIN (POINT DE DÉPART) -->
         <activity

@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import android.util.Patterns;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -40,25 +41,39 @@ public class RegisterActivity extends AppCompatActivity {
                 String weekStr = etWeek.getText().toString().trim();
                 String symptoms = etSymptoms.getText().toString().trim();
 
+                // 1. Vérification Champs Vides
                 if(name.isEmpty() || email.isEmpty() || pass.isEmpty() || weekStr.isEmpty()){
-                    Toast.makeText(RegisterActivity.this, "Veuillez remplir les champs obligatoires", Toast.LENGTH_SHORT).show();
-                } else {
-                    int week = Integer.parseInt(weekStr);
-
-                    // Vérification simple de la semaine
-                    if(week < 1 || week > 42) {
-                        Toast.makeText(RegisterActivity.this, "Semaine invalide (1-42)", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    // Ajout dans la base avec les nouvelles infos
-                    myDB.addUser(name, email, pass, week, symptoms);
-
-                    Toast.makeText(RegisterActivity.this, "Compte créé ! Bienvenue.", Toast.LENGTH_SHORT).show();
-
-                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                    finish();
+                    Toast.makeText(RegisterActivity.this, "Tous les champs sont obligatoires", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                // 2. Vérification Format Email (Le plus important !)
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    etEmail.setError("Format email invalide (ex: nom@mail.com)");
+                    etEmail.requestFocus();
+                    return;
+                }
+
+                // 3. Vérification Longueur Mot de passe
+                if (pass.length() < 6) {
+                    etPassword.setError("Le mot de passe doit faire au moins 6 caractères");
+                    etPassword.requestFocus();
+                    return;
+                }
+
+                // 4. Vérification Semaine de grossesse
+                int week = Integer.parseInt(weekStr);
+                if(week < 1 || week > 42) {
+                    etWeek.setError("La semaine doit être entre 1 et 42");
+                    etWeek.requestFocus();
+                    return;
+                }
+
+                // Tout est bon, on inscrit !
+                myDB.addUser(name, email, pass, week, symptoms);
+                Toast.makeText(RegisterActivity.this, "Inscription réussie !", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                finish();
             }
         });
 

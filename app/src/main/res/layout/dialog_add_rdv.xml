@@ -6,6 +6,7 @@
     android:padding="20dp">
 
     <TextView
+        android:id="@+id/tvTitleDialog"
         android:text="Nouveau Rendez-vous"
         android:textSize="20sp"
         android:textStyle="bold"

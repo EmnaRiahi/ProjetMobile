@@ -117,4 +117,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_RDV, COL_RDV_ID + "=?", new String[]{id});
     }
+    // Mettre à jour un RDV existant
+    public void updateAppointment(String id, String title, String date, String time){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_RDV_TITLE, title);
+        cv.put(COL_RDV_DATE, date);
+        cv.put(COL_RDV_TIME, time);
+
+        // Met à jour la ligne qui a cet ID
+        db.update(TABLE_RDV, cv, COL_RDV_ID + "=?", new String[]{id});
+    }
 }

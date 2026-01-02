@@ -15,10 +15,17 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     Context context;
     List<Appointment> list;
     MyDatabaseHelper myDB;
+    OnItemClickListener listener; // Pour gérer le clic de modification
 
-    public AppointmentAdapter(Context context, List<Appointment> list) {
+    // Interface pour communiquer avec l'activité
+    public interface OnItemClickListener {
+        void onItemClick(Appointment appointment);
+    }
+
+    public AppointmentAdapter(Context context, List<Appointment> list, OnItemClickListener listener) {
         this.context = context;
         this.list = list;
+        this.listener = listener;
         myDB = new MyDatabaseHelper(context);
     }
 
@@ -35,10 +42,15 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         holder.title.setText(rdv.title);
         holder.date.setText(rdv.date + " à " + rdv.time);
 
-        // Gestion du clic sur la poubelle (Suppression)
+        // 1. Clic sur la carte entière -> MODIFIER
+        holder.itemView.setOnClickListener(v -> {
+            listener.onItemClick(rdv); // On envoie le RDV à l'activité
+        });
+
+        // 2. Clic sur la poubelle -> SUPPRIMER
         holder.btnDelete.setOnClickListener(v -> {
-            myDB.deleteAppointment(rdv.id); // Supprime de la base
-            list.remove(position);          // Supprime de l'écran
+            myDB.deleteAppointment(rdv.id);
+            list.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, list.size());
         });

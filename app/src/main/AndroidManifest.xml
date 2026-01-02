@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mama">
 
-    <!-- PERMISSIONS DE BASE -->
+    <!-- PERMISSIONS DE BASE (Internet, GPS) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <!-- PERMISSIONS AJOUTÉES POUR LES NOTIFICATIONS (Celles qui manquaient) -->
+    <!-- AJOUT : PERMISSIONS POUR LES NOTIFICATIONS -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -25,19 +25,20 @@
         android:theme="@style/Theme.Mama"
         tools:targetApi="31">
 
-        <!-- ACTIVITÉS -->
+        <!-- ACTIVITÉS SECONDAIRES -->
         <activity android:name=".ChatActivity" />
         <activity android:name=".ActivityWeatherActivity" />
         <activity android:name=".NutritionActivity" />
         <activity android:name=".SymptomsActivity" />
         <activity android:name=".HealthActivity" />
 
-        <!-- L'ACTIVITÉ DE TON COLLÈGUE (Ajoutée par sécurité) -->
+        <!-- AJOUT : L'ACTIVITÉ DE TON COLLÈGUE (CRUCIAL) -->
         <activity android:name=".HealthTrackerActivity" />
 
+        <!-- LE TABLEAU DE BORD -->
         <activity android:name=".HomeDashboardActivity" />
 
-        <!-- LOGIN -->
+        <!-- LOGIN (POINT DE DÉPART) -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -47,14 +48,16 @@
             </intent-filter>
         </activity>
 
+        <!-- AUTRES -->
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".EmergencyActivity" />
         <activity android:name=".AppointmentsActivity" />
 
-        <!-- LE RECEIVER POUR LES NOTIFICATIONS (Celui qui manquait) -->
+        <!-- AJOUT : LE RÉCEPTEUR POUR LES ALARMES -->
         <receiver android:name=".NotificationReceiver" />
+
     </application>
 
 </manifest>

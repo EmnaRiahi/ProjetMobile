@@ -216,4 +216,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_SLEEP_SESSIONS + " ORDER BY " + COL_SLEEP_ID + " DESC", null);
     }
+    // 👇 AJOUTE CETTE MÉTHODE À LA FIN DE TA CLASSE 👇
+    public SleepSession getLastSleepSession() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SLEEP_SESSIONS + " ORDER BY " + COL_SLEEP_ID + " DESC LIMIT 1", null);
+        SleepSession session = null;
+
+        if (cursor != null && cursor.moveToFirst()) {
+            session = new SleepSession(
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SLEEP_DATE)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(COL_SLEEP_DEEP_MINUTES)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(COL_SLEEP_LIGHT_MINUTES)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(COL_SLEEP_SOUND_EVENTS))
+            );
+            cursor.close();
+        }
+        return session;
+    }
 }

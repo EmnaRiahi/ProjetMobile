@@ -3,16 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mama">
 
-    <!-- PERMISSIONS DE BASE (Internet, GPS) -->
+    <!-- ============================================== -->
+    <!--                 PERMISSIONS                    -->
+    <!-- ============================================== -->
+
+    <!-- 1. INTERNET (Pour l'API Urgences & Chatbot) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- 2. LOCALISATION (Pour trouver les cliniques) -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <!-- AJOUT : PERMISSIONS POUR LES NOTIFICATIONS -->
+    <!-- 3. NOTIFICATIONS & ALARMES (Pour les Rendez-vous) -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- 4. AUDIO & SERVICE (Pour le Sommeil/Sleep Tracking de ton collègue) -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- Nécessaire pour Android 14+ si utilisation micro en arrière-plan -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+
 
     <application
         android:allowBackup="true"
@@ -25,20 +39,11 @@
         android:theme="@style/Theme.Mama"
         tools:targetApi="31">
 
-        <!-- ACTIVITÉS SECONDAIRES -->
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".ActivityWeatherActivity" />
-        <activity android:name=".NutritionActivity" />
-        <activity android:name=".SymptomsActivity" />
-        <activity android:name=".HealthActivity" />
+        <!-- ========================================== -->
+        <!--           ACTIVITÉS PRINCIPALES            -->
+        <!-- ========================================== -->
 
-        <!-- AJOUT : L'ACTIVITÉ DE TON COLLÈGUE (CRUCIAL) -->
-        <activity android:name=".HealthTrackerActivity" />
-
-        <!-- LE TABLEAU DE BORD -->
-        <activity android:name=".HomeDashboardActivity" />
-
-        <!-- LOGIN (POINT DE DÉPART) -->
+        <!-- LOGIN : Point de départ (LAUNCHER) -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -48,15 +53,51 @@
             </intent-filter>
         </activity>
 
-        <!-- AUTRES -->
-        <activity android:name=".MainActivity" />
+        <!-- DASHBOARD : L'écran d'accueil après connexion -->
+        <activity android:name=".HomeDashboardActivity" />
+
+        <!-- AUTHENTIFICATION -->
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ForgotPasswordActivity" />
+
+        <!-- ========================================== -->
+        <!--              TES FONCTIONNALITÉS           -->
+        <!-- ========================================== -->
         <activity android:name=".EmergencyActivity" />
         <activity android:name=".AppointmentsActivity" />
+        <activity android:name=".ChatActivity" />
+        <!-- Ancienne activité (gardée par sécurité) -->
+        <activity android:name=".MainActivity" />
 
-        <!-- AJOUT : LE RÉCEPTEUR POUR LES ALARMES -->
+        <!-- ========================================== -->
+        <!--        FONCTIONNALITÉS DU COLLÈGUE         -->
+        <!-- ========================================== -->
+
+        <!-- Modules Santé & Symptômes -->
+        <activity android:name=".HealthActivity" />
+        <activity android:name=".HealthTrackerActivity" />
+        <activity android:name=".SymptomsActivity" />
+        <activity android:name=".NutritionActivity" />
+        <activity android:name=".ActivityWeatherActivity" />
+
+        <!-- Module Sommeil & Enregistrements (Audio) -->
+        <activity android:name=".SleepTrackingActivity" />
+        <activity android:name=".RecordingsActivity" />
+        <activity android:name=".WeeklyInfoActivity" />
+
+        <!-- ========================================== -->
+        <!--           SERVICES & RECEIVERS             -->
+        <!-- ========================================== -->
+
+        <!-- Ton Récepteur pour les notifs de RDV -->
         <receiver android:name=".NotificationReceiver" />
+
+        <!-- Le Service de ton collègue pour enregistrer le sommeil -->
+        <!-- (Indispensable pour éviter le crash du sleep tracker) -->
+        <service
+            android:name=".SleepTrackingService"
+            android:foregroundServiceType="microphone"
+            android:exported="false" />
 
     </application>
 

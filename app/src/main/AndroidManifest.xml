@@ -7,15 +7,19 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<<<<<<< HEAD
+
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <!-- Pour afficher la notif (Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Pour faire vibrer le téléphone -->
     <uses-permission android:name="android.permission.VIBRATE" />
-=======
+
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
->>>>>>> 2267f48 (Add all new and modified files)
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
 
     <application
         android:allowBackup="true"
@@ -27,6 +31,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mama"
         tools:targetApi="31">
+        <!-- rayen screens  -->
+        <activity android:name=".Nutrition.MainActivity" />
+        <activity android:name=".Nutrition.AddMealActivity" />
+        <activity android:name=".Nutrition.EditMealActivity" />
+        <activity android:name=".Nutrition.AnalysisActivity" />
+        <activity android:name=".Nutrition.BarcodeScannerActivity" />
+        <activity android:name=".Nutrition.ProductDetailsActivity" />
+        <activity android:name=".Nutrition.WaterTrackerActivity" />
+        <receiver
+            android:name=".Nutrition.MealReminderReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name=".Nutrition.WaterActionReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".Nutrition.WaterReminderService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse" />
+
+
         <!-- moatez screens  -->
         <activity
             android:name=".sport.SportDashboardActivity"
@@ -55,10 +83,9 @@
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".EmergencyActivity" />
         <activity android:name=".AppointmentsActivity" />
-<<<<<<< HEAD
         <receiver android:name=".NotificationReceiver" />
-=======
->>>>>>> 2267f48 (Add all new and modified files)
+
+
     </application>
 
 </manifest>

@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import com.example.mama.sport.SportDashboardActivity;
 
 
+
 public class HomeDashboardActivity extends AppCompatActivity implements SensorEventListener {
 
     // Capteurs pour l'urgence (Shake)
@@ -66,9 +67,18 @@ public class HomeDashboardActivity extends AppCompatActivity implements SensorEv
         });
 
 
+
         // Carte 6 : Nutrition
         CardView cardNutrition = findViewById(R.id.cardNutrition);
-        cardNutrition.setOnClickListener(v -> startActivity(new Intent(this, NutritionActivity.class)));
+        cardNutrition.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    HomeDashboardActivity.this,
+                    com.example.mama.Nutrition.MainActivity.class
+            );
+            startActivity(intent);
+        });
+
+
 
         // Bouton Déconnexion
         ImageButton btnLogout = findViewById(R.id.btnLogout);

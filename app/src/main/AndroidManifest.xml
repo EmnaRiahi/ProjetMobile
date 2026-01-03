@@ -4,7 +4,10 @@
     package="com.example.mama">
 
     <!-- PERMISSIONS -->
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -30,21 +33,39 @@
         android:theme="@style/Theme.Mama"
         tools:targetApi="31">
 
-        <!-- ACTIVITÉS -->
-        <activity android:name=".LoginActivity" android:exported="true" tools:ignore="MissingClass">
+        <!-- ========================================== -->
+        <!--           DÉMARRAGE (SPLASH SCREEN)        -->
+        <!-- ========================================== -->
+        <!-- C'est ICI qu'on met l'intent-filter LAUNCHER -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!-- ========================================== -->
+        <!--           ACTIVITÉS PRINCIPALES            -->
+        <!-- ========================================== -->
+
+        <!-- Login devient une activité normale (plus de launcher) -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".HomeDashboardActivity" />
         <activity android:name=".MainActivity" />
+
+        <!-- TES FONCTIONNALITÉS -->
         <activity android:name=".EmergencyActivity" />
         <activity android:name=".AppointmentsActivity" />
         <activity android:name=".ChatActivity" />
+
+        <receiver android:name=".NotificationReceiver" />
 
         <!-- NUTRITION (Rayen) -->
         <activity android:name=".Nutrition.MainActivity" />
@@ -54,6 +75,21 @@
         <activity android:name=".Nutrition.BarcodeScannerActivity" />
         <activity android:name=".Nutrition.ProductDetailsActivity" />
         <activity android:name=".Nutrition.WaterTrackerActivity" />
+
+        <receiver
+            android:name=".Nutrition.MealReminderReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <receiver
+            android:name=".Nutrition.WaterActionReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".Nutrition.WaterReminderService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse"
+            tools:ignore="ForegroundServicePermission" />
 
         <!-- SANTÉ (Nessim) -->
         <activity android:name=".HealthActivity" />
@@ -65,17 +101,15 @@
         <activity android:name=".RecordingsActivity" />
         <activity android:name=".WeeklyInfoActivity" />
 
+        <service
+            android:name=".SleepTrackingService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
+
         <!-- SPORT (Moatez) -->
         <activity android:name=".sport.SportDashboardActivity" />
         <activity android:name=".sport.HistoryActivity" />
 
-        <!-- RECEIVERS & SERVICES -->
-        <receiver android:name=".NotificationReceiver" />
-        <receiver android:name=".Nutrition.MealReminderReceiver" android:enabled="true" android:exported="false" />
-        <receiver android:name=".Nutrition.WaterActionReceiver" android:enabled="true" android:exported="false" />
-
-        <service android:name=".Nutrition.WaterReminderService" android:enabled="true" android:exported="false" android:foregroundServiceType="specialUse" tools:ignore="ForegroundServicePermission" />
-        <service android:name=".SleepTrackingService" android:foregroundServiceType="microphone" android:exported="false" />
-
     </application>
+
 </manifest>

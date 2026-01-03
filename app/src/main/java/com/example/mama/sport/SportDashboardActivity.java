@@ -1,8 +1,7 @@
-// ========================================
-// 1. SportDashboardActivity.java
-// ========================================
 package com.example.mama.sport;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,30 +10,28 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.mama.R;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class SportDashboardActivity extends AppCompatActivity implements SensorEventListener {
 
     private TextView txtSteps, txtCalories, txtDistance, txtTime, txtStepProgress;
     private ProgressBar progressSteps;
+    private LinearLayout layoutGoalAchieved;
     private ActiviteDatabase db;
 
-    // Variable pour stocker l'objectif actuel (au lieu de STEP_GOAL constant)
-    private int currentStepGoal;
-
-    // Variables pour le capteur
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private int currentSessionSteps = 0;
-    private int databaseStepsAtStart = 0;
+    
+    // Active session tracking
+    private ActiviteEntity currentSession;
     private double magnitudePrevious = 0;
+    private boolean isGoalAnimationPlaying = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,40 +40,56 @@ public class SportDashboardActivity extends AppCompatActivity implements SensorE
 
         db = ActiviteDatabase.getInstance(this);
 
-        // Charger l'objectif sauvegardé (par défaut 6000)
-        SharedPreferences prefs = getSharedPreferences("SportPrefs", MODE_PRIVATE);
-        currentStepGoal = prefs.getInt("step_goal", 6000);
-
-        // Liaison UI
+        // UI Binding
         txtSteps = findViewById(R.id.txtSteps);
         txtStepProgress = findViewById(R.id.txtStepProgress);
         txtCalories = findViewById(R.id.txtCalories);
         txtDistance = findViewById(R.id.txtDistance);
         txtTime = findViewById(R.id.txtTime);
         progressSteps = findViewById(R.id.progressSteps);
+        layoutGoalAchieved = findViewById(R.id.layoutGoalAchieved);
 
-        // Initialisation des capteurs
+        // Sensors
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager != null) {
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
 
+        // Add Session Button
         findViewById(R.id.fabAdd).setOnClickListener(v ->
-                new AddSessionDialog(this, null, this::loadStats).show()
+                new AddSessionDialog(this, null, this::loadActiveSession).show()
         );
 
-        findViewById(R.id.stepCard).setOnClickListener(v ->
-                startActivity(new Intent(this, HistoryActivity.class))
-        );
+        // Indoor / Outdoor Logic
+        findViewById(R.id.cardIndoor).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ExercisesActivity.class);
+            intent.putExtra("type", "INDOOR");
+            startActivity(intent);
+        });
 
-        loadStats();
+        findViewById(R.id.cardOutdoor).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ExercisesActivity.class);
+            intent.putExtra("type", "OUTDOOR");
+            startActivity(intent);
+        });
+
+        // Click on Current Session Card -> Open History (Filtered for current/unachieved?)
+        // User said: "When I tap on it, only new sessions should be shown." -> I assume "new" means current/unachieved.
+        findViewById(R.id.stepCard).setOnClickListener(v -> {
+            Intent intent = new Intent(this, HistoryActivity.class);
+            intent.putExtra("filter", "UNACHIEVED");
+            startActivity(intent);
+        });
+
+
+
+        loadActiveSession();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Recharge les données et l'objectif au retour de l'activité
-        loadStats();
+        loadActiveSession();
         if (accelerometer != null) {
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         }
@@ -86,76 +99,118 @@ public class SportDashboardActivity extends AppCompatActivity implements SensorE
     protected void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
-        // Optionnel : Sauvegarder la session de marche actuelle en base quand on quitte
-        saveCurrentSessionToDatabase();
+    }
+
+    private void loadActiveSession() {
+        new Thread(() -> {
+            // Get the single active session
+            currentSession = db.activiteDao().getActiveSession();
+            runOnUiThread(() -> updateUI());
+        }).start();
+    }
+
+    private void updateUI() {
+        if (currentSession != null) {
+            int steps = currentSession.steps;
+            int target = currentSession.targetSteps;
+
+            txtSteps.setText(String.valueOf(steps));
+            txtStepProgress.setText(steps + " / " + target + " Steps");
+            
+            // Calc stats
+            txtDistance.setText(String.format(Locale.getDefault(), "%.2f km", steps * 0.0007));
+            txtCalories.setText(String.format(Locale.getDefault(), "%.1f kcal", steps * 0.04));
+            
+            // Duration is not really tracked in real-time in this snippet, but we can show what's in DB
+            txtTime.setText(String.format(Locale.getDefault(), "%d min", currentSession.duration));
+
+            progressSteps.setMax(target);
+            progressSteps.setProgress(Math.min(steps, target));
+        } else {
+            // No active session
+            txtSteps.setText("0");
+            txtStepProgress.setText("Start a new session");
+            progressSteps.setProgress(0);
+            txtDistance.setText("0.00 km");
+            txtCalories.setText("0.0 kcal");
+            txtTime.setText("0 min");
+        }
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        if (currentSession == null) return; // Don't count layout if no session active
+        if (isGoalAnimationPlaying) return; // Pause counting during animation
+
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
 
-            // Calcul de la magnitude du mouvement (Algorithme de base)
             double magnitude = Math.sqrt(x * x + y * y + z * z);
             double magnitudeDelta = magnitude - magnitudePrevious;
             magnitudePrevious = magnitude;
 
-            // Si le mouvement dépasse un certain seuil, on compte un pas
             if (magnitudeDelta > 6) {
-                currentSessionSteps++;
-                updateUI(databaseStepsAtStart + currentSessionSteps);
+                currentSession.steps++;
+                // Check Goal
+                if (currentSession.steps >= currentSession.targetSteps && !currentSession.isAchieved) {
+                    onGoalAchieved();
+                } else {
+                    // Update UI often, save to DB less often? 
+                    // For safety, let's save every X steps or just update UI and save onPause?
+                    // User requirement: "Save every step I make in local storage".
+                    // Saving to DB on every step might be heavy, but requirement is explicit.
+                    // Doing it in background thread.
+                    saveSessionProgress();
+                }
+                updateUI();
             }
         }
     }
 
-    private void updateUI(int totalStepsNow) {
-        // Recharger l'objectif au cas où il a été modifié dans le dialogue
-        SharedPreferences prefs = getSharedPreferences("SportPrefs", MODE_PRIVATE);
-        currentStepGoal = prefs.getInt("step_goal", 6000);
-
-        txtSteps.setText(String.valueOf(totalStepsNow));
-
-        // Utilisation de la variable dynamique au lieu de STEP_GOAL
-        txtStepProgress.setText(totalStepsNow + " / " + currentStepGoal + " Steps");
-
-        // Calculs dynamiques
-        txtDistance.setText(String.format(Locale.getDefault(), "%.2f km", totalStepsNow * 0.0007));
-        txtCalories.setText(String.format(Locale.getDefault(), "%.1f kcal", totalStepsNow * 0.04));
-
-        // La barre de progression utilise aussi l'objectif dynamique
-        progressSteps.setMax(currentStepGoal);
-        progressSteps.setProgress(Math.min(totalStepsNow, currentStepGoal));
-    }
-
-    private void loadStats() {
+    private void saveSessionProgress() {
         new Thread(() -> {
-            List<ActiviteEntity> list = db.activiteDao().getAllActivities();
-            int total = 0;
-            for (ActiviteEntity a : list) {
-                total += a.steps;
-            }
-            databaseStepsAtStart = total;
-            int finalTotal = total;
-            runOnUiThread(() -> updateUI(finalTotal));
+             if (currentSession != null) {
+                 db.activiteDao().update(currentSession);
+             }
         }).start();
     }
 
-    private void saveCurrentSessionToDatabase() {
-        if (currentSessionSteps > 0) {
-            int stepsToSave = currentSessionSteps;
-            currentSessionSteps = 0; // Reset pour éviter les doublons
-            new Thread(() -> {
-                ActiviteEntity session = new ActiviteEntity();
-                session.steps = stepsToSave;
-                session.duration = 1; // Simulation ou calcul de durée
-                session.date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-                session.time = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
-                session.type = "OUTDOOR";
-                db.activiteDao().insert(session);
-            }).start();
-        }
+    private void onGoalAchieved() {
+        currentSession.isAchieved = true;
+        isGoalAnimationPlaying = true;
+        saveSessionProgress();
+
+        // Show Animation
+        layoutGoalAchieved.setVisibility(View.VISIBLE);
+        layoutGoalAchieved.setAlpha(0f);
+        layoutGoalAchieved.animate()
+                .alpha(1f)
+                .setDuration(500)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        // Wait a bit then hide and reset UI
+                        layoutGoalAchieved.postDelayed(() -> {
+                            layoutGoalAchieved.animate()
+                                    .alpha(0f)
+                                    .setDuration(500)
+                                    .setListener(new AnimatorListenerAdapter() {
+                                        @Override
+                                        public void onAnimationEnd(Animator animation) {
+                                            layoutGoalAchieved.setVisibility(View.GONE);
+                                            isGoalAnimationPlaying = false;
+                                            // Reload to clear the current session (since it's now Achieved)
+                                            // The user said: "When a session becomes achieved, I want it to be removed from the Current Session list."
+                                            // Since `getActiveSession()` only returns isAchieved=0, it will return null or the next unachieved one.
+                                            loadActiveSession();
+                                        }
+                                    });
+                        }, 2000);
+                    }
+                });
     }
 
     @Override

@@ -7,15 +7,15 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<<<<<<< HEAD
+
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <!-- Pour afficher la notif (Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Pour faire vibrer le téléphone -->
     <uses-permission android:name="android.permission.VIBRATE" />
-=======
+
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
->>>>>>> 2267f48 (Add all new and modified files)
+
 
     <application
         android:allowBackup="true"
@@ -33,6 +33,9 @@
             android:exported="false" />
         <activity
             android:name=".sport.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sport.ExercisesActivity"
             android:exported="false" />
      <!-- CELLE QUI MANQUAIT (CHATBOT) -->
         <activity android:name=".ChatActivity" /> <!-- ACTIVITÉS SECONDAIRES -->
@@ -55,10 +58,9 @@
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".EmergencyActivity" />
         <activity android:name=".AppointmentsActivity" />
-<<<<<<< HEAD
+
         <receiver android:name=".NotificationReceiver" />
-=======
->>>>>>> 2267f48 (Add all new and modified files)
+
     </application>
 
 </manifest>

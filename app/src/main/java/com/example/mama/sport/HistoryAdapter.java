@@ -45,6 +45,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Holder> 
             h.imgIcon.setImageResource(android.R.drawable.ic_menu_directions);
         }
 
+        if (a.isAchieved) {
+            h.cardView.setCardBackgroundColor(0xFFD5F5E3); // Light Green
+        } else {
+            h.cardView.setCardBackgroundColor(0xFFFFFFFF); // White
+        }
+
         // Clic simple pour modifier
         h.itemView.setOnClickListener(v -> listener.onItemClick(a));
 
@@ -59,10 +65,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Holder> 
     public int getItemCount() { return list != null ? list.size() : 0; }
 
     static class Holder extends RecyclerView.ViewHolder {
+        com.google.android.material.card.MaterialCardView cardView;
         TextView txtDate, txtSteps, txtDetails;
         ImageView imgIcon;
         Holder(View v) {
             super(v);
+            cardView = (com.google.android.material.card.MaterialCardView) v;
             txtDate = v.findViewById(R.id.txtItemDate);
             txtSteps = v.findViewById(R.id.txtItemSteps);
             txtDetails = v.findViewById(R.id.txtItemDetails);

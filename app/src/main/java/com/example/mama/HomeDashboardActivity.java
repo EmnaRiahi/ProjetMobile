@@ -11,6 +11,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import com.example.mama.sport.SportDashboardActivity;
+
+
 
 public class HomeDashboardActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -53,13 +56,29 @@ public class HomeDashboardActivity extends AppCompatActivity implements SensorEv
         CardView cardSymptoms = findViewById(R.id.cardSymptoms);
         cardSymptoms.setOnClickListener(v -> startActivity(new Intent(this, SymptomsActivity.class)));
 
-        // Carte 5 : Activité & Météo
+        // Carte 5 : Activité & Météo (SPORT DASHBOARD)
         CardView cardActivity = findViewById(R.id.cardActivityWeather);
-        cardActivity.setOnClickListener(v -> startActivity(new Intent(this, ActivityWeatherActivity.class)));
+        cardActivity.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    HomeDashboardActivity.this,
+                    SportDashboardActivity.class
+            );
+            startActivity(intent);
+        });
+
+
 
         // Carte 6 : Nutrition
         CardView cardNutrition = findViewById(R.id.cardNutrition);
-        cardNutrition.setOnClickListener(v -> startActivity(new Intent(this, NutritionActivity.class)));
+        cardNutrition.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    HomeDashboardActivity.this,
+                    com.example.mama.Nutrition.MainActivity.class
+            );
+            startActivity(intent);
+        });
+
+
 
         // Bouton Déconnexion
         ImageButton btnLogout = findViewById(R.id.btnLogout);

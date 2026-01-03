@@ -3,30 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mama">
 
-    <!-- ============================================== -->
-    <!--                 PERMISSIONS                    -->
-    <!-- ============================================== -->
-
-    <!-- 1. INTERNET (Pour l'API Urgences & Chatbot) -->
+    <!-- PERMISSIONS -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- 2. LOCALISATION (Pour trouver les cliniques) -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <!-- 3. NOTIFICATIONS & ALARMES (Pour les Rendez-vous) -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <!-- 4. AUDIO & SERVICE (Pour le Sommeil/Sleep Tracking de ton collègue) -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <!-- Nécessaire pour Android 14+ si utilisation micro en arrière-plan -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
-
 
     <application
         android:allowBackup="true"
@@ -39,67 +30,52 @@
         android:theme="@style/Theme.Mama"
         tools:targetApi="31">
 
-        <!-- ========================================== -->
-        <!--           ACTIVITÉS PRINCIPALES            -->
-        <!-- ========================================== -->
-
-        <!-- LOGIN : Point de départ (LAUNCHER) -->
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true"
-            tools:ignore="MissingClass">
+        <!-- ACTIVITÉS -->
+        <activity android:name=".LoginActivity" android:exported="true" tools:ignore="MissingClass">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- DASHBOARD : L'écran d'accueil après connexion -->
-        <activity android:name=".HomeDashboardActivity" />
-
-        <!-- AUTHENTIFICATION -->
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ForgotPasswordActivity" />
-
-        <!-- ========================================== -->
-        <!--              TES FONCTIONNALITÉS           -->
-        <!-- ========================================== -->
+        <activity android:name=".HomeDashboardActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".EmergencyActivity" />
         <activity android:name=".AppointmentsActivity" />
         <activity android:name=".ChatActivity" />
-        <!-- Ancienne activité (gardée par sécurité) -->
-        <activity android:name=".MainActivity" />
 
-        <!-- ========================================== -->
-        <!--        FONCTIONNALITÉS DU COLLÈGUE         -->
-        <!-- ========================================== -->
+        <!-- NUTRITION (Rayen) -->
+        <activity android:name=".Nutrition.MainActivity" />
+        <activity android:name=".Nutrition.AddMealActivity" />
+        <activity android:name=".Nutrition.EditMealActivity" />
+        <activity android:name=".Nutrition.AnalysisActivity" />
+        <activity android:name=".Nutrition.BarcodeScannerActivity" />
+        <activity android:name=".Nutrition.ProductDetailsActivity" />
+        <activity android:name=".Nutrition.WaterTrackerActivity" />
 
-        <!-- Modules Santé & Symptômes -->
+        <!-- SANTÉ (Nessim) -->
         <activity android:name=".HealthActivity" />
         <activity android:name=".HealthTrackerActivity" />
         <activity android:name=".SymptomsActivity" />
         <activity android:name=".NutritionActivity" />
         <activity android:name=".ActivityWeatherActivity" />
-
-        <!-- Module Sommeil & Enregistrements (Audio) -->
         <activity android:name=".SleepTrackingActivity" />
         <activity android:name=".RecordingsActivity" />
         <activity android:name=".WeeklyInfoActivity" />
 
-        <!-- ========================================== -->
-        <!--           SERVICES & RECEIVERS             -->
-        <!-- ========================================== -->
+        <!-- SPORT (Moatez) -->
+        <activity android:name=".sport.SportDashboardActivity" />
+        <activity android:name=".sport.HistoryActivity" />
 
-        <!-- Ton Récepteur pour les notifs de RDV -->
+        <!-- RECEIVERS & SERVICES -->
         <receiver android:name=".NotificationReceiver" />
+        <receiver android:name=".Nutrition.MealReminderReceiver" android:enabled="true" android:exported="false" />
+        <receiver android:name=".Nutrition.WaterActionReceiver" android:enabled="true" android:exported="false" />
 
-        <!-- Le Service de ton collègue pour enregistrer le sommeil -->
-        <!-- (Indispensable pour éviter le crash du sleep tracker) -->
-        <service
-            android:name=".SleepTrackingService"
-            android:foregroundServiceType="microphone"
-            android:exported="false" />
+        <service android:name=".Nutrition.WaterReminderService" android:enabled="true" android:exported="false" android:foregroundServiceType="specialUse" tools:ignore="ForegroundServicePermission" />
+        <service android:name=".SleepTrackingService" android:foregroundServiceType="microphone" android:exported="false" />
 
     </application>
-
 </manifest>

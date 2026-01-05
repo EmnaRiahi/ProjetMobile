@@ -3,24 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mama">
 
-    <!-- PERMISSIONS -->
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
+    <!-- ============================================== -->
+    <!--                 PERMISSIONS                    -->
+    <!-- ============================================== -->
 
+    <!-- Réseau & Localisation -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Système & Notifications (TES ajouts) -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- Matériel & Capteurs (AJOUTS de l'équipe) -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+
 
     <application
         android:allowBackup="true"
@@ -34,9 +41,10 @@
         tools:targetApi="31">
 
         <!-- ========================================== -->
-        <!--           DÉMARRAGE (SPLASH SCREEN)        -->
+        <!--           ACTIVITÉS PRINCIPALES            -->
         <!-- ========================================== -->
-        <!-- C'est ICI qu'on met l'intent-filter LAUNCHER -->
+
+        <!-- SPLASH SCREEN (Démarrage) -->
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -46,28 +54,29 @@
             </intent-filter>
         </activity>
 
-        <!-- ========================================== -->
-        <!--           ACTIVITÉS PRINCIPALES            -->
-        <!-- ========================================== -->
-
-        <!-- Login devient une activité normale (plus de launcher) -->
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-
+        <!-- LOGIN -->
+        <activity android:name=".LoginActivity" android:exported="false" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ForgotPasswordActivity" />
+
+        <!-- DASHBOARD -->
         <activity android:name=".HomeDashboardActivity" />
+
+        <!-- Ancienne activité (gardée par sécurité) -->
         <activity android:name=".MainActivity" />
 
-        <!-- TES FONCTIONNALITÉS -->
+        <!-- ========================================== -->
+        <!--              TES FONCTIONNALITÉS           -->
+        <!-- ========================================== -->
         <activity android:name=".EmergencyActivity" />
         <activity android:name=".AppointmentsActivity" />
         <activity android:name=".ChatActivity" />
 
         <receiver android:name=".NotificationReceiver" />
 
-        <!-- NUTRITION (Rayen) -->
+        <!-- ========================================== -->
+        <!--        FONCTIONNALITÉS NUTRITION (Rayen)   -->
+        <!-- ========================================== -->
         <activity android:name=".Nutrition.MainActivity" />
         <activity android:name=".Nutrition.AddMealActivity" />
         <activity android:name=".Nutrition.EditMealActivity" />
@@ -84,6 +93,7 @@
             android:name=".Nutrition.WaterActionReceiver"
             android:enabled="true"
             android:exported="false" />
+
         <service
             android:name=".Nutrition.WaterReminderService"
             android:enabled="true"
@@ -91,7 +101,9 @@
             android:foregroundServiceType="specialUse"
             tools:ignore="ForegroundServicePermission" />
 
-        <!-- SANTÉ (Nessim) -->
+        <!-- ========================================== -->
+        <!--        FONCTIONNALITÉS SANTÉ (Nessim)      -->
+        <!-- ========================================== -->
         <activity android:name=".HealthActivity" />
         <activity android:name=".HealthTrackerActivity" />
         <activity android:name=".SymptomsActivity" />
@@ -103,12 +115,15 @@
 
         <service
             android:name=".SleepTrackingService"
-            android:exported="false"
-            android:foregroundServiceType="microphone" />
+            android:foregroundServiceType="microphone"
+            android:exported="false" />
 
-        <!-- SPORT (Moatez) -->
+        <!-- ========================================== -->
+        <!--        FONCTIONNALITÉS SPORT (Moatez)      -->
+        <!-- ========================================== -->
         <activity android:name=".sport.SportDashboardActivity" />
         <activity android:name=".sport.HistoryActivity" />
+        <activity android:name=".sport.ExercisesActivity" /> <!-- AJOUTÉ DE LA DROITE -->
 
     </application>
 

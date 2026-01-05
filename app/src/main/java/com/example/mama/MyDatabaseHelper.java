@@ -9,8 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Mama.db";
+<<<<<<< HEAD
     // VERSION UNIFIÉE : 5 (Pour forcer la mise à jour chez tout le monde)
     private static final int DATABASE_VERSION = 5;
+=======
+    // ON PASSE EN VERSION 4 POUR LA MISE À JOUR (POIDS/TAILLE/AGE)
+    private static final int DATABASE_VERSION = 4;
+>>>>>>> origin/sports
 
     // --- TABLE UTILISATEURS ---
     private static final String TABLE_NAME = "users";
@@ -20,6 +25,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_WEEK = "pregnancy_week";
     private static final String COLUMN_SYMPTOMS = "symptoms";
+    private static final String COLUMN_WEIGHT = "weight"; // kg
+    private static final String COLUMN_HEIGHT = "height"; // cm
+    private static final String COLUMN_AGE = "age";       // years
 
     // --- TABLE RENDEZ-VOUS ---
     private static final String TABLE_RDV = "appointments";
@@ -57,7 +65,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_EMAIL + " TEXT, " +
                 COLUMN_PASSWORD + " TEXT, " +
                 COLUMN_WEEK + " INTEGER, " +
-                COLUMN_SYMPTOMS + " TEXT);";
+                COLUMN_SYMPTOMS + " TEXT, " +
+                COLUMN_WEIGHT + " REAL, " +
+                COLUMN_HEIGHT + " REAL, " +
+                COLUMN_AGE + " INTEGER);";
         db.execSQL(queryUser);
 
         // 2. Création RDV
@@ -96,10 +107,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+<<<<<<< HEAD
     // ==========================================
     // PARTIE GESTION UTILISATEURS
     // ==========================================
     public void addUser(String fullname, String email, String password, int week, String symptoms){
+=======
+    // --- AJOUTER UTILISATEUR (MODIFIÉ) ---
+    public void addUser(String fullname, String email, String password, int week, String symptoms, double weight, double height, int age){
+>>>>>>> origin/sports
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_FULLNAME, fullname);
@@ -107,6 +123,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_PASSWORD, password);
         cv.put(COLUMN_WEEK, week);
         cv.put(COLUMN_SYMPTOMS, symptoms);
+        cv.put(COLUMN_WEIGHT, weight);
+        cv.put(COLUMN_HEIGHT, height);
+        cv.put(COLUMN_AGE, age);
         db.insert(TABLE_NAME, null, cv);
     }
 
@@ -124,6 +143,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         boolean exists = cursor.getCount() > 0;
         cursor.close();
         return exists;
+    }
+
+    public Cursor getUserDetails(String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_EMAIL + " = ?", new String[]{email});
     }
 
     public boolean updatePassword(String email, String newPassword){

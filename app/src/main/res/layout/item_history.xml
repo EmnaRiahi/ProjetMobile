@@ -61,7 +61,7 @@
             android:id="@+id/txtItemSteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0 steps"
+
             android:textColor="#0984e3"
             android:textStyle="bold"
             android:textSize="15sp"/>

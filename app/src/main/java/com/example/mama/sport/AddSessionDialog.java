@@ -1,37 +1,31 @@
+package com.example.mama.sport;
 
-        package com.example.mama.sport;
-
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.example.mama.R;
-import com.example.mama.sport.ActiviteDao;
-import com.example.mama.sport.ActiviteDatabase;
-import com.example.mama.sport.ActiviteEntity;
-
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class AddSessionDialog extends Dialog {
-    private EditText edtDuration, edtSteps, edtStepGoal;
+    private EditText edtStepGoal;
     private RadioGroup radioType;
-    private Button btnSave, btnPickDate, btnPickTime;
+    private Button btnSave;
     private Runnable onSaved;
     private ActiviteEntity existingActivity;
+    private int defaultSteps;
 
-    // Variables pour stocker les choix temporairement
-    private String selectedDate = "";
-    private String selectedTime = "";
-
-    public AddSessionDialog(@NonNull Context context, ActiviteEntity activity, Runnable onSaved) {
+    public AddSessionDialog(@NonNull Context context, ActiviteEntity activity, int defaultSteps, Runnable onSaved) {
         super(context);
         this.existingActivity = activity;
+        this.defaultSteps = defaultSteps;
         this.onSaved = onSaved;
     }
 
@@ -40,80 +34,85 @@ public class AddSessionDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_add_session);
 
-        edtDuration = findViewById(R.id.edtDuration);
-        edtSteps = findViewById(R.id.edtSteps);
+        // Initialize Views
         edtStepGoal = findViewById(R.id.edtStepGoal);
         radioType = findViewById(R.id.radioType);
         btnSave = findViewById(R.id.btnSave);
-        btnPickDate = findViewById(R.id.btnPickDate);
-        btnPickTime = findViewById(R.id.btnPickTime);
 
-        // Pré-remplir avec l'objectif actuel
-        android.content.SharedPreferences prefs = getContext().getSharedPreferences("SportPrefs", Context.MODE_PRIVATE);
-        edtStepGoal.setText(String.valueOf(prefs.getInt("step_goal", 6000)));
+        // Load current goal from SharedPreferences OR use Passed Default
+        SharedPreferences prefs = getContext().getSharedPreferences("SportPrefs", Context.MODE_PRIVATE);
+        
+        // Priority: 1. Existing Activity 2. Prefs (User manual override) 3. Personalized Plan (Default)
+        // If user manually changed it before, we might want to respect that? 
+        // User request says "default values should be the ones suggested".
+        // So let's prefer the passed defaultSteps if no prefs exist, or maybe override prefs?
+        // Let's use the passed defaultSteps if it's > 0.
+        
+        int initialGoal = defaultSteps > 0 ? defaultSteps : prefs.getInt("step_goal", 6000);
+        
+        edtStepGoal.setText(String.valueOf(initialGoal));
 
-        // Initialisation si modification
         if (existingActivity != null) {
-            edtDuration.setText(String.valueOf(existingActivity.duration));
-            edtSteps.setText(String.valueOf(existingActivity.steps));
-            selectedDate = existingActivity.date;
-            selectedTime = existingActivity.time;
-            btnPickDate.setText(selectedDate);
-            btnPickTime.setText(selectedTime);
-            if ("INDOOR".equals(existingActivity.type)) radioType.check(R.id.radioIndoor);
-            else radioType.check(R.id.radioOutdoor);
+            edtStepGoal.setText(String.valueOf(existingActivity.targetSteps));
+            if ("INDOOR".equals(existingActivity.type)) {
+                radioType.check(R.id.radioIndoor);
+            } else {
+                radioType.check(R.id.radioOutdoor);
+            }
         }
 
-        // --- GESTION DU CALENDRIER ---
-        btnPickDate.setOnClickListener(v -> {
-            Calendar c = Calendar.getInstance();
-            new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
-                selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%d", dayOfMonth, month + 1, year);
-                btnPickDate.setText(selectedDate);
-            }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
-        });
-
-        // --- GESTION DE L'HORLOGE ---
-        btnPickTime.setOnClickListener(v -> {
-            Calendar c = Calendar.getInstance();
-            new TimePickerDialog(getContext(), (view, hourOfDay, minute) -> {
-                selectedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute);
-                btnPickTime.setText(selectedTime);
-            }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true).show();
-        });
-
-        // --- SAUVEGARDE ---
+        // Save Logic
         btnSave.setOnClickListener(v -> {
-            if (selectedDate.isEmpty() || selectedTime.isEmpty()) {
-                // Optionnel: Ajouter un Toast pour dire de remplir la date/heure
+            String goalStr = edtStepGoal.getText().toString();
+
+            if (goalStr.isEmpty()) {
+                Toast.makeText(getContext(), "Please enter step target", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            new Thread(() -> {
-                ActiviteDao dao = ActiviteDatabase.getInstance(getContext()).activiteDao();
-                ActiviteEntity a = (existingActivity == null) ? new ActiviteEntity() : existingActivity;
-
-                a.duration = Integer.parseInt(edtDuration.getText().toString());
-                a.steps = Integer.parseInt(edtSteps.getText().toString());
-                a.type = radioType.getCheckedRadioButtonId() == R.id.radioIndoor ? "INDOOR" : "OUTDOOR";
-                a.date = selectedDate;
-                a.time = selectedTime;
-
-                // --- AJOUT : Sauvegarder le nouvel objectif ---
-                String goalStr = edtStepGoal.getText().toString();
-                if (!goalStr.isEmpty()) {
-                    int newGoal = Integer.parseInt(goalStr);
-                    prefs.edit().putInt("step_goal", newGoal).apply();
+            try {
+                int target = Integer.parseInt(goalStr);
+                if (target <= 0) {
+                     Toast.makeText(getContext(), "Target must be > 0", Toast.LENGTH_SHORT).show();
+                     return;
                 }
 
-                if (existingActivity == null) dao.insert(a);
-                else dao.update(a);
+                new Thread(() -> {
+                    ActiviteDao dao = ActiviteDatabase.getInstance(getContext()).activiteDao();
+                    ActiviteEntity a = (existingActivity == null) ? new ActiviteEntity() : existingActivity;
 
-                btnSave.post(() -> {
-                    if (onSaved != null) onSaved.run();
-                    dismiss();
-                });
-            }).start();
+                    // Auto-set Date/Time for new sessions
+                    if (existingActivity == null) {
+                        a.date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+                        a.time = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+                        a.steps = 0; // Reset steps for new session as requested
+                        a.isAchieved = false;
+                        a.duration = 0;
+                        a.distance = 0.0;
+                        a.calories = 0.0;
+                    }
+
+                    a.targetSteps = target;
+                    a.type = radioType.getCheckedRadioButtonId() == R.id.radioIndoor ? "INDOOR" : "OUTDOOR";
+                    
+                    // Save preference for next time
+                    prefs.edit().putInt("step_goal", target).apply();
+
+                    if (existingActivity == null) {
+                        dao.insert(a);
+                    } else {
+                        dao.update(a);
+                    }
+
+                    btnSave.post(() -> {
+                        if (onSaved != null) onSaved.run();
+                        dismiss();
+                    });
+                }).start();
+
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Invalid number", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

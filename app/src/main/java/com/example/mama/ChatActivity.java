@@ -35,7 +35,7 @@ public class ChatActivity extends AppCompatActivity {
     ChatAdapter adapter;
 
     // TA CLÉ API
-    String API_KEY = "AIzaSyBEB_t-rvNjYxNLo-Ff0w3bbiMva75VvxU";
+    String API_KEY = "AIzaSyBbd4Ezx1GrG3kbBDbgAdtva2z2I358qo0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

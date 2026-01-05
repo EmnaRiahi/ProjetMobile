@@ -44,7 +44,12 @@ public class LoginActivity extends AppCompatActivity {
                     if(isLogged){
                         Toast.makeText(LoginActivity.this, "Connexion réussie !", Toast.LENGTH_SHORT).show();
 
-                        // --- MODIFICATION ICI ---
+                        // Save session
+                        getSharedPreferences("user_session", MODE_PRIVATE)
+                                .edit()
+                                .putString("email", email)
+                                .apply();
+
                         // On redirige vers le nouveau Tableau de Bord (HomeDashboardActivity)
                         Intent intent = new Intent(LoginActivity.this, HomeDashboardActivity.class);
                         startActivity(intent);

@@ -3,12 +3,14 @@ package com.example.mama.sport;
 public class Exercise {
     private String name;
     private String description;
-    private int imageResId; // For illustration icon
+    private String videoUrl;
+    private int imageResId; 
 
-    public Exercise(String name, String description, int imageResId) {
+    public Exercise(String name, String description, int imageResId, String videoUrl) {
         this.name = name;
         this.description = description;
         this.imageResId = imageResId;
+        this.videoUrl = videoUrl;
     }
 
     public String getName() {
@@ -21,5 +23,9 @@ public class Exercise {
 
     public int getImageResId() {
         return imageResId;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
     }
 }

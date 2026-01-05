@@ -20,10 +20,12 @@ public class AddSessionDialog extends Dialog {
     private Button btnSave;
     private Runnable onSaved;
     private ActiviteEntity existingActivity;
+    private int defaultSteps;
 
-    public AddSessionDialog(@NonNull Context context, ActiviteEntity activity, Runnable onSaved) {
+    public AddSessionDialog(@NonNull Context context, ActiviteEntity activity, int defaultSteps, Runnable onSaved) {
         super(context);
         this.existingActivity = activity;
+        this.defaultSteps = defaultSteps;
         this.onSaved = onSaved;
     }
 
@@ -37,10 +39,18 @@ public class AddSessionDialog extends Dialog {
         radioType = findViewById(R.id.radioType);
         btnSave = findViewById(R.id.btnSave);
 
-        // Load current goal from SharedPreferences
+        // Load current goal from SharedPreferences OR use Passed Default
         SharedPreferences prefs = getContext().getSharedPreferences("SportPrefs", Context.MODE_PRIVATE);
-        // Default goal for new session
-        edtStepGoal.setText(String.valueOf(prefs.getInt("step_goal", 6000)));
+        
+        // Priority: 1. Existing Activity 2. Prefs (User manual override) 3. Personalized Plan (Default)
+        // If user manually changed it before, we might want to respect that? 
+        // User request says "default values should be the ones suggested".
+        // So let's prefer the passed defaultSteps if no prefs exist, or maybe override prefs?
+        // Let's use the passed defaultSteps if it's > 0.
+        
+        int initialGoal = defaultSteps > 0 ? defaultSteps : prefs.getInt("step_goal", 6000);
+        
+        edtStepGoal.setText(String.valueOf(initialGoal));
 
         if (existingActivity != null) {
             edtStepGoal.setText(String.valueOf(existingActivity.targetSteps));
@@ -78,6 +88,8 @@ public class AddSessionDialog extends Dialog {
                         a.steps = 0; // Reset steps for new session as requested
                         a.isAchieved = false;
                         a.duration = 0;
+                        a.distance = 0.0;
+                        a.calories = 0.0;
                     }
 
                     a.targetSteps = target;

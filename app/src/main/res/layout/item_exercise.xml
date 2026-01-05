@@ -47,5 +47,12 @@
                 android:textSize="14sp"
                 android:textColor="#636e72"/>
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_media_play"
+            app:tint="#00b894"
+            android:layout_marginStart="8dp"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

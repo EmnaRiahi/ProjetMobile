@@ -1,5 +1,7 @@
 package com.example.mama.sport;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         holder.txtName.setText(exercise.getName());
         holder.txtDescription.setText(exercise.getDescription());
         holder.imgExercise.setImageResource(exercise.getImageResId());
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(exercise.getVideoUrl()));
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

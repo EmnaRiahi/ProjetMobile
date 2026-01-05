@@ -18,6 +18,125 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- 1. Weather Card (First) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardWeather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#E3F2FD"> <!-- Light Blueish -->
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Existing content wrapped in horizontal layout -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical">
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@android:drawable/ic_menu_mylocation"
+                                    app:tint="#1565C0"/>
+                                <TextView
+                                    android:id="@+id/txtCityName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Loading..."
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#1565C0"
+                                    android:layout_marginStart="8dp"/>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txtCondition"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="..."
+                                android:textSize="14sp"
+                                android:textColor="#1E88E5"
+                                android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+                        
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            
+                            <ImageView
+                                android:id="@+id/imgWeatherIcon"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:scaleType="fitCenter"
+                                android:src="@android:drawable/ic_menu_gallery" />
+                                
+                            <TextView
+                                android:id="@+id/txtTemperature"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--°C"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:textColor="#0D47A1"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Smart Recommendation Section -->
+                    <LinearLayout
+                        android:id="@+id/layoutWeatherRec"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="12dp"
+                        android:background="#80FFFFFF"
+                        android:padding="8dp"
+                        android:visibility="gone"
+                        android:descendantFocusability="blocksDescendants"> 
+                        
+                        <ImageView
+                            android:id="@+id/imgRecIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@android:drawable/ic_menu_directions"
+                            app:tint="#0D47A1"/>
+                            
+                        <TextView
+                            android:id="@+id/txtWeatherRec"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Recommendation..."
+                            android:textSize="14sp"
+                            android:textStyle="italic"
+                            android:textColor="#0D47A1"
+                            android:layout_marginStart="8dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 2. Current Session (Second) -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,7 +154,8 @@
                 app:cardBackgroundColor="@android:color/white"
                 app:cardCornerRadius="28dp"
                 app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                app:strokeWidth="0dp"
+                android:layout_marginBottom="24dp">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -209,13 +329,13 @@
                 </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Indoor / Outdoor Cards -->
+            <!-- 3. Indoor/Outdoor Cards (Third) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:orientation="horizontal"
-                android:weightSum="2">
+                android:weightSum="2"
+                android:layout_marginBottom="32dp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardIndoor"
@@ -294,6 +414,251 @@
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
+            <!-- 4. Health Overview (Rest) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Health Overview"
+                android:textColor="#2d3436"
+                android:textSize="26sp"
+                android:fontFamily="sans-serif-black"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Personal Advice Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAdvice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#E0F7FA"> <!-- Light Blue -->
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@android:drawable/ic_dialog_info"
+                            app:tint="#0097A7"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Your Personalized Plan"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="#006064"
+                            android:layout_marginStart="8dp"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtAdviceBMI"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Loading profile..."
+                        android:textColor="#006064"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                     <TextView
+                        android:id="@+id/txtAdviceSteps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Recommended Steps: ..."
+                        android:textColor="#00838F"
+                        android:textSize="14sp"
+                        android:layout_marginTop="4dp"/>
+
+                     <TextView
+                        android:id="@+id/txtAdviceCalories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Calorie Target: ..."
+                        android:textColor="#00838F"
+                        android:textSize="14sp"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 5. Summary Cards (Redesigned) -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:clipToPadding="false"
+                android:layout_marginBottom="24dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp">
+                    
+                    <!-- Steps Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="180dp"
+                        android:layout_height="280dp"
+                        app:cardCornerRadius="24dp"
+                        app:cardElevation="4dp"
+                        android:layout_marginEnd="16dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="20dp"
+                            android:gravity="center"
+                            android:background="#E0F7FA">
+                            
+                            <TextView
+                                android:id="@+id/lblStepsTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Daily Steps"
+                                android:textStyle="bold"
+                                android:textSize="14sp"
+                                android:textColor="#00838F"
+                                android:textAllCaps="true"/>
+
+                            <TextView
+                                android:id="@+id/txtDailySteps"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textStyle="bold"
+                                android:textSize="42sp"
+                                android:textColor="#006064"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginBottom="12dp"/>
+
+                            <ProgressBar
+                                android:id="@+id/progressDailySteps"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="8dp"
+                                android:progressTint="#0097A7"
+                                android:progressBackgroundTint="#B2EBF2"
+                                android:progress="0"/>
+
+                            <TextView
+                                android:id="@+id/txtDailyStepsTargetText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="of 6000"
+                                android:textSize="12sp"
+                                android:textColor="#00838F"
+                                android:layout_marginTop="8dp"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Calories Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="180dp"
+                        android:layout_height="280dp"
+                        app:cardCornerRadius="24dp"
+                        app:cardElevation="4dp"
+                        android:layout_marginEnd="16dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="20dp"
+                            android:gravity="center"
+                            android:background="#FFEBEE">
+                            
+                            <TextView
+                                android:id="@+id/lblCaloriesTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Burned Cal"
+                                android:textStyle="bold"
+                                android:textSize="14sp"
+                                android:textColor="#C62828"
+                                android:textAllCaps="true"/>
+
+                            <TextView
+                                android:id="@+id/txtDailyCals"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textStyle="bold"
+                                android:textSize="42sp"
+                                android:textColor="#B71C1C"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginBottom="12dp"/>
+
+                            <ProgressBar
+                                android:id="@+id/progressDailyCals"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="8dp"
+                                android:progressTint="#E53935"
+                                android:progressBackgroundTint="#FFCDD2"
+                                android:progress="0"/>
+
+                            <TextView
+                                android:id="@+id/txtDailyCalsTargetText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="of 300 kcal"
+                                android:textSize="12sp"
+                                android:textColor="#C62828"
+                                android:layout_marginTop="8dp"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Chart Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Activity Statistics"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#2d3436"
+                android:layout_marginBottom="12dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_marginBottom="80dp"> <!-- Extra padding bottom -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Weekly Progress"
+                        android:textColor="#b2bec3"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="8dp"/>
+                        
+                    <com.example.mama.sport.TrendChartView
+                        android:id="@+id/chartView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </ScrollView>

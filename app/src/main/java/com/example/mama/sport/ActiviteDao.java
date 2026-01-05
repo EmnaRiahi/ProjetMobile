@@ -36,4 +36,10 @@ public interface ActiviteDao {
 
     @Query("SELECT COUNT(*) FROM activite")
     int getCount();
+
+    @Query("SELECT SUM(distance) FROM activite WHERE isAchieved = 1")
+    double getTotalDistanceAchieved();
+
+    @Query("SELECT SUM(calories) FROM activite WHERE isAchieved = 1")
+    double getTotalCaloriesAchieved();
 }

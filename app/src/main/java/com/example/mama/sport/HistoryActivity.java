@@ -46,7 +46,7 @@ public class HistoryActivity extends AppCompatActivity {
         updateFilterButtons();
 
         findViewById(R.id.btnAddSession).setOnClickListener(v ->
-                new AddSessionDialog(this, null, this::refreshAll).show()
+                new AddSessionDialog(this, null, 0, this::refreshAll).show()
         );
 
         // Filter Listeners
@@ -142,7 +142,7 @@ public class HistoryActivity extends AppCompatActivity {
                 adapter = new HistoryAdapter(activityList, new HistoryAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(ActiviteEntity activity) {
-                        new AddSessionDialog(HistoryActivity.this, activity, HistoryActivity.this::refreshAll).show();
+                        new AddSessionDialog(HistoryActivity.this, activity, 0, HistoryActivity.this::refreshAll).show();
                     }
 
                     @Override

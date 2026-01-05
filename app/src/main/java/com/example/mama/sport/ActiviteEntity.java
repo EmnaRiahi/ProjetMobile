@@ -16,16 +16,20 @@ public class ActiviteEntity {
     public int steps;
     public int targetSteps; // Added for goal tracking
     public boolean isAchieved; // Added for tracking completion
+    public double distance; // Added for stats
+    public double calories; // Added for stats
     public String type;
 
     @Ignore // Add this so Room ignores this constructor
-    public ActiviteEntity(String date, String time, int duration, int steps, int targetSteps, boolean isAchieved, String type) {
+    public ActiviteEntity(String date, String time, int duration, int steps, int targetSteps, boolean isAchieved, double distance, double calories, String type) {
         this.date = date;
         this.time = time;
         this.duration = duration;
         this.steps = steps;
         this.targetSteps = targetSteps;
         this.isAchieved = isAchieved;
+        this.distance = distance;
+        this.calories = calories;
         this.type = type;
     }
 

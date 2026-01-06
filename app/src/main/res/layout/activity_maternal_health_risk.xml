@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F5F5F5"
+    tools:context=".MaternalHealthRiskActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dp">
+
+        <!-- Header -->
+        <View
+            android:id="@+id/headerBg"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@drawable/header_gradient_bg"
+            app:layout_constraintTop_toTopOf="parent" />
+            
+    <!-- Placeholder for header gradient if drawable doesn't exist, using color temporarily handled by code or simple color here -->
+        <!-- Since I cannot easily create drawables without more files, I will use a color and shape in code or rely on standard colors. 
+             Actually, I'll use a color here for safety if the drawable is missing, but I'll try to stick to standard simple views or existing resources if known. 
+             The user asked for "modern", so I should probably create a shape drawable if I can, but for now a simple color with rounded bottom corners would have to be done via a Card or View.
+             I'll use a simple background color for now that looks good. -->
+        
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Santé Maternelle"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:shadowColor="#40000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Intelligence artificielle pour votre santé"
+            android:textColor="#E0E0E0"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <!-- Form Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@id/headerBg"
+            app:layout_constraintBottom_toTopOf="@id/btnPredict">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Age (Auto) -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Votre Age (ans)"
+                    android:textSize="12sp"
+                    android:textColor="#757575"
+                    android:textStyle="bold"/>
+                    
+                <TextView
+                    android:id="@+id/tvAgeDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chargement..."
+                    android:textSize="18sp"
+                    android:textColor="#333333"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="16dp"
+                    android:drawablePadding="12dp"
+                    app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"/>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" android:layout_marginBottom="16dp"/>
+
+                <!-- Tension -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tension Artérielle (mmHg)"
+                    android:textSize="14sp"
+                    android:textColor="#FF4081"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Systolique"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etSystolic"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="120"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Space android:layout_width="12dp" android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Diastolique"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDiastolic"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="80"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <Space android:layout_height="16dp" android:layout_width="match_parent"/>
+
+                <!-- Blood Sugar -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Glycémie (mmol/L)"
+                    app:helperText="Normal: 6.0 - 19.0"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etBS"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:text="7.0"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Space android:layout_height="16dp" android:layout_width="match_parent"/>
+
+                <!-- Temperature -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Température Corporelle (°C)"
+                    app:helperText="Sera converti en °F automatiquement"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etBodyTemp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:text="37.0"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Space android:layout_height="16dp" android:layout_width="match_parent"/>
+
+                <!-- Heart Rate -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fréquence Cardiaque (bpm)"
+                    app:endIconMode="clear_text"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etHeartRate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:text="75"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Predict Button -->
+        <Button
+            android:id="@+id/btnPredict"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="ANALYSER MAINTENANT"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#FF4081"
+            app:cornerRadius="30dp"
+            android:elevation="6dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardForm" />
+
+        <!-- Result Section (Initially Hidden or Empty) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#E0F7FA"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/btnPredict"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RÉSULTAT DE L'ANALYSE"
+                    android:textSize="14sp"
+                    android:letterSpacing="0.1"
+                    android:textColor="#006064"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvResultMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HIGH RISK"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:textColor="#D32F2F"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/tvResultSub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Consultation urgente recommandée"
+                    android:textSize="14sp"
+                    android:textColor="#555555"
+                    android:gravity="center"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

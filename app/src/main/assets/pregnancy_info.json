@@ -1,0 +1,57 @@
+[
+  {
+    "week": 4,
+    "title": "Semaine 4 : L'implantation",
+    "info": "L'embryon s'implante dans la paroi de l'utérus. C'est une étape cruciale. Vous pourriez ressentir de légers saignements, ce qui est normal. Les hormones de la grossesse commencent à être produites en grande quantité."
+  },
+  {
+    "week": 5,
+    "title": "Semaine 5 : Le cœur commence à battre",
+    "info": "Le cœur de votre bébé commence à battre et peut même être visible à l'échographie. Le système nerveux commence à se former. Les nausées matinales peuvent commencer à apparaître."
+  },
+  {
+    "week": 8,
+    "title": "Semaine 8 : Formation des membres",
+    "info": "Les bras, les jambes, les doigts et les orteils de votre bébé sont en train de se former. Le visage commence également à prendre forme. Vous pourriez vous sentir plus fatiguée que d'habitude."
+  },
+  {
+    "week": 12,
+    "title": "Semaine 12 : Fin du premier trimestre",
+    "info": "Le risque de fausse couche diminue considérablement. Le bébé est maintenant entièrement formé, avec tous ses organes, et il va commencer à grandir et à prendre du poids. Vous pourriez commencer à vous sentir mieux."
+  },
+  {
+    "week": 16,
+    "title": "Semaine 16 : Le sexe peut être visible",
+    "info": "Le sexe du bébé peut être visible à l'échographie. Les os du bébé se durcissent. Vous pourriez commencer à sentir les premiers mouvements du bébé, connus sous le nom de 'quickening'."
+  },
+  {
+    "week": 20,
+    "title": "Semaine 20 : La moitié du chemin !",
+    "info": "Vous êtes à mi-parcours. Le bébé est maintenant couvert de vernix, une substance grasse qui protège sa peau. Il peut entendre les sons et réagir à la lumière. L'échographie morphologique est généralement effectuée à ce stade."
+  },
+  {
+    "week": 24,
+    "title": "Semaine 24 : Le bébé est viable",
+    "info": "Si votre bébé naissait maintenant, il aurait une chance de survie avec une aide médicale intensive. Les poumons se développent rapidement. Votre ventre est maintenant bien visible."
+  },
+  {
+    "week": 28,
+    "title": "Semaine 28 : Les yeux s'ouvrent",
+    "info": "Les yeux de votre bébé peuvent s'ouvrir et se fermer. Il rêve probablement déjà ! Vous pourriez ressentir des contractions de Braxton Hicks, qui sont des contractions d'entraînement."
+  },
+  {
+    "week": 32,
+    "title": "Semaine 32 : Le bébé prend du poids",
+    "info": "Le bébé prend du poids rapidement, accumulant de la graisse qui l'aidera à réguler sa température après la naissance. Il est maintenant bien proportionné. Vous pourriez vous sentir essoufflée car l'utérus appuie sur votre diaphragme."
+  },
+  {
+    "week": 36,
+    "title": "Semaine 36 : Le bébé se prépare",
+    "info": "Le bébé est probablement en position tête en bas, se préparant pour la naissance. Il descend dans votre bassin, ce qui peut soulager la pression sur votre diaphragme mais augmenter la pression sur votre vessie."
+  },
+  {
+    "week": 40,
+    "title": "Semaine 40 : Le terme",
+    "info": "Félicitations, vous avez atteint le terme ! Le bébé est prêt à naître. La plupart des femmes accouchent entre la 38ème et la 42ème semaine. Soyez attentive aux signes du travail."
+  }
+]

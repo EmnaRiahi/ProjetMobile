@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/mama_background"
+    tools:context=".HealthActivity">
+
+    <!-- HEADER -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Suivi de Santé"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <!-- CONTENU -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Carte pour le suivi du poids et de la tension -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardWeightTracker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="16dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:id="@+id/iconWeight"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_weight_tracker"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/titleWeight"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Journal Poids &amp; Tension"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintStart_toEndOf="@id/iconWeight"
+                        app:layout_constraintTop_toTopOf="@id/iconWeight"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Enregistrez et suivez votre évolution."
+                        android:textColor="@color/grey_text"
+                        app:layout_constraintStart_toStartOf="@id/titleWeight"
+                        app:layout_constraintTop_toBottomOf="@id/titleWeight"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Carte pour les informations hebdomadaires -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardWeeklyInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="16dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:id="@+id/iconInfo"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_weekly_info"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/titleInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Infos de la Semaine"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintStart_toEndOf="@id/iconInfo"
+                        app:layout_constraintTop_toTopOf="@id/iconInfo"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Découvrez le développement de votre bébé."
+                        android:textColor="@color/grey_text"
+                        app:layout_constraintStart_toStartOf="@id/titleInfo"
+                        app:layout_constraintTop_toBottomOf="@id/titleInfo"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Carte pour l'analyse du sommeil -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSleepTracker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:id="@+id/iconSleep"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_sleep_tracker"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/titleSleep"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Analyse du Sommeil"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintStart_toEndOf="@id/iconSleep"
+                        app:layout_constraintTop_toTopOf="@id/iconSleep"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/textViewSleepDesc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Suivez la qualité de vos nuits."
+                        android:textColor="@color/grey_text"
+                        app:layout_constraintStart_toStartOf="@id/titleSleep"
+                        app:layout_constraintTop_toBottomOf="@id/titleSleep"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <Button
+                        android:id="@+id/btnSleepRecordings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enregistrements"
+                        android:textSize="12sp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="@id/titleSleep"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewSleepDesc"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

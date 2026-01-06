@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- FOND IMAGE -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_background_mama"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#40000000" />
+
+        <!-- CONTENU -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:background="@drawable/rounded_white_bg"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:elevation="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Inscription"
+                android:textColor="@color/mama_primary"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:fontFamily="cursive"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Nom -->
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@android:drawable/editbox_background_normal"
+                android:hint="Nom complet"
+                android:paddingStart="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <!-- Email -->
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@android:drawable/editbox_background_normal"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <!-- Mot de passe -->
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@android:drawable/editbox_background_normal"
+                android:hint="Mot de passe"
+                android:inputType="textPassword"
+                android:paddingStart="10dp"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- SEMAINE DE GROSSESSE -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Où en êtes-vous ?"
+                android:textStyle="bold"
+                android:textColor="#555"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/etWeek"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@android:drawable/editbox_background_normal"
+                android:hint="Semaine de grossesse (ex: 12)"
+                android:inputType="number"
+                android:paddingStart="10dp"
+                android:layout_marginBottom="15dp"/>
+
+            <!-- AGE, POIDS, TAILLE -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_marginBottom="15dp">
+
+                <EditText
+                    android:id="@+id/etAge"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:hint="Age"
+                    android:inputType="number"
+                    android:paddingStart="10dp"
+                    android:layout_marginEnd="5dp"/>
+
+                <EditText
+                    android:id="@+id/etWeight"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:hint="Poids (kg)"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="10dp"
+                    android:layout_marginEnd="5dp"/>
+
+                <EditText
+                    android:id="@+id/etHeight"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:hint="Taille (cm)"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="10dp"/>
+            </LinearLayout>
+
+            <!-- SYMPTÔMES -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vos symptômes actuels ?"
+                android:textStyle="bold"
+                android:textColor="#555"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/etSymptoms"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@android:drawable/editbox_background_normal"
+                android:hint="Ex: Nausées, fatigue, maux de dos..."
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:padding="10dp"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- BOUTON -->
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="S'INSCRIRE"
+                android:backgroundTint="@color/mama_primary"
+                android:textStyle="bold"
+                android:layout_marginBottom="15dp"/>
+
+            <TextView
+                android:id="@+id/tvGoToLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Déjà un compte ? Se connecter"
+                android:textColor="@color/mama_primary"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+    </FrameLayout>
+</ScrollView>

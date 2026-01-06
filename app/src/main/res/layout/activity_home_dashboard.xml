@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
+
+    <!-- EN-TÊTE -->
+    <View
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="@drawable/header_gradient"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvHello"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bonjour,"
+        android:textSize="20sp"
+        android:textColor="#EFEFEF"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Future Maman"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/tvHello"
+        app:layout_constraintTop_toBottomOf="@+id/tvHello"/>
+
+    <!-- CONTENU (GRILLE) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_bottom_sheet"
+        android:paddingTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/headerView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="-40dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="4"
+                android:padding="16dp"
+                android:alignmentMode="alignMargins">
+
+                <!-- 1. URGENCE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardEmergency"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#FFEBEE">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@android:drawable/ic_menu_call"
+                            app:tint="#D32F2F"
+                            android:layout_marginBottom="8dp"/>
+                        <TextView
+                            android:text="URGENCE"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textColor="#D32F2F"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- 2. RENDEZ-VOUS -->
+                <LinearLayout
+                    android:id="@+id/cardRdv"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_my_calendar"
+                        app:tint="#EC407A"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Rendez-vous"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
+
+                <!-- 3. SANTÉ -->
+                <LinearLayout
+                    android:id="@+id/cardHealth"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_edit"
+                        app:tint="#5C6BC0"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Santé"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
+
+                <!-- 4. MÉDICAMENTS -->
+                <LinearLayout
+                    android:id="@+id/cardMeds"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_agenda"
+                        app:tint="#AB47BC"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Médicaments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
+
+                <!-- 5. SPORT -->
+                <LinearLayout
+                    android:id="@+id/cardActivityWeather"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_day"
+                        app:tint="#29B6F6"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Sport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
+
+                <!-- 6. NUTRITION -->
+                <LinearLayout
+                    android:id="@+id/cardNutrition"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_gallery"
+                        app:tint="#66BB6A"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Nutrition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
+
+                <!-- 7. SYMPTOMES -->
+                <LinearLayout
+                    android:id="@+id/cardSymptoms"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_report_image"
+                        app:tint="#FFA726"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Symptômes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
+
+                <!-- Cale vide -->
+                <Space android:layout_width="0dp" android:layout_height="120dp" android:layout_columnWeight="1"/>
+
+            </GridLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Bouton Déconnexion -->
+    <ImageButton
+        android:id="@+id/btnLogout"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@android:drawable/ic_lock_power_off"
+        android:background="@drawable/circle_white_bg"
+        android:elevation="6dp"
+        app:tint="#757575"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Bouton Chatbot -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_mamabot"
+        app:tint="@null"
+        app:backgroundTint="#FFFFFF"
+        android:layout_margin="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

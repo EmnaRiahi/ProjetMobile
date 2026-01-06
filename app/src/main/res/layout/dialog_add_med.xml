@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tvTitleDialog"
+        android:text="Médicament"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/mama_primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"/>
+
+    <EditText
+        android:id="@+id/etMedName"
+        android:hint="Nom du médicament"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnCheckApi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vérifier (API)"
+        android:backgroundTint="#2196F3"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/tvApiResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:textStyle="italic"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- NOUVEAU CHAMP DOSES -->
+    <EditText
+        android:id="@+id/etMedDoses"
+        android:hint="Dose (ex: 1 comprimé)"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etMedTime"
+        android:hint="Heure de prise"
+        android:focusable="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

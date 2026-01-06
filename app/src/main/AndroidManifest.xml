@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.mama">
+
+    <!-- ============================================== -->
+    <!--                 PERMISSIONS                    -->
+    <!-- ============================================== -->
+
+    <!-- Matériel -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <!-- Réseau & Localisation -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Système & Notifications -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- Audio & Capteurs -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
+    <!-- Services Spécifiques (Android 14+) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <!-- AJOUT : Indispensable car un service utilise "specialUse" plus bas -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+    <!-- Permissions Notifications et Alarme -->
+    <!-- The permissions below are already declared above under "Système & Notifications".
+         They are kept here as per instruction, but ideally should not be duplicated. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Mama"
+        android:usesCleartextTraffic="true"
+        android:enableOnBackInvokedCallback="true"
+        tools:targetApi="31">
+        <!-- enableOnBackInvokedCallback ajouté pour éviter les logs d'erreur système -->
+
+        <!-- Receiver Notifications -->
+        <receiver android:name=".MedicationAlarmReceiver"
+            android:enabled="true"
+            android:exported="true"/>
+        
+        <!-- Boot Receiver (Re-schedule alarms after device restart) -->
+        <receiver android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- ========================================== -->
+        <!--           DÉMARRAGE (SPLASH SCREEN)        -->
+        <!-- ========================================== -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ========================================== -->
+        <!--           ACTIVITÉS PRINCIPALES            -->
+        <!-- ========================================== -->
+        <activity android:name=".LoginActivity" android:exported="false" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".HomeDashboardActivity" />
+        <activity android:name=".MainActivity" /> <!-- Gardée par sécurité -->
+
+        <!-- ========================================== -->
+        <!--              TES FONCTIONNALITÉS           -->
+        <!-- ========================================== -->
+        <activity android:name=".MedicationActivity" />
+        <activity android:name=".EmergencyActivity" />
+        <activity android:name=".AppointmentsActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".MaternalHealthRiskActivity" 
+                  android:label="Santé Maternelle IA"
+                  android:screenOrientation="portrait"/>
+
+        <receiver android:name=".NotificationReceiver" />
+
+        <!-- ========================================== -->
+        <!--        FONCTIONNALITÉS NUTRITION (Rayen)   -->
+        <!-- ========================================== -->
+        <activity android:name=".Nutrition.MainActivity" />
+        <activity android:name=".Nutrition.AddMealActivity" />
+        <activity android:name=".Nutrition.EditMealActivity" />
+        <activity android:name=".Nutrition.AnalysisActivity" />
+        <activity android:name=".Nutrition.BarcodeScannerActivity" />
+        <activity android:name=".Nutrition.ProductDetailsActivity" />
+        <activity android:name=".Nutrition.WaterTrackerActivity" />
+
+        <receiver
+            android:name=".Nutrition.MealReminderReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <receiver
+            android:name=".Nutrition.WaterActionReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".Nutrition.WaterReminderService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse"
+            tools:ignore="ForegroundServicePermission" />
+
+        <!-- ========================================== -->
+        <!--        FONCTIONNALITÉS SANTÉ (Nessim)      -->
+        <!-- ========================================== -->
+        <activity android:name=".HealthActivity" />
+        <activity android:name=".HealthTrackerActivity" />
+        <activity android:name=".SymptomsActivity" />
+        <activity android:name=".NutritionActivity" />
+        <activity android:name=".ActivityWeatherActivity" />
+        <activity android:name=".SleepTrackingActivity" />
+        <activity android:name=".RecordingsActivity" />
+        <activity android:name=".WeeklyInfoActivity" />
+
+        <service
+            android:name=".SleepTrackingService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
+
+        <!-- ========================================== -->
+        <!--        FONCTIONNALITÉS SPORT (Moatez)      -->
+        <!-- ========================================== -->
+        <activity android:name=".sport.SportDashboardActivity" />
+        
+
+
+
+    </application>
+
+</manifest>

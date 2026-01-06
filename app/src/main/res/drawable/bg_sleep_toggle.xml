@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- État lorsque le suivi est ACTIF (bouton coché) -->
+    <item android:state_checked="true">
+        <shape android:shape="oval">
+            <solid android:color="@color/mama_primary"/>
+            <stroke android:width="4dp" android:color="@color/white"/>
+            <size android:width="150dp" android:height="150dp"/>
+            <corners android:radius="75dp"/>
+        </shape>
+    </item>
+    <!-- État par défaut (suivi INACTIF) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/grey_light"/>
+            <stroke android:width="4dp" android:color="@color/white"/>
+            <size android:width="150dp" android:height="150dp"/>
+            <corners android:radius="75dp"/>
+        </shape>
+    </item>
+</selector>

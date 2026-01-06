@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.medication;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mama.user.MyDatabaseHelper;
+import com.example.mama.R;
+
 import java.util.List;
 
 public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.ViewHolder> {
@@ -40,8 +44,10 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Vi
         Medication med = list.get(position);
         holder.name.setText(med.name);
         holder.generic.setText(med.generic);
-        holder.time.setText("⏰ " + med.time);
-        holder.doses.setText("💊 " + med.doses); // Affichage doses
+        holder.time.setText("⏰ " + (med.time != null && !med.time.isEmpty() ? med.time : "--:--"));
+        holder.doses.setText("💊 " + med.doses);
+        holder.frequency.setText(med.frequency != null ? med.frequency : "Fréquence non définie");
+        holder.schedule.setText(med.schedule != null ? med.schedule : "Moment non défini");
 
         // CLIC SUR LA CARTE -> MODIFIER
         holder.itemView.setOnClickListener(v -> listener.onItemClick(med));
@@ -59,7 +65,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Vi
     public int getItemCount() { return list.size(); }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name, generic, time, doses;
+        TextView name, generic, time, doses, frequency, schedule;
         ImageButton btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
@@ -67,7 +73,9 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Vi
             name = itemView.findViewById(R.id.tvMedName);
             generic = itemView.findViewById(R.id.tvMedGeneric);
             time = itemView.findViewById(R.id.tvMedTime);
-            doses = itemView.findViewById(R.id.tvMedDoses); // Nouveau
+            doses = itemView.findViewById(R.id.tvMedDoses);
+            frequency = itemView.findViewById(R.id.tvMedFrequency);
+            schedule = itemView.findViewById(R.id.tvMedSchedule);
             btnDelete = itemView.findViewById(R.id.btnDeleteMed);
         }
     }

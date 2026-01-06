@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.urgence;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mama.R;
 import com.example.mama.api.OverpassResponse;
 
 import java.util.List;

@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- Audio & Capteurs -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -53,7 +54,7 @@
         <!--           DÉMARRAGE (SPLASH SCREEN)        -->
         <!-- ========================================== -->
         <activity
-            android:name=".SplashActivity"
+            android:name=".user.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,22 +65,32 @@
         <!-- ========================================== -->
         <!--           ACTIVITÉS PRINCIPALES            -->
         <!-- ========================================== -->
-        <activity android:name=".LoginActivity" android:exported="false" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".HomeDashboardActivity" />
-        <activity android:name=".MainActivity" /> <!-- Gardée par sécurité -->
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".user.LoginActivity" android:exported="false" />
+        <activity android:name=".user.RegisterActivity" />
+        <activity android:name=".user.ForgotPasswordActivity" />
+        <activity android:name=".user.HomeDashboardActivity" />
+        <activity android:name=".user.MainActivity" /> <!-- Gardée par sécurité -->
+        <activity android:name=".user.SettingsActivity" />
 
         <!-- ========================================== -->
         <!--              TES FONCTIONNALITÉS           -->
         <!-- ========================================== -->
-        <activity android:name=".MedicationActivity" />
-        <activity android:name=".EmergencyActivity" />
-        <activity android:name=".AppointmentsActivity" />
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".medication.MedicationActivity" />
+        <activity android:name=".medication.TimetableActivity" />
+        <activity android:name=".medication.MedicationDashboardActivity" />
+        <activity android:name=".medication.MaternalHealthRiskActivity" />
+        <activity android:name=".urgence.EmergencyActivity" />
+        <activity android:name=".urgence.AppointmentsActivity" />
+        <activity android:name=".urgence.ChatActivity" />
 
-        <receiver android:name=".NotificationReceiver" />
+        <receiver android:name=".user.NotificationReceiver" />
+        <receiver android:name=".medication.MedicationAlarmReceiver" android:exported="false" />
+        <receiver android:name=".medication.MedicationActionReceiver" android:exported="false" />
+        <receiver android:name=".urgence.BootReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <!-- ========================================== -->
         <!--        FONCTIONNALITÉS NUTRITION (Rayen)   -->
@@ -113,9 +124,9 @@
         <!-- ========================================== -->
         <activity android:name=".sante.HealthActivity" />
         <activity android:name=".sante.HealthTrackerActivity" />
-        <activity android:name=".SymptomsActivity" />
-        <activity android:name=".NutritionActivity" />
-        <activity android:name=".ActivityWeatherActivity" />
+        <activity android:name=".user.SymptomsActivity" />
+        <activity android:name=".user.NutritionActivity" />
+        <activity android:name=".weather.ActivityWeatherActivity" />
         <activity android:name=".sante.SleepTrackingActivity" />
         <activity android:name=".sante.RecordingsActivity" />
         <activity android:name=".sante.WeeklyInfoActivity" />

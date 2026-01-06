@@ -35,6 +35,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    @Suppress("UnstableApiUsage")
+    aaptOptions {
+        noCompress("tflite")
+    }
 }
 
 dependencies {
@@ -70,6 +75,9 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
     implementation("androidx.camera:camera-view:$cameraxVersion")
     implementation("com.google.zxing:core:3.5.2")
+
+    // --- MACHINE LEARNING (IA) ---
+    implementation("org.tensorflow:tensorflow-lite:2.14.0")
 
     // --- TESTS ---
     testImplementation("junit:junit:4.13.2")

@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.urgence;
 
 public class Appointment {
     String id;

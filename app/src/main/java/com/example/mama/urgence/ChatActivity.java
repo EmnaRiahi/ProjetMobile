@@ -1,7 +1,6 @@
-package com.example.mama;
+package com.example.mama.urgence;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -10,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 // Imports de tes classes Bot
+import com.example.mama.R;
 import com.example.mama.bot.ChatAdapter;
 import com.example.mama.bot.ChatMessage;
 import com.example.mama.bot.GeminiApi;
@@ -35,7 +35,7 @@ public class ChatActivity extends AppCompatActivity {
     ChatAdapter adapter;
 
     // TA CLÉ API
-    String API_KEY = "AIzaSyBbd4Ezx1GrG3kbBDbgAdtva2z2I358qo0";
+    String API_KEY = "AIzaSyC8sfqEMetC1RyIWeAKAT6NmScV60q99Wo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

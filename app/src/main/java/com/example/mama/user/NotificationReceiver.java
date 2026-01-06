@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.user;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
+
+import com.example.mama.urgence.AppointmentsActivity;
 
 public class NotificationReceiver extends BroadcastReceiver {
 

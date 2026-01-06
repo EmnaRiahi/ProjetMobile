@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Mama</string>
+    <string-array name="med_frequencies">
+        <item>Une fois par jour</item>
+        <item>Deux fois par jour</item>
+        <item>Trois fois par jour</item>
+        <item>Selon les besoins (PRN)</item>
+    </string-array>
 </resources>

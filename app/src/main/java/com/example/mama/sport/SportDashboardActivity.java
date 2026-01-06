@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -16,6 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.mama.R;
+import com.example.mama.user.MyDatabaseHelper;
+
 import java.util.Locale;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -228,7 +229,7 @@ public class SportDashboardActivity extends AppCompatActivity implements SensorE
          String email = getSharedPreferences("user_session", MODE_PRIVATE).getString("email", null);
          if (email == null) return;
 
-         android.database.Cursor cursor = new com.example.mama.MyDatabaseHelper(this).getUserDetails(email);
+         android.database.Cursor cursor = new MyDatabaseHelper(this).getUserDetails(email);
          if (cursor != null && cursor.moveToFirst()) {
              // Indexes based on MyDatabaseHelper creation order
              int idxWeight = cursor.getColumnIndex("weight");

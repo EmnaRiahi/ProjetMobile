@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.user;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,13 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mama.R;
+import com.example.mama.medication.MedicationActivity;
 import com.example.mama.sante.HealthActivity;
 import com.example.mama.sport.SportDashboardActivity;
+import com.example.mama.urgence.AppointmentsActivity;
+import com.example.mama.urgence.ChatActivity;
+import com.example.mama.urgence.EmergencyActivity;
 
 public class HomeDashboardActivity extends AppCompatActivity implements SensorEventListener {
 

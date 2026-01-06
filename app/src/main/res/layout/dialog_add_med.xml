@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -15,39 +16,100 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"/>
 
-    <EditText
-        android:id="@+id/etMedName"
-        android:hint="Nom du médicament"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/btnCheckApi"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Vérifier (API)"
-        android:backgroundTint="#2196F3"
-        android:layout_marginBottom="10dp"/>
+        android:hint="Nom du médicament"
+        android:layout_marginBottom="12dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etMedName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+        <TextView
+            android:id="@+id/tvApiResult"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Vérifiez le nom générique..."
+            android:textSize="12sp"
+            android:textStyle="italic"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCheckApi"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vérifier API"
+            app:icon="@android:drawable/ic_menu_search"/>
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dose (ex: 1 comprimé)"
+        android:layout_marginBottom="16dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etMedDoses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/tvApiResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fréquence"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+    <Spinner
+        android:id="@+id/spinnerFrequency"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:entries="@array/med_frequencies"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Moment de la journée"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+    <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="..."
-        android:textStyle="italic"
-        android:layout_marginBottom="10dp"/>
+        android:columnCount="2"
+        android:layout_marginBottom="16dp">
+        <CheckBox android:id="@+id/cbMorning" android:text="Matin (08:00)"/>
+        <CheckBox android:id="@+id/cbAfternoon" android:text="Midi (12:00)"/>
+        <CheckBox android:id="@+id/cbEvening" android:text="Soir (18:00)"/>
+        <CheckBox android:id="@+id/cbNight" android:text="Nuit (22:00)"/>
+    </GridLayout>
 
-    <!-- NOUVEAU CHAMP DOSES -->
-    <EditText
-        android:id="@+id/etMedDoses"
-        android:hint="Dose (ex: 1 comprimé)"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ou choisir une heure précise"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:id="@+id/etMedTime"
+        android:layout_height="wrap_content"
         android:hint="Heure de prise"
-        android:focusable="false"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        app:startIconDrawable="@android:drawable/ic_menu_recent_history">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etMedTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="true"/>
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

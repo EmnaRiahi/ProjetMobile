@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.urgence;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -17,6 +17,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mama.user.MyDatabaseHelper;
+import com.example.mama.user.NotificationReceiver;
+import com.example.mama.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

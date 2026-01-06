@@ -17,7 +17,7 @@ import android.os.IBinder;
 import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
-import com.example.mama.MyDatabaseHelper;
+import com.example.mama.user.MyDatabaseHelper;
 import com.example.mama.R;
 
 import java.io.File;

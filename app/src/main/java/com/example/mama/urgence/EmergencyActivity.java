@@ -1,16 +1,22 @@
-package com.example.mama;
+package com.example.mama.urgence;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.mama.R;
+import com.google.android.material.card.MaterialCardView;
+import java.io.IOException;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,8 +43,10 @@ public class EmergencyActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ProgressBar progressBar;
-    TextView tvStatus;
+    TextView tvStatus, tvCurrentAddress;
     FloatingActionButton fabCall; // Bouton appel urgence
+    MaterialCardView cardLocation;
+    private Location lastKnownLocation;
 
     private FusedLocationProviderClient fusedLocationClient;
     private static final int PERMISSION_REQUEST_CODE = 100;
@@ -53,6 +61,8 @@ public class EmergencyActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
+        tvCurrentAddress = findViewById(R.id.tvCurrentAddress);
+        cardLocation = findViewById(R.id.cardLocation);
 
         // Ajoute ce bouton dans ton XML si tu veux l'appel direct (voir étape suivante)
         fabCall = findViewById(R.id.fabCallEmergency);
@@ -61,6 +71,14 @@ public class EmergencyActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         checkPermissionAndSearch();
+
+        cardLocation.setOnClickListener(v -> {
+            if (lastKnownLocation != null) {
+                openGoogleMapsWithLocation(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+            } else {
+                openGoogleMapsFallback();
+            }
+        });
 
         // Clic sur le bouton d'appel SAMU (190 en Tunisie, 15 en France, etc.)
         if(fabCall != null) {
@@ -87,6 +105,8 @@ public class EmergencyActivity extends AppCompatActivity {
         }
         fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
             if (location != null) {
+                lastKnownLocation = location;
+                updateAddressText(location.getLatitude(), location.getLongitude());
                 searchHospitals(location.getLatitude(), location.getLongitude());
             } else {
                 Toast.makeText(this, "Position introuvable. Ouverture de Google Maps...", Toast.LENGTH_LONG).show();
@@ -94,6 +114,32 @@ public class EmergencyActivity extends AppCompatActivity {
                 openGoogleMapsFallback();
             }
         });
+    }
+
+    private void updateAddressText(double lat, double lon) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                String address = addresses.get(0).getAddressLine(0);
+                tvCurrentAddress.setText(address);
+            } else {
+                tvCurrentAddress.setText("Adresse inconnue (" + lat + ", " + lon + ")");
+            }
+        } catch (IOException e) {
+            tvCurrentAddress.setText("Coordonnées : " + lat + ", " + lon);
+        }
+    }
+
+    private void openGoogleMapsWithLocation(double lat, double lon) {
+        Uri gmmIntentUri = Uri.parse("geo:" + lat + "," + lon + "?q=" + lat + "," + lon + "(Votre Position)");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        try {
+            startActivity(mapIntent);
+        } catch (Exception e) {
+            Toast.makeText(this, "Maps non installé", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void searchHospitals(double lat, double lon) {

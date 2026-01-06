@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.mama.R;
 
 public class LoginActivity extends AppCompatActivity {
     TextView tvForgotPassword;

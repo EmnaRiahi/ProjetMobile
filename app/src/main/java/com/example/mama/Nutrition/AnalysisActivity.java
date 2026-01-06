@@ -95,7 +95,7 @@ public class AnalysisActivity extends AppCompatActivity {
 
     private String callClaudeAPI(String prompt) {
         try {
-            String apiKey = "AIzaSyBbd4Ezx1GrG3kbBDbgAdtva2z2I358qo0";
+            String apiKey = "AIzaSyC8sfqEMetC1RyIWeAKAT6NmScV60q99Wo";
 
             URL url = new URL(
                     "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="

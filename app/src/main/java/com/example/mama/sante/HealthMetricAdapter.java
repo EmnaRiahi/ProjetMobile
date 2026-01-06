@@ -22,13 +22,21 @@ public class HealthMetricAdapter extends RecyclerView.Adapter<HealthMetricAdapte
     // Interface pour gérer les clics sur les boutons
     public interface OnItemClickListener {
         void onEditClick(HealthMetric metric);
+
         void onDeleteClick(HealthMetric metric);
     }
+
+    private boolean isDarkMode = false;
 
     public HealthMetricAdapter(Context context, List<HealthMetric> metrics, OnItemClickListener listener) {
         this.context = context;
         this.metrics = metrics;
         this.listener = listener;
+    }
+
+    public void setDarkMode(boolean isDarkMode) {
+        this.isDarkMode = isDarkMode;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -42,13 +50,37 @@ public class HealthMetricAdapter extends RecyclerView.Adapter<HealthMetricAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HealthMetric metric = metrics.get(position);
 
-        holder.tvDate.setText("Date: " + metric.getDate());
-        holder.tvWeight.setText("Poids: " + metric.getWeight() + " kg");
-        holder.tvBloodPressure.setText("Tension: " + metric.getSystolic() + "/" + metric.getDiastolic() + " mmHg");
+        holder.tvDate.setText("📅 " + metric.getDate());
+        holder.tvWeight.setText(metric.getWeight() + " kg");
+        holder.tvBloodPressure.setText(metric.getSystolic() + "/" + metric.getDiastolic());
 
         // Gérer les clics sur les boutons
         holder.btnEdit.setOnClickListener(v -> listener.onEditClick(metric));
         holder.btnDelete.setOnClickListener(v -> listener.onDeleteClick(metric));
+
+        // Apply Theme
+        applyThemeToStringViewHolder(holder);
+    }
+
+    private void applyThemeToStringViewHolder(ViewHolder holder) {
+        if (isDarkMode) {
+            ((com.google.android.material.card.MaterialCardView) holder.itemView)
+                    .setCardBackgroundColor(
+                            androidx.core.content.ContextCompat.getColor(context, R.color.sante_dark_card));
+            holder.tvDate.setTextColor(
+                    androidx.core.content.ContextCompat.getColor(context, R.color.sante_dark_text_primary));
+            holder.tvWeight.setTextColor(
+                    androidx.core.content.ContextCompat.getColor(context, R.color.sante_dark_text_primary));
+            holder.tvBloodPressure.setTextColor(
+                    androidx.core.content.ContextCompat.getColor(context, R.color.sante_dark_text_primary));
+        } else {
+            ((com.google.android.material.card.MaterialCardView) holder.itemView)
+                    .setCardBackgroundColor(androidx.core.content.ContextCompat.getColor(context, R.color.white));
+            holder.tvDate.setTextColor(androidx.core.content.ContextCompat.getColor(context, R.color.text_primary));
+            holder.tvWeight.setTextColor(androidx.core.content.ContextCompat.getColor(context, R.color.text_primary));
+            holder.tvBloodPressure
+                    .setTextColor(androidx.core.content.ContextCompat.getColor(context, R.color.text_primary));
+        }
     }
 
     @Override
@@ -58,7 +90,7 @@ public class HealthMetricAdapter extends RecyclerView.Adapter<HealthMetricAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvDate, tvWeight, tvBloodPressure;
-        Button btnEdit, btnDelete;
+        android.widget.ImageButton btnEdit, btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

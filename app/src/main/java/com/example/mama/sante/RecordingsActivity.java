@@ -196,12 +196,63 @@ public class RecordingsActivity extends AppCompatActivity {
     }
 
     private void applyTheme(boolean isDarkMode) {
+        TextView tvRecordingTitle = findViewById(R.id.tvRecordingTitle);
+        TextView tvRecordingSubtitle = findViewById(R.id.tvRecordingSubtitle);
+
         if (isDarkMode) {
             rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_background));
             tvEmpty.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_secondary));
+
+            if (tvRecordingTitle != null) {
+                tvRecordingTitle.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+            }
+            if (tvRecordingSubtitle != null) {
+                tvRecordingSubtitle.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_secondary));
+            }
+
         } else {
-            rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.mama_background));
+            rootView.setBackgroundResource(R.drawable.bg_gradient_health);
             tvEmpty.setTextColor(ContextCompat.getColor(this, R.color.grey_text));
+
+            if (tvRecordingTitle != null) {
+                tvRecordingTitle.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+            }
+            if (tvRecordingSubtitle != null) {
+                tvRecordingSubtitle.setTextColor(ContextCompat.getColor(this, R.color.grey_text));
+            }
+        }
+
+        if (adapter != null) {
+            adapter.setDarkMode(isDarkMode);
+        }
+    }
+
+    private void updateTextViewsRecursive(View view, boolean isDarkMode) {
+        if (view instanceof TextView) {
+            TextView tv = (TextView) view;
+            if (tv.getId() == R.id.tvEmpty)
+                return; // Handled separately
+            // Simple heuristic: if text color is black/grey, switch to light/dark
+            // equivalents
+            // This is a bit "hacky" but works if we don't have references.
+            // Better: just set the specific ones if possible.
+            // In activity_recordings.xml:
+            // Title: @color/text_primary
+            // Subtitle: @color/grey_text
+
+            int currentColor = tv.getCurrentTextColor();
+            // If it looks like primary text
+            if (!isDarkMode) {
+                // Restoration handled by recreating activity? No, we need to set manually.
+                // We can't easily know if it was primary or secondary.
+                // Let's assume title is Title style.
+            }
+        }
+        if (view instanceof android.view.ViewGroup) {
+            android.view.ViewGroup vg = (android.view.ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                updateTextViewsRecursive(vg.getChildAt(i), isDarkMode);
+            }
         }
     }
 }

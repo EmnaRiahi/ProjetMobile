@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import android.widget.TextView;
 import com.example.mama.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -86,8 +86,42 @@ public class WeeklyInfoActivity extends AppCompatActivity {
     private void applyTheme(boolean isDarkMode) {
         if (isDarkMode) {
             rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_background));
+            // Update Header texts if accessible... we didn't add IDs in this file
+            // modification either?
+            // activity_weekly_info.xml (Step 205)
+            // It has `header` ID for LinearLayout.
+            // TextView 1: @color/text_primary
+            // TextView 2: @color/grey_text
+            // CardView: bg white.
+            // Items: RecyclerView.
+
+            // Let's update the header and card manually by finding them.
+            View header = findViewById(R.id.header);
+            if (header != null && header instanceof android.view.ViewGroup) {
+                android.view.ViewGroup headerGroup = (android.view.ViewGroup) header;
+                if (headerGroup.getChildCount() >= 2) {
+                    ((TextView) headerGroup.getChildAt(0))
+                            .setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+                    ((TextView) headerGroup.getChildAt(1))
+                            .setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_secondary));
+                }
+            }
         } else {
-            rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.mama_background));
+            rootView.setBackgroundResource(R.drawable.bg_gradient_health);
+            View header = findViewById(R.id.header);
+            if (header != null && header instanceof android.view.ViewGroup) {
+                android.view.ViewGroup headerGroup = (android.view.ViewGroup) header;
+                if (headerGroup.getChildCount() >= 2) {
+                    ((TextView) headerGroup.getChildAt(0))
+                            .setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+                    ((TextView) headerGroup.getChildAt(1))
+                            .setTextColor(ContextCompat.getColor(this, R.color.grey_text));
+                }
+            }
+        }
+
+        if (adapter != null) {
+            adapter.setDarkMode(isDarkMode);
         }
     }
 }

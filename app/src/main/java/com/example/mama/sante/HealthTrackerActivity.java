@@ -332,47 +332,123 @@ public class HealthTrackerActivity extends AppCompatActivity {
     }
 
     private void applyTheme(boolean isDarkMode) {
+        // References to UI elements
+        TextView tvHeaderTitle = findViewById(R.id.tvHeaderTitle);
+        TextView tvHeaderSubtitle = findViewById(R.id.tvHeaderSubtitle);
+        MaterialCardView cardInsight = findViewById(R.id.cardInsight);
+        LinearLayout layoutInsightContent = findViewById(R.id.layoutInsightContent);
+        MaterialCardView cardSleep = findViewById(R.id.cardSleep);
+        LinearLayout layoutSleepContent = findViewById(R.id.layoutSleepContent);
+        TextView tvSleepTitle = findViewById(R.id.tvSleepTitle);
+        MaterialCardView cardWeight = findViewById(R.id.cardWeight);
+        LinearLayout layoutWeightContent = findViewById(R.id.layoutWeightContent);
+        TextView tvWeightTitle = findViewById(R.id.tvWeightTitle);
+        TextView tvJournalTitle = findViewById(R.id.tvJournalTitle);
+
         if (isDarkMode) {
-            // Apply dark theme
+            // Dark Mode
             rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_background));
 
-            // Update text colors
-            tvHealthInsight.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+            // Text Colors
+            if (tvHeaderTitle != null)
+                tvHeaderTitle.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+            if (tvHeaderSubtitle != null)
+                tvHeaderSubtitle.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_secondary));
+            if (tvHealthInsight != null)
+                tvHealthInsight.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+            if (tvSleepTitle != null)
+                tvSleepTitle.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+            if (tvWeightTitle != null)
+                tvWeightTitle.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+            if (tvJournalTitle != null)
+                tvJournalTitle.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
 
-            // Update chart colors for dark mode
+            // Cards
+            if (cardInsight != null)
+                cardInsight.setCardBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_card));
+            // In dark mode, we remove the light gradient background or switch to dark
+            if (layoutInsightContent != null)
+                layoutInsightContent.setBackground(null);
+
+            if (cardSleep != null)
+                cardSleep.setCardBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_card));
+            if (layoutSleepContent != null)
+                layoutSleepContent.setBackground(null);
+
+            if (cardWeight != null)
+                cardWeight.setCardBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_card));
+            if (layoutWeightContent != null)
+                layoutWeightContent.setBackground(null);
+
+            // Chart
             lineChart.setBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_card));
             lineChart.getLegend().setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
             lineChart.getXAxis().setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_secondary));
             lineChart.getAxisLeft().setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_secondary));
             lineChart.getAxisRight().setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_secondary));
 
-            // Update sleep card if visible
-            updateSleepCardColors(true);
         } else {
-            // Apply light theme
-            rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.mama_background));
+            // Light Mode
+            rootView.setBackgroundResource(R.drawable.bg_gradient_health);
 
-            // Update text colors
-            tvHealthInsight.setTextColor(ContextCompat.getColor(this, R.color.black));
+            // Text Colors
+            if (tvHeaderTitle != null)
+                tvHeaderTitle.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+            if (tvHeaderSubtitle != null)
+                tvHeaderSubtitle.setTextColor(ContextCompat.getColor(this, R.color.grey_text));
+            if (tvHealthInsight != null)
+                tvHealthInsight.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+            if (tvSleepTitle != null)
+                tvSleepTitle.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+            if (tvWeightTitle != null)
+                tvWeightTitle.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+            if (tvJournalTitle != null)
+                tvJournalTitle.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
 
-            // Update chart colors for light mode
-            lineChart.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+            // Cards
+            if (cardInsight != null)
+                cardInsight.setCardBackgroundColor(ContextCompat.getColor(this, R.color.card_insight_bg));
+            if (layoutInsightContent != null)
+                layoutInsightContent.setBackground(null); // Insight card uses card bg
+
+            // Sleep card uses inner gradient in light mode
+            if (cardSleep != null)
+                cardSleep.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white));
+            if (layoutSleepContent != null)
+                layoutSleepContent.setBackgroundResource(R.drawable.bg_card_sleep);
+
+            // Weight card uses inner gradient in light mode
+            if (cardWeight != null)
+                cardWeight.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white));
+            if (layoutWeightContent != null)
+                layoutWeightContent.setBackgroundResource(R.drawable.bg_card_weight);
+
+            // Chart
+            lineChart.setBackgroundColor(ContextCompat.getColor(this, android.R.color.transparent)); // Chart inside
+                                                                                                     // gradient
             lineChart.getLegend().setTextColor(ContextCompat.getColor(this, R.color.black));
             lineChart.getXAxis().setTextColor(ContextCompat.getColor(this, R.color.grey_text));
             lineChart.getAxisLeft().setTextColor(ContextCompat.getColor(this, R.color.grey_text));
             lineChart.getAxisRight().setTextColor(ContextCompat.getColor(this, R.color.grey_text));
-
-            // Update sleep card if visible
-            updateSleepCardColors(false);
         }
+
+        // Update Sleep UI Colors
+        updateSleepCardColors(isDarkMode);
+
+        // Update Adapter
+        if (adapter != null) {
+            adapter.setDarkMode(isDarkMode);
+        }
+
         lineChart.invalidate();
     }
 
     private void updateSleepCardColors(boolean isDarkMode) {
         int primaryColor = ContextCompat.getColor(this,
-                isDarkMode ? R.color.sante_dark_text_primary : R.color.black);
+                isDarkMode ? R.color.sante_dark_text_primary : R.color.text_primary);
         int secondaryColor = ContextCompat.getColor(this,
                 isDarkMode ? R.color.sante_dark_text_secondary : R.color.grey_text);
+        int lavenderColor = ContextCompat.getColor(this, R.color.sante_lavender); // Keep accent color
 
         // Update sleep text colors
         TextView tvSleepScore = findViewById(R.id.tvSleepScore);
@@ -383,7 +459,7 @@ public class HealthTrackerActivity extends AppCompatActivity {
         TextView tvSoundEventsVal = findViewById(R.id.tvSoundEventsVal);
 
         if (tvSleepScore != null)
-            tvSleepScore.setTextColor(primaryColor);
+            tvSleepScore.setTextColor(lavenderColor);
         if (tvSleepDate != null)
             tvSleepDate.setTextColor(secondaryColor);
         if (tvTotalDurationVal != null)

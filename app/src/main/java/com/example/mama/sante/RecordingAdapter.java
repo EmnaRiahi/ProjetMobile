@@ -29,9 +29,16 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
         void onDownloadClick(File file);
     }
 
+    private boolean isDarkMode = false;
+
     public RecordingAdapter(List<File> recordings, OnItemClickListener listener) {
         this.recordings = recordings;
         this.listener = listener;
+    }
+
+    public void setDarkMode(boolean isDarkMode) {
+        this.isDarkMode = isDarkMode;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -44,7 +51,7 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         File file = recordings.get(position);
-        holder.bind(file, listener);
+        holder.bind(file, listener, isDarkMode);
     }
 
     @Override
@@ -55,7 +62,7 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
         TextView tvDate;
-        ImageButton btnPlay;
+        View btnPlay;
         ImageButton btnDelete;
         ImageButton btnDownload;
 
@@ -68,7 +75,7 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
             btnDownload = itemView.findViewById(R.id.btnDownload);
         }
 
-        public void bind(File file, OnItemClickListener listener) {
+        public void bind(File file, OnItemClickListener listener, boolean isDarkMode) {
             tvName.setText(file.getName());
 
             Date lastModDate = new Date(file.lastModified());
@@ -78,6 +85,23 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
             btnPlay.setOnClickListener(v -> listener.onPlayClick(file));
             btnDelete.setOnClickListener(v -> listener.onDeleteClick(file));
             btnDownload.setOnClickListener(v -> listener.onDownloadClick(file));
+
+            // Apply Theme
+            android.content.Context context = itemView.getContext();
+            if (isDarkMode) {
+                ((com.google.android.material.card.MaterialCardView) itemView)
+                        .setCardBackgroundColor(
+                                androidx.core.content.ContextCompat.getColor(context, R.color.sante_dark_card));
+                tvName.setTextColor(
+                        androidx.core.content.ContextCompat.getColor(context, R.color.sante_dark_text_primary));
+                tvDate.setTextColor(
+                        androidx.core.content.ContextCompat.getColor(context, R.color.sante_dark_text_secondary));
+            } else {
+                ((com.google.android.material.card.MaterialCardView) itemView)
+                        .setCardBackgroundColor(androidx.core.content.ContextCompat.getColor(context, R.color.white));
+                tvName.setTextColor(androidx.core.content.ContextCompat.getColor(context, R.color.text_primary));
+                tvDate.setTextColor(androidx.core.content.ContextCompat.getColor(context, R.color.grey_text));
+            }
         }
     }
 }

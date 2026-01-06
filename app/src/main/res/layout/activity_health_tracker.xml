@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mama_background"
+    android:background="@drawable/bg_gradient_health"
     tools:context=".sante.HealthTrackerActivity">
 
     <LinearLayout
@@ -16,92 +16,149 @@
         <RelativeLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:paddingHorizontal="16dp">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="12dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tableau de Bord Santé"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_centerInParent="true"/>
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvHeaderTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📊 Tableau de Bord"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"/>
+
+                <TextView
+                    android:id="@+id/tvHeaderSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vos indicateurs de santé"
+                    android:textSize="14sp"
+                    android:textColor="@color/grey_text"
+                    android:layout_marginTop="2dp"/>
+            </LinearLayout>
         </RelativeLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="8dp">
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="80dp">
 
                 <!-- CARTE CONSEIL SANTÉ -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardInsight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="4dp"
-                    app:cardBackgroundColor="#E9F5FF"
-                    android:layout_margin="8dp">
+                    app:strokeWidth="0dp"
+                    app:cardBackgroundColor="@color/card_insight_bg"
+                    android:layout_marginBottom="16dp">
 
                     <LinearLayout
+                        android:id="@+id/layoutInsightContent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="16dp">
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_insight"
-                            android:layout_marginEnd="12dp"
-                            android:layout_gravity="center_vertical"/>
+                        <TextView
+                            android:layout_width="32dp"
+                            android:layout_height="wrap_content"
+                            android:text="🩺"
+                            android:textSize="24sp"
+                            android:gravity="center"/>
 
                         <TextView
                             android:id="@+id/tvHealthInsight"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textColor="@color/black"
+                            android:layout_marginStart="12dp"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp"
+                            android:textStyle="bold"
                             tools:text="Votre tension est stable. C'est un excellent signe !"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- CARTE ANALYSE SOMMEIL -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardSleep"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp"
-                    android:layout_margin="8dp">
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp"
+                    app:strokeWidth="0dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="16dp">
 
                     <LinearLayout
+                        android:id="@+id/layoutSleepContent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:background="@drawable/bg_card_sleep"
+                        android:padding="20dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Qualité du Sommeil"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"/>
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="16dp">
 
-                        <TextView
-                            android:id="@+id/tvSleepDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Dernière nuit"
-                            android:textSize="14sp"
-                            android:textColor="@color/grey_text"
-                            android:layout_marginBottom="16dp"/>
+                            <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_stat_badge">
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_sleep_tracker"
+                                    app:tint="@color/sante_lavender"/>
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="12dp">
+
+                                <TextView
+                                    android:id="@+id/tvSleepTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Qualité du Sommeil"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_primary"
+                                    android:textSize="17sp"/>
+
+                                <TextView
+                                    android:id="@+id/tvSleepDate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Dernière nuit"
+                                    android:textSize="13sp"
+                                    android:textColor="@color/grey_text"/>
+                            </LinearLayout>
+                        </LinearLayout>
 
                         <!-- Score Circle -->
                         <RelativeLayout
@@ -127,7 +184,7 @@
                                 android:text="85"
                                 android:textSize="32sp"
                                 android:textStyle="bold"
-                                android:textColor="@color/mama_primary"/>
+                                android:textColor="@color/sante_lavender"/>
                         </RelativeLayout>
 
                         <!-- Stats Grid -->
@@ -149,23 +206,20 @@
                                 android:gravity="center"
                                 android:padding="12dp"
                                 android:background="@drawable/bg_stat_item">
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_sleep_moon"
-                                    app:tint="@color/mama_primary"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="⏱️ Total"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/grey_text"/>
                                 <TextView
                                     android:id="@+id/tvTotalDurationVal"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="7h 30m"
                                     android:textStyle="bold"
+                                    android:textColor="@color/text_primary"
                                     android:layout_marginTop="4dp"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Total"
-                                    android:textSize="12sp"/>
                             </LinearLayout>
 
                             <!-- Deep Sleep -->
@@ -177,23 +231,20 @@
                                 android:gravity="center"
                                 android:padding="12dp"
                                 android:background="@drawable/bg_stat_item">
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_sleep_deep"
-                                    app:tint="#512DA8"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="😴 Profond"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/grey_text"/>
                                 <TextView
                                     android:id="@+id/tvDeepSleepVal"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="2h 15m"
                                     android:textStyle="bold"
+                                    android:textColor="@color/text_primary"
                                     android:layout_marginTop="4dp"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Profond"
-                                    android:textSize="12sp"/>
                             </LinearLayout>
 
                             <!-- Light Sleep -->
@@ -205,23 +256,20 @@
                                 android:gravity="center"
                                 android:padding="12dp"
                                 android:background="@drawable/bg_stat_item">
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_sleep_light"
-                                    app:tint="#03A9F4"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="🌤️ Léger"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/grey_text"/>
                                 <TextView
                                     android:id="@+id/tvLightSleepVal"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="5h 15m"
                                     android:textStyle="bold"
+                                    android:textColor="@color/text_primary"
                                     android:layout_marginTop="4dp"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Léger"
-                                    android:textSize="12sp"/>
                             </LinearLayout>
 
                             <!-- Sound Events -->
@@ -233,23 +281,20 @@
                                 android:gravity="center"
                                 android:padding="12dp"
                                 android:background="@drawable/bg_stat_item">
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_sound_event"
-                                    app:tint="#F44336"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="📢 Bruits"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/grey_text"/>
                                 <TextView
                                     android:id="@+id/tvSoundEventsVal"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="3"
                                     android:textStyle="bold"
+                                    android:textColor="@color/text_primary"
                                     android:layout_marginTop="4dp"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Bruits"
-                                    android:textSize="12sp"/>
                             </LinearLayout>
 
                         </GridLayout>
@@ -259,24 +304,52 @@
 
                 <!-- CARTE GRAPHIQUE POIDS & TENSION -->
                  <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardWeight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp"
-                    android:layout_margin="8dp">
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp"
+                    app:strokeWidth="0dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="16dp">
                     <LinearLayout
+                        android:id="@+id/layoutWeightContent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
-                        <TextView
-                            android:layout_width="wrap_content"
+                        android:background="@drawable/bg_card_weight"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Évolution Poids &amp; Tension"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
-                            android:layout_marginBottom="8dp"/>
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="16dp">
+
+                            <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_stat_badge">
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_weight_tracker"
+                                    app:tint="@color/sante_coral"/>
+                            </FrameLayout>
+
+                            <TextView
+                                android:id="@+id/tvWeightTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Poids &amp; Tension"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                android:textSize="17sp"
+                                android:layout_marginStart="12dp"/>
+                        </LinearLayout>
+
                         <com.github.mikephil.charting.charts.LineChart
                             android:id="@+id/lineChart"
                             android:layout_width="match_parent"
@@ -284,16 +357,23 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Journal des Entrées"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:id="@+id/tvJournalTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📝 Journal"
+                        android:textSize="20sp"
+                         android:textStyle="bold"
+                        android:textColor="@color/text_primary"/>
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
@@ -312,10 +392,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="24dp"
         app:srcCompat="@android:drawable/ic_input_add"
         app:tint="@android:color/white"
-        app:backgroundTint="@color/mama_primary"
-        android:contentDescription="Ajouter une entrée de poids/tension"/>
+        app:backgroundTint="@color/sante_coral"
+        app:elevation="8dp"
+        app:borderWidth="0dp"
+        android:contentDescription="Ajouter une entrée"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

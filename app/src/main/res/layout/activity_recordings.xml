@@ -35,6 +35,7 @@
             android:layout_marginStart="16dp">
 
             <TextView
+                android:id="@+id/tvRecordingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="🎙️ Enregistrements"
@@ -43,6 +44,7 @@
                 android:textColor="@color/text_primary"/>
 
             <TextView
+                android:id="@+id/tvRecordingSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sons détectés pendant le sommeil"

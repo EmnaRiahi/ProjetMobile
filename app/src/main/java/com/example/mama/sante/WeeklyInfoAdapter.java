@@ -22,10 +22,17 @@ public class WeeklyInfoAdapter extends RecyclerView.Adapter<WeeklyInfoAdapter.Vi
         void onItemClick(WeeklyInfo weeklyInfo);
     }
 
+    private boolean isDarkMode = false;
+
     public WeeklyInfoAdapter(Context context, List<WeeklyInfo> weeklyInfoList, OnItemClickListener listener) {
         this.context = context;
         this.weeklyInfoList = weeklyInfoList;
         this.listener = listener;
+    }
+
+    public void setDarkMode(boolean isDarkMode) {
+        this.isDarkMode = isDarkMode;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -41,6 +48,19 @@ public class WeeklyInfoAdapter extends RecyclerView.Adapter<WeeklyInfoAdapter.Vi
         holder.tvWeek.setText("S. " + item.getWeek());
         holder.tvTitle.setText(item.getTitle());
         holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
+
+        // Apply Theme
+        if (isDarkMode) {
+            ((com.google.android.material.card.MaterialCardView) holder.itemView)
+                    .setCardBackgroundColor(
+                            androidx.core.content.ContextCompat.getColor(context, R.color.sante_dark_card));
+            holder.tvTitle.setTextColor(
+                    androidx.core.content.ContextCompat.getColor(context, R.color.sante_dark_text_primary));
+        } else {
+            ((com.google.android.material.card.MaterialCardView) holder.itemView)
+                    .setCardBackgroundColor(androidx.core.content.ContextCompat.getColor(context, R.color.white));
+            holder.tvTitle.setTextColor(androidx.core.content.ContextCompat.getColor(context, R.color.text_primary));
+        }
     }
 
     @Override

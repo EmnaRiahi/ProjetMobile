@@ -44,6 +44,16 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder
         holder.tvMealName.setText(meal.getName());
         holder.tvDateTime.setText(meal.getDate() + " à " + meal.getTime());
 
+        // Simple icon logic
+        String name = meal.getName().toLowerCase();
+        if (name.contains("petit") || name.contains("matin") || name.contains("breakfast")) {
+            holder.imgMealIcon.setImageResource(android.R.drawable.ic_menu_today); // Change to a breakfast-like icon if possible
+        } else if (name.contains("dîner") || name.contains("diner") || name.contains("soir") || name.contains("dinner")) {
+            holder.imgMealIcon.setImageResource(android.R.drawable.stat_sys_phone_call_on_hold); // Just a placeholder for night
+        } else {
+            holder.imgMealIcon.setImageResource(android.R.drawable.ic_menu_gallery);
+        }
+
         if (meal.getNotes() != null && !meal.getNotes().isEmpty()) {
             holder.tvNotes.setText(meal.getNotes());
             holder.tvNotes.setVisibility(View.VISIBLE);
@@ -137,6 +147,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder
     public static class MealViewHolder extends RecyclerView.ViewHolder {
         TextView tvMealName, tvDateTime, tvNotes;
         ImageButton btnEdit, btnDelete;
+        android.widget.ImageView imgMealIcon;
 
         public MealViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -145,6 +156,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder
             tvNotes = itemView.findViewById(R.id.tvNotes);
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+            imgMealIcon = itemView.findViewById(R.id.imgMealIcon);
         }
     }
 }

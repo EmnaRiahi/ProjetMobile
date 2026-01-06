@@ -33,7 +33,7 @@
                 android:id="@+id/txtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Exercise Name"
+                android:text="Nom de l'exercice"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#2d3436"/>
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Description of the exercise goes here."
+                android:text="Description de l'exercice."
                 android:textSize="14sp"
                 android:textColor="#636e72"/>
         </LinearLayout>

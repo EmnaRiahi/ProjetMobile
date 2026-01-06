@@ -36,8 +36,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Holder> 
     public void onBindViewHolder(@NonNull Holder h, int pos) {
         ActiviteEntity a = list.get(pos);
         h.txtDate.setText(a.date);
-        h.txtSteps.setText(a.steps + " steps");
-        h.txtDetails.setText(a.duration + " mins • " + a.type);
+        h.txtSteps.setText(a.steps + " pas");
+        String displayType = "INDOOR".equalsIgnoreCase(a.type) ? "Intérieur" : "Extérieur";
+        h.txtDetails.setText(a.duration + " min • " + displayType);
 
         if ("INDOOR".equalsIgnoreCase(a.type)) {
             h.imgIcon.setImageResource(android.R.drawable.ic_menu_mylocation);

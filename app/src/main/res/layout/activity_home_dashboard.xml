@@ -1,262 +1,437 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA">
+    android:background="#F8F9FA">
 
-    <!-- EN-TÊTE -->
-    <View
-        android:id="@+id/headerView"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:background="@drawable/header_gradient"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="80dp">
 
-    <TextView
-        android:id="@+id/tvHello"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bonjour,"
-        android:textSize="20sp"
-        android:textColor="#EFEFEF"
-        android:layout_marginTop="60dp"
-        android:layout_marginStart="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Future Maman"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/tvHello"
-        app:layout_constraintTop_toBottomOf="@+id/tvHello"/>
-
-    <!-- CONTENU (GRILLE) -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:background="@drawable/bg_bottom_sheet"
-        android:paddingTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/headerView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="-40dp">
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <GridLayout
+            <!-- HEADER SECTION -->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:rowCount="4"
-                android:padding="16dp"
-                android:alignmentMode="alignMargins">
+                android:layout_height="220dp"
+                android:background="@drawable/header_gradient"
+                android:padding="24dp">
 
-                <!-- 1. URGENCE -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardEmergency"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp"
-                    app:cardBackgroundColor="#FFEBEE">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/userInfoSection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="32dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardProfileHome"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        app:cardCornerRadius="32dp"
+                        app:cardElevation="4dp"
+                        app:strokeWidth="2dp"
+                        app:strokeColor="#FFFFFF">
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_call"
-                            app:tint="#D32F2F"
-                            android:layout_marginBottom="8dp"/>
+                            android:id="@+id/ivProfileHome"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@android:drawable/ic_menu_gallery" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+
                         <TextView
-                            android:text="URGENCE"
+                            android:id="@+id/tvHello"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="Bonjour,"
+                            android:textSize="16sp"
+                            android:textColor="#EFEFEF"/>
+
+                        <TextView
+                            android:id="@+id/tvName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Future Maman"
+                            android:textSize="24sp"
                             android:textStyle="bold"
-                            android:textColor="#D32F2F"/>
+                            android:textColor="#FFFFFF"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- 2. RENDEZ-VOUS -->
-                <LinearLayout
-                    android:id="@+id/cardRdv"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/bg_card_modern"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@android:drawable/ic_menu_my_calendar"
-                        app:tint="#EC407A"
-                        android:layout_marginBottom="8dp"/>
-                    <TextView
-                        android:text="Rendez-vous"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="#333"/>
                 </LinearLayout>
 
-                <!-- 3. SANTÉ -->
                 <LinearLayout
-                    android:id="@+id/cardHealth"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/bg_card_modern"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@android:drawable/ic_menu_edit"
-                        app:tint="#5C6BC0"
-                        android:layout_marginBottom="8dp"/>
-                    <TextView
-                        android:text="Santé"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="#333"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="32dp"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btnSettings"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/circle_white_bg"
+                        android:backgroundTint="#40FFFFFF"
+                        android:src="@android:drawable/ic_menu_manage"
+                        app:tint="#FFFFFF"
+                        android:layout_marginEnd="12dp"/>
+
+                    <ImageButton
+                        android:id="@+id/btnLogout"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/circle_white_bg"
+                        android:backgroundTint="#40FFFFFF"
+                        android:src="@android:drawable/ic_lock_power_off"
+                        app:tint="#FFFFFF"/>
                 </LinearLayout>
 
-                <!-- 4. MÉDICAMENTS -->
-                <LinearLayout
-                    android:id="@+id/cardMeds"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/bg_card_modern"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@android:drawable/ic_menu_agenda"
-                        app:tint="#AB47BC"
-                        android:layout_marginBottom="8dp"/>
-                    <TextView
-                        android:text="Médicaments"
-                        android:layout_width="wrap_content"
+            </RelativeLayout>
+
+            <!-- CATEGORIES GRID -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_bottom_sheet"
+                android:layout_marginTop="-40dp"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tableau de bord"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#2D3436"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="4dp"/>
+
+                <!-- SOS Emergency Card (Larger) -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardEmergency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="#FFF1F2"
+                    app:strokeWidth="0dp"
+                    android:layout_marginBottom="16dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="#333"/>
-                </LinearLayout>
+                        android:padding="20dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#FFFFFF">
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:src="@android:drawable/ic_menu_call"
+                                app:tint="#F43F5E"/>
+                        </com.google.android.material.card.MaterialCardView>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Urgence SOS"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:textColor="#9F1239"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Appuyez en cas de besoin"
+                                android:textSize="13sp"
+                                android:textColor="#BE123C"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                <!-- 5. SPORT -->
-                <LinearLayout
-                    android:id="@+id/cardActivityWeather"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/bg_card_modern"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@android:drawable/ic_menu_day"
-                        app:tint="#29B6F6"
-                        android:layout_marginBottom="8dp"/>
-                    <TextView
-                        android:text="Sport"
-                        android:layout_width="wrap_content"
+                <!-- 2-Column Grid -->
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:alignmentMode="alignMargins">
+
+                    <!-- RDV -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardRdv"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="#333"/>
-                </LinearLayout>
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="1dp"
+                        app:strokeWidth="0dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@android:color/white">
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                app:cardCornerRadius="16dp"
+                                app:cardElevation="0dp"
+                                app:cardBackgroundColor="#FCE4EC">
+                                <ImageView
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp"
+                                    android:layout_gravity="center"
+                                    android:src="@android:drawable/ic_menu_my_calendar"
+                                    app:tint="#EC407A"/>
+                            </com.google.android.material.card.MaterialCardView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rdv"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:textColor="#2D3436"
+                                android:layout_marginTop="12dp"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                <!-- 6. NUTRITION -->
-                <LinearLayout
-                    android:id="@+id/cardNutrition"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/bg_card_modern"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@android:drawable/ic_menu_gallery"
-                        app:tint="#66BB6A"
-                        android:layout_marginBottom="8dp"/>
-                    <TextView
-                        android:text="Nutrition"
-                        android:layout_width="wrap_content"
+                    <!-- SANTÉ -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardHealth"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="#333"/>
-                </LinearLayout>
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="1dp"
+                        app:strokeWidth="0dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@android:color/white">
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                app:cardCornerRadius="16dp"
+                                app:cardElevation="0dp"
+                                app:cardBackgroundColor="#E8EAF6">
+                                <ImageView
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp"
+                                    android:layout_gravity="center"
+                                    android:src="@android:drawable/ic_menu_edit"
+                                    app:tint="#5C6BC0"/>
+                            </com.google.android.material.card.MaterialCardView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Santé"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:textColor="#2D3436"
+                                android:layout_marginTop="12dp"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                <!-- 7. SYMPTOMES -->
-                <LinearLayout
-                    android:id="@+id/cardSymptoms"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/bg_card_modern"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@android:drawable/ic_menu_report_image"
-                        app:tint="#FFA726"
-                        android:layout_marginBottom="8dp"/>
-                    <TextView
-                        android:text="Symptômes"
-                        android:layout_width="wrap_content"
+                    <!-- MÉDICAMENTS -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardMeds"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="#333"/>
-                </LinearLayout>
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="1dp"
+                        app:strokeWidth="0dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@android:color/white">
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                app:cardCornerRadius="16dp"
+                                app:cardElevation="0dp"
+                                app:cardBackgroundColor="#F3E5F5">
+                                <ImageView
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_medication"
+                                    app:tint="#AB47BC"/>
+                            </com.google.android.material.card.MaterialCardView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Médicaments"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:textColor="#2D3436"
+                                android:layout_marginTop="12dp"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                <!-- Cale vide -->
-                <Space android:layout_width="0dp" android:layout_height="120dp" android:layout_columnWeight="1"/>
+                    <!-- SPORT -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardActivityWeather"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="1dp"
+                        app:strokeWidth="0dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@android:color/white">
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                app:cardCornerRadius="16dp"
+                                app:cardElevation="0dp"
+                                app:cardBackgroundColor="#E1F5FE">
+                                <ImageView
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_sleep_tracker"
+                                    app:tint="#29B6F6"/>
+                            </com.google.android.material.card.MaterialCardView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sport"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:textColor="#2D3436"
+                                android:layout_marginTop="12dp"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-            </GridLayout>
-        </ScrollView>
-    </LinearLayout>
+                    <!-- NUTRITION -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardNutrition"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="1dp"
+                        app:strokeWidth="0dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@android:color/white">
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                app:cardCornerRadius="16dp"
+                                app:cardElevation="0dp"
+                                app:cardBackgroundColor="#E8F5E9">
+                                <ImageView
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_weight_tracker"
+                                    app:tint="#66BB6A"/>
+                            </com.google.android.material.card.MaterialCardView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Nutrition"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:textColor="#2D3436"
+                                android:layout_marginTop="12dp"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-    <!-- Bouton Déconnexion -->
-    <ImageButton
-        android:id="@+id/btnLogout"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@android:drawable/ic_lock_power_off"
-        android:background="@drawable/circle_white_bg"
-        android:elevation="6dp"
-        app:tint="#757575"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+                    <!-- SYMPTÔMES -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardSymptoms"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="1dp"
+                        app:strokeWidth="0dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@android:color/white">
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                app:cardCornerRadius="16dp"
+                                app:cardElevation="0dp"
+                                app:cardBackgroundColor="#FFF3E0">
+                                <ImageView
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp"
+                                    android:layout_gravity="center"
+                                    android:src="@android:drawable/ic_menu_report_image"
+                                    app:tint="#FFA726"/>
+                            </com.google.android.material.card.MaterialCardView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Symptômes"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:textColor="#2D3436"
+                                android:layout_marginTop="12dp"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-    <!-- Bouton Chatbot -->
+                </GridLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Chatbot FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabChat"
         android:layout_width="wrap_content"
@@ -265,7 +440,7 @@
         app:tint="@null"
         app:backgroundTint="#FFFFFF"
         android:layout_margin="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:elevation="8dp"
+        android:layout_gravity="bottom|end"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

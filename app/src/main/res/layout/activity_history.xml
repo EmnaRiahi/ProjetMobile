@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Activity History"
+                android:text="Historique d'Activité"
                 android:textSize="28sp"
                 android:fontFamily="sans-serif-black"
                 android:textColor="#2D3436"
@@ -88,7 +88,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Total Steps"
+                            android:text="Pas Totaux"
                             android:textColor="#E0E0E0"
                             android:textSize="14sp"/>
                     </LinearLayout>
@@ -110,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="4dp"
-                    android:text="Current"
+                    android:text="En cours"
                     android:textColor="#2d3436"
                     app:cornerRadius="20dp"
                     android:insetTop="0dp"
@@ -124,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="4dp"
-                    android:text="Achieved"
+                    android:text="Atteints"
                     android:textColor="#2d3436"
                     app:cornerRadius="20dp"
                     android:insetTop="0dp"
@@ -137,7 +137,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="All"
+                    android:text="Tout"
                     android:textColor="@android:color/white"
                     app:backgroundTint="#2d3436"
                     app:cornerRadius="20dp"

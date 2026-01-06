@@ -19,6 +19,9 @@ public class HomeDashboardActivity extends AppCompatActivity implements SensorEv
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private float mAccel, mAccelCurrent, mAccelLast;
+    private MyDatabaseHelper myDB;
+    private android.widget.ImageView ivProfileHome;
+    private android.widget.TextView tvName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,12 @@ public class HomeDashboardActivity extends AppCompatActivity implements SensorEv
                 finish();
             });
         }
+
+        myDB = new MyDatabaseHelper(this);
+        ivProfileHome = findViewById(R.id.ivProfileHome);
+        tvName = findViewById(R.id.tvName);
+
+        setupClick(R.id.btnSettings, SettingsActivity.class);
 
         // 2. Capteur
         try {
@@ -77,6 +86,36 @@ public class HomeDashboardActivity extends AppCompatActivity implements SensorEv
         }
     }
     @Override public void onAccuracyChanged(Sensor sensor, int accuracy) {}
-    @Override protected void onResume() { super.onResume(); if(sensorManager!=null) sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI); }
+    @Override protected void onResume() { 
+        super.onResume(); 
+        if(sensorManager!=null) sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI); 
+        loadUserData();
+    }
+
+    private void loadUserData() {
+        String email = getSharedPreferences("user_session", MODE_PRIVATE).getString("email", "");
+        if (!email.isEmpty()) {
+            android.database.Cursor cursor = myDB.getUserByEmail(email);
+            if (cursor != null && cursor.moveToFirst()) {
+                String name = cursor.getString(cursor.getColumnIndexOrThrow("fullname"));
+                String imagePath = cursor.getString(cursor.getColumnIndexOrThrow("image"));
+                
+                if (tvName != null) tvName.setText(name);
+                if (ivProfileHome != null && imagePath != null && !imagePath.isEmpty()) {
+                    try {
+                        if (imagePath.startsWith("content://")) {
+                            ivProfileHome.setImageURI(android.net.Uri.parse(imagePath));
+                        } else {
+                            ivProfileHome.setImageURI(android.net.Uri.fromFile(new java.io.File(imagePath)));
+                        }
+                    } catch (Exception e) {
+                        ivProfileHome.setImageResource(android.R.drawable.ic_menu_gallery);
+                    }
+                }
+                cursor.close();
+            }
+        }
+    }
+
     @Override protected void onPause() { super.onPause(); if(sensorManager!=null) sensorManager.unregisterListener(this); }
 }

@@ -66,14 +66,14 @@ public class AddSessionDialog extends Dialog {
             String goalStr = edtStepGoal.getText().toString();
 
             if (goalStr.isEmpty()) {
-                Toast.makeText(getContext(), "Please enter step target", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Veuillez saisir un objectif de pas", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             try {
                 int target = Integer.parseInt(goalStr);
                 if (target <= 0) {
-                     Toast.makeText(getContext(), "Target must be > 0", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(getContext(), "L'objectif doit être supérieur à 0", Toast.LENGTH_SHORT).show();
                      return;
                 }
 
@@ -111,7 +111,7 @@ public class AddSessionDialog extends Dialog {
                 }).start();
 
             } catch (NumberFormatException e) {
-                Toast.makeText(getContext(), "Invalid number", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Nombre invalide", Toast.LENGTH_SHORT).show();
             }
         });
     }

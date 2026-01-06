@@ -29,16 +29,16 @@ public class ExercisesActivity extends AppCompatActivity {
         List<Exercise> exercises = new ArrayList<>();
 
         if ("INDOOR".equals(type)) {
-            txtTitle.setText("Indoor Exercises");
-            exercises.add(new Exercise("Prenatal Yoga", "Gentle stretching and breathing exercises.", android.R.drawable.ic_menu_mylocation, "https://www.youtube.com/watch?v=B87FpWtkIKA"));
-            exercises.add(new Exercise("Wall Push-ups", "Strengthens chest and arms without strain.", android.R.drawable.ic_menu_rotate, "https://www.youtube.com/watch?v=q-JZSn4Z2X0"));
-            exercises.add(new Exercise("Pelvic Tilts", "Relieves back pain and strengthens core.", android.R.drawable.ic_menu_sort_by_size, "https://www.youtube.com/watch?v=moa4h-rjuNE"));
-            exercises.add(new Exercise("Squats", "Great for leg strength and mobility.", android.R.drawable.ic_menu_week, "https://www.youtube.com/watch?v=e8_pNWIBa2M"));
+            txtTitle.setText("Exercices en intérieur");
+            exercises.add(new Exercise("Yoga prénatal", "Étirements doux et exercices de respiration.", android.R.drawable.ic_menu_mylocation, "https://www.youtube.com/watch?v=B87FpWtkIKA"));
+            exercises.add(new Exercise("Pompes au mur", "Renforce la poitrine et les bras sans effort excessif.", android.R.drawable.ic_menu_rotate, "https://www.youtube.com/watch?v=q-JZSn4Z2X0"));
+            exercises.add(new Exercise("Basculements du bassin", "Soulage les maux de dos et renforce la sangle abdominale.", android.R.drawable.ic_menu_sort_by_size, "https://www.youtube.com/watch?v=moa4h-rjuNE"));
+            exercises.add(new Exercise("Squats", "Excellent pour la force et la mobilité des jambes.", android.R.drawable.ic_menu_week, "https://www.youtube.com/watch?v=e8_pNWIBa2M"));
         } else {
-            txtTitle.setText("Outdoor Exercises");
-            exercises.add(new Exercise("Walking / Running", "Low-impact cardio for overall health.", android.R.drawable.ic_menu_directions, "https://www.youtube.com/watch?v=oQBGdPbGYVQ"));
-            exercises.add(new Exercise("Swimming", "Zero-gravity exercise for full body relief.", android.R.drawable.ic_menu_gallery, "https://www.youtube.com/watch?v=wIDjz9uqN4w"));
-            exercises.add(new Exercise("Cycling", "Safe, steady-paced outdoor activity.", android.R.drawable.ic_menu_compass, "https://www.youtube.com/watch?v=SFlVRWt5DqQ"));
+            txtTitle.setText("Exercices en extérieur");
+            exercises.add(new Exercise("Marche / Course", "Cardio à faible impact pour une santé globale.", android.R.drawable.ic_menu_directions, "https://www.youtube.com/watch?v=oQBGdPbGYVQ"));
+            exercises.add(new Exercise("Natation", "Exercice en apesanteur pour un soulagement de tout le corps.", android.R.drawable.ic_menu_gallery, "https://www.youtube.com/watch?v=wIDjz9uqN4w"));
+            exercises.add(new Exercise("Cyclisme", "Activité de plein air sécurisée et à rythme régulier.", android.R.drawable.ic_menu_compass, "https://www.youtube.com/watch?v=SFlVRWt5DqQ"));
         }
 
         recyclerView.setAdapter(new ExerciseAdapter(exercises));

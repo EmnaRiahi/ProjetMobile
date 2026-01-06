@@ -69,6 +69,7 @@
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".HomeDashboardActivity" />
         <activity android:name=".MainActivity" /> <!-- Gardée par sécurité -->
+        <activity android:name=".SettingsActivity" />
 
         <!-- ========================================== -->
         <!--              TES FONCTIONNALITÉS           -->

@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
 public class AnalysisActivity extends AppCompatActivity {
 
     private TextView tvAnalysisResult;
-    private ProgressBar progressBar;
+    private android.view.View cardLoading, cardResult;
     private DatabaseHelper dbHelper;
     private ExecutorService executorService;
 
@@ -32,59 +32,61 @@ public class AnalysisActivity extends AppCompatActivity {
         setContentView(R.layout.activity_analysis);
 
         tvAnalysisResult = findViewById(R.id.tvAnalysisResult);
-        progressBar = findViewById(R.id.progressBar);
+        cardLoading = findViewById(R.id.cardLoading);
+        cardResult = findViewById(R.id.cardResult);
         dbHelper = new DatabaseHelper(this);
         executorService = Executors.newSingleThreadExecutor();
+
+        // Initial state
+        cardResult.setVisibility(View.GONE);
 
         // Lancer l'analyse
         analyzeHabits();
     }
 
     private void analyzeHabits() {
-        progressBar.setVisibility(View.VISIBLE);
-        tvAnalysisResult.setText("Analyse en cours...");
+        cardLoading.setVisibility(View.VISIBLE);
+        cardResult.setVisibility(View.GONE);
 
         executorService.execute(() -> {
+            // Petite pause pour l'effet "IA"
+            try { Thread.sleep(1500); } catch (InterruptedException e) {}
+
             List<Meal> meals = dbHelper.getAllMeals();
 
             if (meals.isEmpty()) {
                 runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    tvAnalysisResult.setText("Aucune donnée disponible pour l'analyse.");
+                    cardLoading.setVisibility(View.GONE);
+                    cardResult.setVisibility(View.VISIBLE);
+                    tvAnalysisResult.setText("Ajoutez quelques repas pour que l'IA puisse analyser vos habitudes ! ✨");
                 });
                 return;
             }
 
             // Préparer les données pour l'IA
             StringBuilder mealData = new StringBuilder();
-            mealData.append("Analyser les habitudes alimentaires suivantes:\n\n");
+            mealData.append("Agis en tant qu'expert en nutrition. Analyse ces repas récents et donne un feedback encourageant et constructif en français:\n\n");
 
             for (Meal meal : meals) {
                 mealData.append("- ").append(meal.getName())
-                        .append(" le ").append(meal.getDate())
-                        .append(" à ").append(meal.getTime());
-
+                        .append(" (").append(meal.getDate()).append(" ").append(meal.getTime()).append(")");
                 if (meal.getNotes() != null && !meal.getNotes().isEmpty()) {
-                    mealData.append(" (Note: ").append(meal.getNotes()).append(")");
+                    mealData.append(" Note: ").append(meal.getNotes());
                 }
                 mealData.append("\n");
             }
 
-            mealData.append("\nDonner des recommandations simples sur:\n");
-            mealData.append("1. La régularité des repas\n");
-            mealData.append("2. Les pauses entre les repas\n");
-            mealData.append("3. Les observations négatives répétées\n");
-            mealData.append("4. Conseils pour améliorer l'alimentation\n");
+            mealData.append("\nFormatte ta réponse avec des puces claires.");
 
-            // Appel à l'API Claude (exemple avec Anthropic API)
             String analysis = callClaudeAPI(mealData.toString());
 
             runOnUiThread(() -> {
-                progressBar.setVisibility(View.GONE);
+                cardLoading.setVisibility(View.GONE);
+                cardResult.setVisibility(View.VISIBLE);
                 if (analysis != null && !analysis.isEmpty()) {
                     tvAnalysisResult.setText(analysis);
                 } else {
-                    tvAnalysisResult.setText("Erreur lors de l'analyse. Vérifiez votre connexion internet.");
+                    tvAnalysisResult.setText("Oups ! Je n'ai pas pu charger l'analyse. Vérifie ta connexion Internet. 🌐");
                 }
             });
         });

@@ -61,7 +61,7 @@
                                     android:id="@+id/txtCityName"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Loading..."
+                                    android:text="Chargement..."
                                     android:textSize="18sp"
                                     android:textStyle="bold"
                                     android:textColor="#1565C0"
@@ -126,7 +126,7 @@
                             android:id="@+id/txtWeatherRec"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Recommendation..."
+                            android:text="Recommandation..."
                             android:textSize="14sp"
                             android:textStyle="italic"
                             android:textColor="#0D47A1"
@@ -140,7 +140,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Current Session"
+                android:text="Session Actuelle"
                 android:textColor="#2d3436"
                 android:textSize="22sp"
                 android:textStyle="bold"
@@ -194,7 +194,7 @@
                             android:id="@+id/txtStepProgress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0 / walked Steps"
+                            android:text="0 / pas parcourus"
                             android:textColor="#636e72"
                             android:textSize="16sp" />
 
@@ -292,7 +292,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Walking"
+                                    android:text="Marche"
                                     android:textColor="#636e72"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -320,7 +320,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="GOAL ACHIEVED!"
+                            android:text="OBJECTIF ATTEINT !"
                             android:textSize="28sp"
                             android:textStyle="bold"
                             android:textColor="#FEC007"
@@ -366,7 +366,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Indoor\nSports"
+                            android:text="Sports d'intérieur"
                             android:gravity="center"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -404,7 +404,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Outdoor\nSports"
+                            android:text="Sports d'extérieur"
                             android:gravity="center"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -418,7 +418,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Health Overview"
+                android:text="Aperçu Santé"
                 android:textColor="#2d3436"
                 android:textSize="26sp"
                 android:fontFamily="sans-serif-black"
@@ -455,7 +455,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Your Personalized Plan"
+                            android:text="Votre Plan Personnalisé"
                             android:textStyle="bold"
                             android:textSize="18sp"
                             android:textColor="#006064"
@@ -466,7 +466,7 @@
                         android:id="@+id/txtAdviceBMI"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Loading profile..."
+                        android:text="Chargement du profil..."
                         android:textColor="#006064"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
@@ -475,7 +475,7 @@
                         android:id="@+id/txtAdviceSteps"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Recommended Steps: ..."
+                        android:text="Pas recommandés : ..."
                         android:textColor="#00838F"
                         android:textSize="14sp"
                         android:layout_marginTop="4dp"/>
@@ -484,7 +484,7 @@
                         android:id="@+id/txtAdviceCalories"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Calorie Target: ..."
+                        android:text="Objectif Calories : ..."
                         android:textColor="#00838F"
                         android:textSize="14sp"
                         android:layout_marginTop="4dp"/>
@@ -527,7 +527,7 @@
                                 android:id="@+id/lblStepsTitle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Daily Steps"
+                                android:text="Pas Quotidiens"
                                 android:textStyle="bold"
                                 android:textSize="14sp"
                                 android:textColor="#00838F"
@@ -557,7 +557,7 @@
                                 android:id="@+id/txtDailyStepsTargetText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="of 6000"
+                                android:text="sur 6000"
                                 android:textSize="12sp"
                                 android:textColor="#00838F"
                                 android:layout_marginTop="8dp"/>
@@ -583,7 +583,7 @@
                                 android:id="@+id/lblCaloriesTitle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Burned Cal"
+                                android:text="Cal. Brûlées"
                                 android:textStyle="bold"
                                 android:textSize="14sp"
                                 android:textColor="#C62828"
@@ -613,7 +613,7 @@
                                 android:id="@+id/txtDailyCalsTargetText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="of 300 kcal"
+                                android:text="sur 300 kcal"
                                 android:textSize="12sp"
                                 android:textColor="#C62828"
                                 android:layout_marginTop="8dp"/>
@@ -626,7 +626,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Activity Statistics"
+                android:text="Statistiques d'Activité"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#2d3436"
@@ -648,7 +648,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Weekly Progress"
+                        android:text="Progression Hebdomadaire"
                         android:textColor="#b2bec3"
                         android:textSize="12sp"
                         android:layout_marginBottom="8dp"/>

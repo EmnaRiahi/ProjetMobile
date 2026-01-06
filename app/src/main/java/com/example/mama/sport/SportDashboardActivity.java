@@ -250,25 +250,25 @@ public class SportDashboardActivity extends AppCompatActivity implements SensorE
                  String stepAdvice;
                  
                  if (bmi < 18.5) {
-                     bmiCategory = "Underweight";
+                     bmiCategory = "Insuffisance pondérale";
                      targetSteps = 5000; // Moderate
                      targetCalories = 2200; 
-                     stepAdvice = "Light activity. Focus on nutrition.";
+                     stepAdvice = "Activité légère. Concentrez-vous sur la nutrition.";
                  } else if (bmi < 25) {
-                     bmiCategory = "Normal Weight";
+                     bmiCategory = "Poids normal";
                      targetSteps = 8000;
                      targetCalories = 350; 
-                     stepAdvice = "Maintain active lifestyle.";
+                     stepAdvice = "Maintenez un mode de vie actif.";
                  } else if (bmi < 30) {
-                     bmiCategory = "Overweight";
+                     bmiCategory = "Surpoids";
                      targetSteps = 6000;
                      targetCalories = 300;
-                     stepAdvice = "Monitor weight gain. Walk daily.";
+                     stepAdvice = "Surveillez la prise de poids. Marchez quotidiennement.";
                  } else {
-                     bmiCategory = "Obese";
+                     bmiCategory = "Obésité";
                      targetSteps = 5000;
                      targetCalories = 250;
-                     stepAdvice = "Low impact exercises only.";
+                     stepAdvice = "Exercices à faible impact uniquement.";
                  }
                  
                  // Update UI
@@ -277,17 +277,17 @@ public class SportDashboardActivity extends AppCompatActivity implements SensorE
                  TextView txtAdvCals = findViewById(R.id.txtAdviceCalories);
                  
                  if (txtBMI != null) {
-                     txtBMI.setText(String.format(Locale.getDefault(), "BMI: %.1f (%s) - Week %d", bmi, bmiCategory, week));
-                     txtAdvSteps.setText("Rec. Daily Steps: " + targetSteps + ". " + stepAdvice);
-                     txtAdvCals.setText("Rec. Burn Target: " + (int)targetCalories + " kcal");
+                     txtBMI.setText(String.format(Locale.getDefault(), "IMC: %.1f (%s) - Semaine %d", bmi, bmiCategory, week));
+                     txtAdvSteps.setText("Pas quot. rec. : " + targetSteps + ". " + stepAdvice);
+                     txtAdvCals.setText("Objectif de brûlage : " + (int)targetCalories + " kcal");
                  }
                  
                  // Update Dynamic Titles & Targets
-                 if (lblStepsTitle != null) lblStepsTitle.setText("Daily Steps Target");
-                 if (lblCaloriesTitle != null) lblCaloriesTitle.setText("Calories Burn Target");
+                 if (lblStepsTitle != null) lblStepsTitle.setText("Objectif de Pas");
+                 if (lblCaloriesTitle != null) lblCaloriesTitle.setText("Objectif de Calories");
                  
-                 if (txtDailyStepsTargetText != null) txtDailyStepsTargetText.setText("of " + targetSteps);
-                 if (txtDailyCalsTargetText != null) txtDailyCalsTargetText.setText("of " + (int)targetCalories + " kcal");
+                 if (txtDailyStepsTargetText != null) txtDailyStepsTargetText.setText("sur " + targetSteps);
+                 if (txtDailyCalsTargetText != null) txtDailyCalsTargetText.setText("sur " + (int)targetCalories + " kcal");
              }
              cursor.close();
          } else {
@@ -320,7 +320,7 @@ public class SportDashboardActivity extends AppCompatActivity implements SensorE
             int target = currentSession.targetSteps;
 
             txtSteps.setText(String.valueOf(steps));
-            txtStepProgress.setText(steps + " / " + target + " Steps");
+            txtStepProgress.setText(steps + " / " + target + " Pas");
             
             // Calc stats
             double dist = steps * 0.0007;
@@ -339,7 +339,7 @@ public class SportDashboardActivity extends AppCompatActivity implements SensorE
         } else {
             // No active session
             txtSteps.setText("0");
-            txtStepProgress.setText("Start a new session");
+            txtStepProgress.setText("Démarrer une session");
             progressSteps.setProgress(0);
             txtDistance.setText("0.00 km");
             txtCalories.setText("0.0 kcal");
@@ -494,7 +494,7 @@ public class SportDashboardActivity extends AppCompatActivity implements SensorE
                     @Override
                     public void onFailure(retrofit2.Call<com.example.mama.weather.WeatherResponse> call, Throwable t) {
                          runOnUiThread(() -> {
-                             if (txtCityName != null) txtCityName.setText("Offline");
+                             if (txtCityName != null) txtCityName.setText("Hors ligne");
                          });
                     }
                 });
@@ -515,33 +515,33 @@ public class SportDashboardActivity extends AppCompatActivity implements SensorE
         // thresholds
         if (current.precip_mm > 0.5) {
             isBadWeather = true; // Rain
-            reason = "It's raining.";
+            reason = "Il pleut.";
         } else if (current.temp_c < 5) {
             isBadWeather = true; // Too cold
-            reason = "It's too cold.";
+            reason = "Il fait trop froid.";
         } else if (current.temp_c > 35) {
             isBadWeather = true; // Too hot
-            reason = "It's too hot.";
+            reason = "Il fait trop chaud.";
         } else if (current.wind_kph > 35) {
             isBadWeather = true; // Windy
-            reason = "Strong wind.";
+            reason = "Vent fort.";
         } else if (current.condition.text.toLowerCase().contains("rain") || 
                    current.condition.text.toLowerCase().contains("snow") ||
                    current.condition.text.toLowerCase().contains("storm") ||
                    current.condition.text.toLowerCase().contains("drizzle")) {
              isBadWeather = true;
-             reason = "Weather looks rough.";
+             reason = "Le temps est mauvais.";
         }
         
         if (isBadWeather) {
-            txtWeatherRec.setText("Do indoor walk. " + reason);
+            txtWeatherRec.setText("Marche en intérieur conseillée. " + reason);
             // using generic icons, in real app consider real drawable resources
             imgRecIcon.setImageResource(android.R.drawable.ic_menu_mylocation); // Indoor icon placeholder
             // Tint to differentiate
             imgRecIcon.setColorFilter(android.graphics.Color.parseColor("#E65100"), android.graphics.PorterDuff.Mode.SRC_IN);
             txtWeatherRec.setTextColor(android.graphics.Color.parseColor("#E65100"));
         } else {
-            txtWeatherRec.setText("Great weather! Make an outdoor walk.");
+            txtWeatherRec.setText("Beau temps ! Faites une marche à l'extérieur.");
             imgRecIcon.setImageResource(android.R.drawable.ic_menu_directions); // Outdoor/Walk
             imgRecIcon.setColorFilter(android.graphics.Color.parseColor("#2E7D32"), android.graphics.PorterDuff.Mode.SRC_IN);
             txtWeatherRec.setTextColor(android.graphics.Color.parseColor("#2E7D32"));
@@ -578,8 +578,8 @@ public class SportDashboardActivity extends AppCompatActivity implements SensorE
         
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_dialog_info) 
-                .setContentTitle("Goal Achieved!")
-                .setContentText("Your step goal has been achieved")
+                .setContentTitle("Objectif Atteint !")
+                .setContentText("Votre objectif de pas a été atteint")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true);
 

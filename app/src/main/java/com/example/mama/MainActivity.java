@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     // Interface
     CardView cardEmergency;
-    Button btnAppointments, btnLogout;
+    android.widget.Button btnAppointments, btnLogout, btnSport, btnNutrition, btnMeds;
     TextView tvWelcome;
 
     // Capteurs pour le Shake (Secousse)
@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         cardEmergency = findViewById(R.id.cardEmergency);
         btnAppointments = findViewById(R.id.btnAppointments);
         btnLogout = findViewById(R.id.btnLogout);
+        btnSport = findViewById(R.id.btnSport);
+        btnNutrition = findViewById(R.id.btnNutrition);
+        btnMeds = findViewById(R.id.btnMeds);
         tvWelcome = findViewById(R.id.tvWelcome);
 
         // --- GESTION DU CAPTEUR (ACCÉLÉROMÈTRE) ---
@@ -79,6 +82,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 finish();
             }
         });
+
+        // 4. Sport
+        if (btnSport != null) {
+            btnSport.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, com.example.mama.sport.SportDashboardActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        // 5. Nutrition
+        if (btnNutrition != null) {
+            btnNutrition.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, com.example.mama.Nutrition.MainActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        // 6. Médicaments
+        if (btnMeds != null) {
+            btnMeds.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, MedicationActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     // --- LOGIQUE DU SHAKE (SECOUSSE) ---

@@ -24,6 +24,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_WEIGHT = "weight";
     private static final String COLUMN_HEIGHT = "height";
     private static final String COLUMN_AGE = "age";
+    private static final String COLUMN_IMAGE = "image";
 
     // --- TABLE RENDEZ-VOUS ---
     private static final String TABLE_RDV = "appointments";
@@ -72,7 +73,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_SYMPTOMS + " TEXT, " +
                 COLUMN_WEIGHT + " REAL, " +
                 COLUMN_HEIGHT + " REAL, " +
-                COLUMN_AGE + " INTEGER);");
+                COLUMN_AGE + " INTEGER, " +
+                COLUMN_IMAGE + " TEXT);");
 
         // 2. RDV
         db.execSQL("CREATE TABLE " + TABLE_RDV + " (" +
@@ -130,7 +132,26 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_WEIGHT, weight);
         cv.put(COLUMN_HEIGHT, height);
         cv.put(COLUMN_AGE, age);
+        cv.put(COLUMN_IMAGE, ""); // Initialisé à vide
         db.insert(TABLE_NAME, null, cv);
+    }
+
+    public Cursor getUserByEmail(String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_EMAIL + " = ?", new String[]{email});
+    }
+
+    public void updateUser(String email, String fullname, int age, double weight, double height, int week, String symptoms, String image){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_FULLNAME, fullname);
+        cv.put(COLUMN_AGE, age);
+        cv.put(COLUMN_WEIGHT, weight);
+        cv.put(COLUMN_HEIGHT, height);
+        cv.put(COLUMN_WEEK, week);
+        cv.put(COLUMN_SYMPTOMS, symptoms);
+        cv.put(COLUMN_IMAGE, image);
+        db.update(TABLE_NAME, cv, COLUMN_EMAIL + " = ?", new String[]{email});
     }
 
     public boolean checkUser(String email, String password){

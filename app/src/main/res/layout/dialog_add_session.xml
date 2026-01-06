@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start New Session"
+        android:text="Démarrer une session"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="6000"
-        android:hint="Target Steps"
+        android:hint="Objectif de pas"
         android:inputType="number"
         android:importantForAutofill="no"/>
 
@@ -38,7 +38,7 @@
             android:id="@+id/radioIndoor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Indoor"
+            android:text="Intérieur"
             android:checked="true"/>
 
         <RadioButton
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Outdoor"/>
+            android:text="Extérieur"/>
     </RadioGroup>
 
     <Button
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Save Activity"
+        android:text="Enregistrer l'activité"
         android:backgroundTint="#00b894"
         android:textColor="@android:color/white"/>
 

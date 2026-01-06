@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.sante;
 
 // POJO pour la désérialisation du JSON avec Gson.
 // Les noms des variables doivent correspondre aux clés dans le fichier JSON.

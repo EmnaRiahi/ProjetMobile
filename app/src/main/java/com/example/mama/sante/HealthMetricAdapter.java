@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.sante;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mama.R;
+
 import java.util.List;
 
 public class HealthMetricAdapter extends RecyclerView.Adapter<HealthMetricAdapter.ViewHolder> {

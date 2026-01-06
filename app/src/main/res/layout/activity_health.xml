@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/mama_background"
-    tools:context=".HealthActivity">
+    tools:context=".sante.HealthActivity">
 
     <!-- HEADER -->
     <RelativeLayout

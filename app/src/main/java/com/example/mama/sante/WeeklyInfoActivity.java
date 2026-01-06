@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.sante;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mama.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

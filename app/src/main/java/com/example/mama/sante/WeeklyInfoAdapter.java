@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.sante;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mama.R;
+
 import java.util.List;
 
 public class WeeklyInfoAdapter extends RecyclerView.Adapter<WeeklyInfoAdapter.ViewHolder> {

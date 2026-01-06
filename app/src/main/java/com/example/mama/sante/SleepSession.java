@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.sante;
 
 // POJO pour représenter une session de sommeil.
 public class SleepSession {

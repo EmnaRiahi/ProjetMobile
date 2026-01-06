@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.sante;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -16,6 +16,10 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import androidx.core.app.NotificationCompat;
+
+import com.example.mama.MyDatabaseHelper;
+import com.example.mama.R;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;

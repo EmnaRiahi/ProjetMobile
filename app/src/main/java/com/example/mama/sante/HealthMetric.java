@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.sante;
 
 // Un simple "Plain Old Java Object" (POJO) pour représenter une entrée de données de santé.
 // C'est une bonne pratique pour structurer les données et les séparer de la logique UI.

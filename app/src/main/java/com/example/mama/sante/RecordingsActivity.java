@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.sante;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mama.R;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

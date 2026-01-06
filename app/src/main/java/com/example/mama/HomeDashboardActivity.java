@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.mama.sante.HealthActivity;
 import com.example.mama.sport.SportDashboardActivity;
 
 public class HomeDashboardActivity extends AppCompatActivity implements SensorEventListener {

@@ -109,17 +109,17 @@
         <!-- ========================================== -->
         <!--        FONCTIONNALITÉS SANTÉ (Nessim)      -->
         <!-- ========================================== -->
-        <activity android:name=".HealthActivity" />
-        <activity android:name=".HealthTrackerActivity" />
+        <activity android:name=".sante.HealthActivity" />
+        <activity android:name=".sante.HealthTrackerActivity" />
         <activity android:name=".SymptomsActivity" />
         <activity android:name=".NutritionActivity" />
         <activity android:name=".ActivityWeatherActivity" />
-        <activity android:name=".SleepTrackingActivity" />
-        <activity android:name=".RecordingsActivity" />
-        <activity android:name=".WeeklyInfoActivity" />
+        <activity android:name=".sante.SleepTrackingActivity" />
+        <activity android:name=".sante.RecordingsActivity" />
+        <activity android:name=".sante.WeeklyInfoActivity" />
 
         <service
-            android:name=".SleepTrackingService"
+            android:name=".sante.SleepTrackingService"
             android:exported="false"
             android:foregroundServiceType="microphone" />
 

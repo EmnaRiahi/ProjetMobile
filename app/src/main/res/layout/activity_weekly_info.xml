@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/mama_background"
-    tools:context=".WeeklyInfoActivity">
+    tools:context=".sante.WeeklyInfoActivity">
 
     <!-- HEADER -->
     <RelativeLayout

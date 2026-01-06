@@ -1,4 +1,4 @@
-package com.example.mama;
+package com.example.mama.sante;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -13,9 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.example.mama.MyDatabaseHelper;
+import com.example.mama.R;
 import com.google.android.material.card.MaterialCardView;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 

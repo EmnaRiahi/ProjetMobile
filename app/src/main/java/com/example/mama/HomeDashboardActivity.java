@@ -7,122 +7,74 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.widget.ImageButton;
+import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import com.example.mama.sport.SportDashboardActivity;
-
-
 
 public class HomeDashboardActivity extends AppCompatActivity implements SensorEventListener {
 
-    // Capteurs pour l'urgence (Shake)
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private float mAccel;
-    private float mAccelCurrent;
-    private float mAccelLast;
+    private float mAccel, mAccelCurrent, mAccelLast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_dashboard);
 
-        // --- 1. INITIALISATION DU CAPTEUR URGENCE ---
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if (sensorManager != null) {
-            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        // 1. Navigation SÉCURISÉE (Anti-Crash)
+        setupClick(R.id.cardEmergency, EmergencyActivity.class);
+        setupClick(R.id.cardRdv, AppointmentsActivity.class);
+        setupClick(R.id.cardHealth, HealthActivity.class);
+        setupClick(R.id.cardSymptoms, SymptomsActivity.class);
+        setupClick(R.id.cardActivityWeather, SportDashboardActivity.class);
+        setupClick(R.id.cardNutrition, com.example.mama.Nutrition.MainActivity.class);
+        setupClick(R.id.cardMeds, MedicationActivity.class);
+        setupClick(R.id.fabChat, ChatActivity.class);
+
+        View btnLogout = findViewById(R.id.btnLogout);
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> {
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            });
         }
-        mAccel = 0.00f;
-        mAccelCurrent = SensorManager.GRAVITY_EARTH;
-        mAccelLast = SensorManager.GRAVITY_EARTH;
 
-        // --- 2. GESTION DES CLICS SUR LA GRILLE ---
-
-        // Carte 1 : Urgence
-        CardView cardEmergency = findViewById(R.id.cardEmergency);
-        cardEmergency.setOnClickListener(v -> startActivity(new Intent(this, EmergencyActivity.class)));
-
-        // Carte 2 : Rendez-vous
-        CardView cardRdv = findViewById(R.id.cardRdv);
-        cardRdv.setOnClickListener(v -> startActivity(new Intent(this, AppointmentsActivity.class)));
-
-        // Carte 3 : Santé & Constantes
-        CardView cardHealth = findViewById(R.id.cardHealth);
-        cardHealth.setOnClickListener(v -> startActivity(new Intent(this, HealthActivity.class)));
-
-        // Carte 4 : Symptômes
-        CardView cardSymptoms = findViewById(R.id.cardSymptoms);
-        cardSymptoms.setOnClickListener(v -> startActivity(new Intent(this, SymptomsActivity.class)));
-
-        // Carte 5 : Activité & Météo (SPORT DASHBOARD)
-        CardView cardActivity = findViewById(R.id.cardActivityWeather);
-        cardActivity.setOnClickListener(v -> {
-            Intent intent = new Intent(
-                    HomeDashboardActivity.this,
-                    SportDashboardActivity.class
-            );
-            startActivity(intent);
-        });
-
-
-
-        // Carte 6 : Nutrition
-        CardView cardNutrition = findViewById(R.id.cardNutrition);
-        cardNutrition.setOnClickListener(v -> {
-            Intent intent = new Intent(
-                    HomeDashboardActivity.this,
-                    com.example.mama.Nutrition.MainActivity.class
-            );
-            startActivity(intent);
-        });
-
-
-
-        // Bouton Déconnexion
-        ImageButton btnLogout = findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(v -> {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        });
-        findViewById(R.id.fabChat).setOnClickListener(v -> startActivity(new Intent(this, ChatActivity.class)));
-
+        // 2. Capteur
+        try {
+            sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+            if (sensorManager != null) {
+                accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            }
+            mAccel = 0.00f; mAccelCurrent = SensorManager.GRAVITY_EARTH; mAccelLast = SensorManager.GRAVITY_EARTH;
+        } catch (Exception e) {}
     }
 
-    // --- LOGIQUE SECOUSSE (Copier-Coller de l'ancienne) ---
+    private void setupClick(int id, Class<?> destination) {
+        View view = findViewById(id);
+        if (view != null) {
+            view.setOnClickListener(v -> startActivity(new Intent(this, destination)));
+        }
+    }
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-            float[] mGravity = event.values.clone();
-            float x = mGravity[0];
-            float y = mGravity[1];
-            float z = mGravity[2];
+            float[] v = event.values;
+            float x = v[0]; float y = v[1]; float z = v[2];
             mAccelLast = mAccelCurrent;
             mAccelCurrent = (float) Math.sqrt(x*x + y*y + z*z);
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta;
-
             if (mAccel > 12) {
-                // Secousse détectée
-                Toast.makeText(this, "URGENCE DÉTECTÉE !", Toast.LENGTH_SHORT).show();
+                mAccel = 0;
+                Toast.makeText(this, "URGENCE !", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, EmergencyActivity.class));
             }
         }
     }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(sensorManager != null) sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(sensorManager != null) sensorManager.unregisterListener(this);
-    }
+    @Override public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    @Override protected void onResume() { super.onResume(); if(sensorManager!=null) sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI); }
+    @Override protected void onPause() { super.onPause(); if(sensorManager!=null) sensorManager.unregisterListener(this); }
 }

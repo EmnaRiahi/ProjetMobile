@@ -9,13 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Mama.db";
-<<<<<<< HEAD
-    // VERSION UNIFIÉE : 5 (Pour forcer la mise à jour chez tout le monde)
-    private static final int DATABASE_VERSION = 5;
-=======
-    // ON PASSE EN VERSION 4 POUR LA MISE À JOUR (POIDS/TAILLE/AGE)
-    private static final int DATABASE_VERSION = 4;
->>>>>>> origin/sports
+    private static final int DATABASE_VERSION = 7; // Version finale avec toutes les tables
 
     // --- TABLE UTILISATEURS ---
     private static final String TABLE_NAME = "users";
@@ -25,9 +19,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_WEEK = "pregnancy_week";
     private static final String COLUMN_SYMPTOMS = "symptoms";
-    private static final String COLUMN_WEIGHT = "weight"; // kg
-    private static final String COLUMN_HEIGHT = "height"; // cm
-    private static final String COLUMN_AGE = "age";       // years
+    private static final String COLUMN_WEIGHT = "weight";
+    private static final String COLUMN_HEIGHT = "height";
+    private static final String COLUMN_AGE = "age";
 
     // --- TABLE RENDEZ-VOUS ---
     private static final String TABLE_RDV = "appointments";
@@ -36,7 +30,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_RDV_DATE = "date";
     private static final String COL_RDV_TIME = "time";
 
-    // --- TABLE HEALTH METRICS (Collègue) ---
+    // --- TABLE HEALTH METRICS ---
     public static final String TABLE_HEALTH_METRICS = "health_metrics";
     public static final String COL_HEALTH_ID = "id";
     public static final String COL_HEALTH_DATE = "date";
@@ -44,7 +38,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_HEALTH_SYSTOLIC = "systolic";
     public static final String COL_HEALTH_DIASTOLIC = "diastolic";
 
-    // --- TABLE SLEEP SESSIONS (Collègue) ---
+    // --- TABLE SLEEP SESSIONS ---
     private static final String TABLE_SLEEP_SESSIONS = "sleep_sessions";
     private static final String COL_SLEEP_ID = "id";
     private static final String COL_SLEEP_DATE = "date";
@@ -52,14 +46,22 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_SLEEP_LIGHT_MINUTES = "light_sleep_minutes";
     private static final String COL_SLEEP_SOUND_EVENTS = "sound_events";
 
+    // --- TABLE MÉDICAMENTS ---
+    private static final String TABLE_MEDS = "medications";
+    private static final String COL_MED_ID = "id";
+    private static final String COL_MED_NAME = "name";
+    private static final String COL_MED_GENERIC = "generic";
+    private static final String COL_MED_TIME = "time";
+    private static final String COL_MED_DOSES = "doses";
+
     public MyDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // 1. Création Users
-        String queryUser = "CREATE TABLE " + TABLE_NAME + " (" +
+        // 1. Users
+        db.execSQL("CREATE TABLE " + TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_FULLNAME + " TEXT, " +
                 COLUMN_EMAIL + " TEXT, " +
@@ -68,34 +70,38 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_SYMPTOMS + " TEXT, " +
                 COLUMN_WEIGHT + " REAL, " +
                 COLUMN_HEIGHT + " REAL, " +
-                COLUMN_AGE + " INTEGER);";
-        db.execSQL(queryUser);
+                COLUMN_AGE + " INTEGER);");
 
-        // 2. Création RDV
-        String queryRdv = "CREATE TABLE " + TABLE_RDV + " (" +
+        // 2. RDV
+        db.execSQL("CREATE TABLE " + TABLE_RDV + " (" +
                 COL_RDV_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_RDV_TITLE + " TEXT, " +
                 COL_RDV_DATE + " TEXT, " +
-                COL_RDV_TIME + " TEXT);";
-        db.execSQL(queryRdv);
+                COL_RDV_TIME + " TEXT);");
 
-        // 3. Création Health
-        String queryHealth = "CREATE TABLE " + TABLE_HEALTH_METRICS + " (" +
+        // 3. Health
+        db.execSQL("CREATE TABLE " + TABLE_HEALTH_METRICS + " (" +
                 COL_HEALTH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_HEALTH_DATE + " TEXT, " +
                 COL_HEALTH_WEIGHT + " REAL, " +
                 COL_HEALTH_SYSTOLIC + " INTEGER, " +
-                COL_HEALTH_DIASTOLIC + " INTEGER);";
-        db.execSQL(queryHealth);
+                COL_HEALTH_DIASTOLIC + " INTEGER);");
 
-        // 4. Création Sleep
-        String querySleep = "CREATE TABLE " + TABLE_SLEEP_SESSIONS + " (" +
+        // 4. Sleep
+        db.execSQL("CREATE TABLE " + TABLE_SLEEP_SESSIONS + " (" +
                 COL_SLEEP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_SLEEP_DATE + " TEXT, " +
                 COL_SLEEP_DEEP_MINUTES + " INTEGER, " +
                 COL_SLEEP_LIGHT_MINUTES + " INTEGER, " +
-                COL_SLEEP_SOUND_EVENTS + " INTEGER);";
-        db.execSQL(querySleep);
+                COL_SLEEP_SOUND_EVENTS + " INTEGER);");
+
+        // 5. Meds
+        db.execSQL("CREATE TABLE " + TABLE_MEDS + " (" +
+                COL_MED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_MED_NAME + " TEXT, " +
+                COL_MED_GENERIC + " TEXT, " +
+                COL_MED_TIME + " TEXT, " +
+                COL_MED_DOSES + " TEXT);");
     }
 
     @Override
@@ -104,18 +110,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RDV);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HEALTH_METRICS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SLEEP_SESSIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEDS);
         onCreate(db);
     }
 
-<<<<<<< HEAD
     // ==========================================
-    // PARTIE GESTION UTILISATEURS
+    // PARTIE 1 : UTILISATEURS
     // ==========================================
-    public void addUser(String fullname, String email, String password, int week, String symptoms){
-=======
-    // --- AJOUTER UTILISATEUR (MODIFIÉ) ---
     public void addUser(String fullname, String email, String password, int week, String symptoms, double weight, double height, int age){
->>>>>>> origin/sports
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_FULLNAME, fullname);
@@ -145,11 +147,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    public Cursor getUserDetails(String email){
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_EMAIL + " = ?", new String[]{email});
-    }
-
     public boolean updatePassword(String email, String newPassword){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -159,7 +156,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // ==========================================
-    // PARTIE GESTION RENDEZ-VOUS
+    // PARTIE 2 : RENDEZ-VOUS (AVEC UPDATE !)
     // ==========================================
     public void addAppointment(String title, String date, String time){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -180,7 +177,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_RDV, COL_RDV_ID + "=?", new String[]{id});
     }
 
-    // NOUVEAU : MISE À JOUR RDV
+    // C'EST CETTE MÉTHODE QUI MANQUAIT :
     public void updateAppointment(String id, String title, String date, String time){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -191,7 +188,40 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // ==========================================
-    // PARTIE GESTION SANTÉ (HEALTH METRICS)
+    // PARTIE 3 : MÉDICAMENTS (AVEC UPDATE !)
+    // ==========================================
+    public void addMedication(String name, String generic, String time, String doses){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_MED_NAME, name);
+        cv.put(COL_MED_GENERIC, generic);
+        cv.put(COL_MED_TIME, time);
+        cv.put(COL_MED_DOSES, doses);
+        db.insert(TABLE_MEDS, null, cv);
+    }
+
+    public Cursor getAllMedications(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_MEDS + " ORDER BY " + COL_MED_TIME + " ASC", null);
+    }
+
+    public void updateMedication(String id, String name, String generic, String time, String doses){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_MED_NAME, name);
+        cv.put(COL_MED_GENERIC, generic);
+        cv.put(COL_MED_TIME, time);
+        cv.put(COL_MED_DOSES, doses);
+        db.update(TABLE_MEDS, cv, COL_MED_ID + "=?", new String[]{id});
+    }
+
+    public void deleteMedication(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MEDS, COL_MED_ID + "=?", new String[]{id});
+    }
+
+    // ==========================================
+    // PARTIE 4 : SANTÉ & SOMMEIL (Collègue)
     // ==========================================
     public void addHealthMetric(String date, float weight, int systolic, int diastolic){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -223,9 +253,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_HEALTH_METRICS, COL_HEALTH_ID + "=?", new String[]{id});
     }
 
-    // ==========================================
-    // PARTIE SOMMEIL (SLEEP)
-    // ==========================================
     public void addSleepSession(String date, int deepSleepMinutes, int lightSleepMinutes, int soundEvents){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -240,12 +267,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_SLEEP_SESSIONS + " ORDER BY " + COL_SLEEP_ID + " DESC", null);
     }
-    // 👇 AJOUTE CETTE MÉTHODE À LA FIN DE TA CLASSE 👇
+
     public SleepSession getLastSleepSession() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SLEEP_SESSIONS + " ORDER BY " + COL_SLEEP_ID + " DESC LIMIT 1", null);
         SleepSession session = null;
-
         if (cursor != null && cursor.moveToFirst()) {
             session = new SleepSession(
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_SLEEP_DATE)),
@@ -257,4 +283,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         return session;
     }
+    // 👇 AJOUTE CETTE MÉTHODE QUI MANQUE 👇
+    public Cursor getUserDetails(String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_EMAIL + " = ?", new String[]{email});
+    }
+
 }

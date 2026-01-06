@@ -5,58 +5,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="#FAFAFA">
 
-    <!-- 1. EN-TÊTE AVEC IMAGE -->
-    <ImageView
-        android:id="@+id/headerImage"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:src="@drawable/img_background_mama"
-        android:scaleType="centerCrop"
-        app:layout_constraintHeight_percent="0.35"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <!-- Filtre sombre pour lire le texte -->
+    <!-- EN-TÊTE -->
     <View
+        android:id="@+id/headerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#40000000"
-        app:layout_constraintTop_toTopOf="@id/headerImage"
-        app:layout_constraintBottom_toBottomOf="@id/headerImage"/>
+        android:layout_height="240dp"
+        android:background="@drawable/header_gradient"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tvHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bonjour, Future Maman"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:layout_marginTop="50dp"
+        android:text="Bonjour,"
+        android:textSize="20sp"
+        android:textColor="#EFEFEF"
+        android:layout_marginTop="60dp"
         android:layout_marginStart="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/tvWeek"
+        android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bienvenue sur votre espace"
-        android:textSize="16sp"
-        android:textColor="#E0E0E0"
-        android:layout_marginTop="5dp"
+        android:text="Future Maman"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/tvHello"
         app:layout_constraintTop_toBottomOf="@+id/tvHello"/>
 
-    <!-- 2. CONTENU PRINCIPAL (Grille) -->
+    <!-- CONTENU (GRILLE) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
         android:background="@drawable/bg_bottom_sheet"
         android:paddingTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/headerImage"
+        app:layout_constraintTop_toBottomOf="@id/headerView"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="-40dp">
 
@@ -68,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="2"
-                android:rowCount="3"
+                android:rowCount="4"
                 android:padding="16dp"
                 android:alignmentMode="alignMargins">
 
@@ -76,10 +65,10 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardEmergency"
                     android:layout_width="0dp"
-                    android:layout_height="140dp"
+                    android:layout_height="120dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="20dp"
+                    app:cardCornerRadius="16dp"
                     app:cardElevation="4dp"
                     app:cardBackgroundColor="#FFEBEE">
                     <LinearLayout
@@ -94,170 +83,166 @@
                             app:tint="#D32F2F"
                             android:layout_marginBottom="8dp"/>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="URGENCE"
-                            android:textStyle="bold"
-                            android:textColor="#D32F2F"/>
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="(Secouez !)"
-                            android:textSize="10sp"
+                            android:textStyle="bold"
                             android:textColor="#D32F2F"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <!-- 2. RENDEZ-VOUS -->
-                <androidx.cardview.widget.CardView
+                <LinearLayout
                     android:id="@+id/cardRdv"
                     android:layout_width="0dp"
-                    android:layout_height="140dp"
+                    android:layout_height="120dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="4dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_my_calendar"
-                            app:tint="@color/mama_primary"
-                            android:layout_marginBottom="8dp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Rendez-vous"
-                            android:textStyle="bold"
-                            android:textColor="#333"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_my_calendar"
+                        app:tint="#EC407A"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Rendez-vous"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
 
                 <!-- 3. SANTÉ -->
-                <androidx.cardview.widget.CardView
+                <LinearLayout
                     android:id="@+id/cardHealth"
                     android:layout_width="0dp"
-                    android:layout_height="140dp"
+                    android:layout_height="120dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="4dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_edit"
-                            app:tint="#54A0FF"
-                            android:layout_marginBottom="8dp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Santé &amp; Info"
-                            android:textStyle="bold"
-                            android:textColor="#333"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_edit"
+                        app:tint="#5C6BC0"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Santé"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
 
-                <!-- 4. SYMPTÔMES -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardSymptoms"
+                <!-- 4. MÉDICAMENTS -->
+                <LinearLayout
+                    android:id="@+id/cardMeds"
                     android:layout_width="0dp"
-                    android:layout_height="140dp"
+                    android:layout_height="120dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="4dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_report_image"
-                            app:tint="#FF9800"
-                            android:layout_marginBottom="8dp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Symptômes"
-                            android:textStyle="bold"
-                            android:textColor="#333"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_agenda"
+                        app:tint="#AB47BC"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Médicaments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
 
                 <!-- 5. SPORT -->
-                <androidx.cardview.widget.CardView
+                <LinearLayout
                     android:id="@+id/cardActivityWeather"
                     android:layout_width="0dp"
-                    android:layout_height="140dp"
+                    android:layout_height="120dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="4dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_day"
-                            app:tint="#00BCD4"
-                            android:layout_marginBottom="8dp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Sport &amp; Météo"
-                            android:textStyle="bold"
-                            android:textColor="#333"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_day"
+                        app:tint="#29B6F6"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Sport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
 
                 <!-- 6. NUTRITION -->
-                <androidx.cardview.widget.CardView
+                <LinearLayout
                     android:id="@+id/cardNutrition"
                     android:layout_width="0dp"
-                    android:layout_height="140dp"
+                    android:layout_height="120dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="4dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_gallery"
-                            app:tint="#4CAF50"
-                            android:layout_marginBottom="8dp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Nutrition"
-                            android:textStyle="bold"
-                            android:textColor="#333"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_gallery"
+                        app:tint="#66BB6A"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Nutrition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
+
+                <!-- 7. SYMPTOMES -->
+                <LinearLayout
+                    android:id="@+id/cardSymptoms"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/bg_card_modern"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/ic_menu_report_image"
+                        app:tint="#FFA726"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:text="Symptômes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#333"/>
+                </LinearLayout>
+
+                <!-- Cale vide -->
+                <Space android:layout_width="0dp" android:layout_height="120dp" android:layout_columnWeight="1"/>
 
             </GridLayout>
         </ScrollView>
     </LinearLayout>
 
-    <!-- BOUTON DÉCONNEXION (En haut à droite) -->
+    <!-- Bouton Déconnexion -->
     <ImageButton
         android:id="@+id/btnLogout"
         android:layout_width="50dp"
@@ -271,16 +256,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- BOUTON CHATBOT (En bas à droite) -->
+    <!-- Bouton Chatbot -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:src="@drawable/ic_mamabot"
         app:tint="@null"
-
-        app:backgroundTint="@color/white"
+        app:backgroundTint="#FFFFFF"
         android:layout_margin="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

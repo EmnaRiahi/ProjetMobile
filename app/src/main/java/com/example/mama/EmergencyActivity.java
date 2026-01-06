@@ -1,10 +1,13 @@
 package com.example.mama;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +23,7 @@ import com.example.mama.api.OverpassResponse;
 import com.example.mama.api.OverpassService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -35,10 +38,13 @@ public class EmergencyActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     TextView tvStatus;
+    FloatingActionButton fabCall; // Bouton appel urgence
 
-    // Client de localisation Google
     private FusedLocationProviderClient fusedLocationClient;
     private static final int PERMISSION_REQUEST_CODE = 100;
+
+    // Rayon de recherche élargi à 15km (15000 mètres)
+    private static final int SEARCH_RADIUS = 15000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,77 +54,48 @@ public class EmergencyActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
 
-        // J'ai ajouté un TextView (optionnel) si tu veux afficher un message d'état,
-        // sinon tu peux utiliser des Toast.
+        // Ajoute ce bouton dans ton XML si tu veux l'appel direct (voir étape suivante)
+        fabCall = findViewById(R.id.fabCallEmergency);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // 1. Initialiser le client de localisation
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // 2. Vérifier les permissions et lancer la recherche
         checkPermissionAndSearch();
+
+        // Clic sur le bouton d'appel SAMU (190 en Tunisie, 15 en France, etc.)
+        if(fabCall != null) {
+            fabCall.setOnClickListener(v -> {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:190")); // SAMU
+                startActivity(intent);
+            });
+        }
     }
 
     private void checkPermissionAndSearch() {
-        // Vérifie si on a la permission FINE_LOCATION (GPS Précis)
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // Si non, on demande la permission
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
         } else {
-            // Si oui, on récupère la position
             getCurrentLocation();
         }
     }
 
-    // Gestion de la réponse de l'utilisateur (Accepter/Refuser le GPS)
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getCurrentLocation();
-            } else {
-                Toast.makeText(this, "Permission GPS refusée. Impossible de localiser.", Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
-            }
-        }
-    }
-
     private void getCurrentLocation() {
-        // Vérification de sécurité requise par Android Studio
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-
-        // Récupère la dernière position connue
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            // On a la position ! On lance l'API avec les vraies coordonnées
-                            double lat = location.getLatitude();
-                            double lon = location.getLongitude();
-
-                            // Petit message pour confirmer
-                            Toast.makeText(EmergencyActivity.this, "Position trouvée, recherche en cours...", Toast.LENGTH_SHORT).show();
-
-                            searchHospitals(lat, lon);
-                        } else {
-                            // Cas rare : GPS activé mais pas de position enregistrée
-                            Toast.makeText(EmergencyActivity.this, "Impossible de récupérer la position GPS. Vérifiez que la localisation est activée.", Toast.LENGTH_LONG).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    }
-                });
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+            if (location != null) {
+                searchHospitals(location.getLatitude(), location.getLongitude());
+            } else {
+                Toast.makeText(this, "Position introuvable. Ouverture de Google Maps...", Toast.LENGTH_LONG).show();
+                // Si pas de GPS, on ouvre Maps directement
+                openGoogleMapsFallback();
+            }
+        });
     }
 
-    // Méthode modifiée pour accepter lat/lon en paramètres
     private void searchHospitals(double lat, double lon) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://overpass-api.de/")
@@ -127,33 +104,61 @@ public class EmergencyActivity extends AppCompatActivity {
 
         OverpassService service = retrofit.create(OverpassService.class);
 
-        // Rayon de recherche : 5000 mètres (5km) autour de MA position
-        String query = "[out:json];node(around:5000," + lat + "," + lon + ")[amenity~\"hospital|clinic\"];out;";
+        // Requête élargie : Rayon 15km, Timeout augmenté [timeout:25]
+        String query = String.format(java.util.Locale.US,
+                "[out:json][timeout:25];node(around:%d,%f,%f)[amenity~\"hospital|clinic|pharmacy\"];out;",
+                SEARCH_RADIUS, lat, lon);
 
         service.getNearbyHospitals(query).enqueue(new Callback<OverpassResponse>() {
             @Override
             public void onResponse(Call<OverpassResponse> call, Response<OverpassResponse> response) {
                 progressBar.setVisibility(View.GONE);
-
                 if (response.isSuccessful() && response.body() != null) {
                     List<OverpassResponse.Element> results = response.body().elements;
-
                     if (results.isEmpty()) {
-                        Toast.makeText(EmergencyActivity.this, "Aucune clinique trouvée à 5km de votre position.", Toast.LENGTH_LONG).show();
+                        // Pas de résultats dans l'API -> Plan B
+                        Toast.makeText(EmergencyActivity.this, "Aucune clinique détectée ici. Recherche sur Maps...", Toast.LENGTH_LONG).show();
+                        openGoogleMapsFallback();
                     } else {
                         ClinicAdapter adapter = new ClinicAdapter(results);
                         recyclerView.setAdapter(adapter);
                     }
                 } else {
-                    Toast.makeText(EmergencyActivity.this, "Erreur API", Toast.LENGTH_SHORT).show();
+                    // Erreur API (Surcharge) -> Plan B
+                    openGoogleMapsFallback();
                 }
             }
 
             @Override
             public void onFailure(Call<OverpassResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(EmergencyActivity.this, "Erreur Réseau : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                // Erreur Réseau -> Plan B
+                Toast.makeText(EmergencyActivity.this, "Problème réseau. Ouverture de Maps...", Toast.LENGTH_SHORT).show();
+                openGoogleMapsFallback();
             }
         });
+    }
+
+    // --- LE PLAN B (Sauve la vie !) ---
+    private void openGoogleMapsFallback() {
+        // Lance une recherche générique "Hôpital" autour de la position actuelle via l'appli Maps
+        Uri gmmIntentUri = Uri.parse("geo:0,0?q=hopital+clinique");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+
+        try {
+            startActivity(mapIntent);
+            finish(); // On ferme l'activité urgence pour laisser place à Maps
+        } catch (Exception e) {
+            Toast.makeText(this, "Installez Google Maps pour plus de sécurité", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation();
+        }
     }
 }

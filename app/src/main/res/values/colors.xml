@@ -1,18 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- PALETTE MODERNE -->
-    <color name="mama_primary">#FF6B6B</color>
-    <color name="mama_primary_dark">#EE5253</color>
-    <color name="mama_accent">#54A0FF</color>
+    <!-- ============================================== -->
+    <!--            NOUVELLE PALETTE MODERNE            -->
+    <!-- ============================================== -->
+    <color name="mama_primary">#FF8A80</color>      <!-- Corail Doux -->
+    <color name="mama_primary_dark">#C85A54</color>
+    <color name="mama_accent">#80CBC4</color>       <!-- Vert Sauge -->
+    <color name="mama_secondary">#7986CB</color>
 
-    <!-- FONDS -->
-    <color name="mama_background">#FFF9FA</color>
-    <color name="mama_bg">#FFF9FA</color>
+    <!-- FONDS & SURFACES -->
+    <color name="mama_background">#FAFAFA</color>
+    <color name="surface_white">#FFFFFF</color>
 
-    <!-- TEXTES ET BASIQUES -->
+    <!-- TEXTES MODERNES -->
+    <color name="text_primary">#263238</color>
+    <color name="text_secondary">#78909C</color>
+
+    <!-- COULEURS STANDARD -->
     <color name="white">#FFFFFF</color>
-    <color name="black">#2D3436</color>
+    <color name="black">#000000</color>
+
+    <!-- ÉLÉMENTS UI -->
+    <color name="emergency_red">#EF5350</color>
+    <color name="card_shadow_start">#10000000</color>
+    <color name="card_shadow_end">#00000000</color>
+
+    <!-- ============================================== -->
+    <!--       RETRO-COMPATIBILITÉ (CRUCIAL !)          -->
+    <!--   Ces couleurs sont utilisées par les anciens  -->
+    <!--   fichiers et ceux de tes collègues.           -->
+    <!-- ============================================== -->
+
+    <!-- Remplace l'ancien rose pâle par le nouveau blanc cassé -->
+    <color name="mama_bg">#FAFAFA</color>
+
+    <!-- Gris clair (utilisé pour les champs de texte) -->
     <color name="grey_light">#F1F2F6</color>
+
+    <!-- Gris texte (utilisé pour les sous-titres) -->
     <color name="grey_text">#636E72</color>
-    <color name="text_color">#636E72</color>
+
 </resources>

@@ -7,26 +7,31 @@
     <!--                 PERMISSIONS                    -->
     <!-- ============================================== -->
 
+    <!-- Matériel -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
     <!-- Réseau & Localisation -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <!-- Système & Notifications (TES ajouts) -->
+    <!-- Système & Notifications -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-    <!-- Matériel & Capteurs (AJOUTS de l'équipe) -->
+    <!-- Audio & Capteurs -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
+    <!-- Services Spécifiques (Android 14+) -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <!-- AJOUT : Indispensable car un service utilise "specialUse" plus bas -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
 
     <application
@@ -38,13 +43,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mama"
+        android:usesCleartextTraffic="true"
+        android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
+        <!-- enableOnBackInvokedCallback ajouté pour éviter les logs d'erreur système -->
 
         <!-- ========================================== -->
-        <!--           ACTIVITÉS PRINCIPALES            -->
+        <!--           DÉMARRAGE (SPLASH SCREEN)        -->
         <!-- ========================================== -->
-
-        <!-- SPLASH SCREEN (Démarrage) -->
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -54,20 +60,19 @@
             </intent-filter>
         </activity>
 
-        <!-- LOGIN -->
+        <!-- ========================================== -->
+        <!--           ACTIVITÉS PRINCIPALES            -->
+        <!-- ========================================== -->
         <activity android:name=".LoginActivity" android:exported="false" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ForgotPasswordActivity" />
-
-        <!-- DASHBOARD -->
         <activity android:name=".HomeDashboardActivity" />
-
-        <!-- Ancienne activité (gardée par sécurité) -->
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" /> <!-- Gardée par sécurité -->
 
         <!-- ========================================== -->
         <!--              TES FONCTIONNALITÉS           -->
         <!-- ========================================== -->
+        <activity android:name=".MedicationActivity" />
         <activity android:name=".EmergencyActivity" />
         <activity android:name=".AppointmentsActivity" />
         <activity android:name=".ChatActivity" />
@@ -115,15 +120,15 @@
 
         <service
             android:name=".SleepTrackingService"
-            android:foregroundServiceType="microphone"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
 
         <!-- ========================================== -->
         <!--        FONCTIONNALITÉS SPORT (Moatez)      -->
         <!-- ========================================== -->
         <activity android:name=".sport.SportDashboardActivity" />
         <activity android:name=".sport.HistoryActivity" />
-        <activity android:name=".sport.ExercisesActivity" /> <!-- AJOUTÉ DE LA DROITE -->
+        <activity android:name=".sport.ExercisesActivity" />
 
     </application>
 

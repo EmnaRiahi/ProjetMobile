@@ -1,9 +1,11 @@
 package com.example.mama.sante;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +21,9 @@ import java.util.List;
 
 public class WeeklyInfoActivity extends AppCompatActivity {
 
+    private LightSensorManager lightSensorManager;
+    private View rootView;
+
     private List<WeeklyInfo> weeklyInfoList = new ArrayList<>();
     private WeeklyInfoAdapter adapter;
 
@@ -27,8 +32,13 @@ public class WeeklyInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly_info);
 
+        rootView = findViewById(android.R.id.content);
         RecyclerView recyclerView = findViewById(R.id.recyclerViewWeeklyInfo);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Initialize light sensor
+        lightSensorManager = new LightSensorManager(this);
+        lightSensorManager.setThemeChangeListener(this::applyTheme);
 
         loadWeeklyInfo();
 
@@ -51,12 +61,33 @@ public class WeeklyInfoActivity extends AppCompatActivity {
 
             // Utiliser Gson pour parser le JSON dans une liste d'objets WeeklyInfo
             Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<WeeklyInfo>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<WeeklyInfo>>() {
+            }.getType();
             weeklyInfoList = gson.fromJson(reader, listType);
 
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Erreur lors du chargement des informations.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        lightSensorManager.register();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        lightSensorManager.unregister();
+    }
+
+    private void applyTheme(boolean isDarkMode) {
+        if (isDarkMode) {
+            rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_background));
+        } else {
+            rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.mama_background));
         }
     }
 }

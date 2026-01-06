@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -23,6 +24,9 @@ import java.util.concurrent.TimeUnit;
 
 public class SleepTrackingActivity extends AppCompatActivity {
 
+    private LightSensorManager lightSensorManager;
+    private View rootView;
+
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
 
     private ToggleButton toggleButton;
@@ -37,6 +41,7 @@ public class SleepTrackingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_tracker);
 
+        rootView = findViewById(android.R.id.content);
         toggleButton = findViewById(R.id.toggleButton);
         tvStatus = findViewById(R.id.tvStatus);
         resultsCard = findViewById(R.id.resultsCard);
@@ -45,6 +50,10 @@ public class SleepTrackingActivity extends AppCompatActivity {
         tvDeepSleep = findViewById(R.id.tvDeepSleep);
         tvLightSleep = findViewById(R.id.tvLightSleep);
         tvSoundEventsResult = findViewById(R.id.tvSoundEventsResult);
+
+        // Initialize light sensor
+        lightSensorManager = new LightSensorManager(this);
+        lightSensorManager.setThemeChangeListener(this::applyTheme);
 
         toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -106,6 +115,7 @@ public class SleepTrackingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        lightSensorManager.register();
         android.content.IntentFilter filter = new android.content.IntentFilter(
                 SleepTrackingService.ACTION_SLEEP_DATA_SAVED);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
@@ -118,6 +128,7 @@ public class SleepTrackingActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        lightSensorManager.unregister();
         unregisterReceiver(sleepDataReceiver);
     }
 
@@ -170,6 +181,26 @@ public class SleepTrackingActivity extends AppCompatActivity {
 
         tvStatus.setText("Suivi terminé. Voici le résumé de votre nuit.");
         resultsCard.setVisibility(View.VISIBLE);
+    }
+
+    private void applyTheme(boolean isDarkMode) {
+        if (isDarkMode) {
+            rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_background));
+            resultsCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_card));
+            tvStatus.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+            tvTotalDuration.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+            tvDeepSleep.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+            tvLightSleep.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+            tvSoundEventsResult.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+        } else {
+            rootView.setBackgroundResource(R.drawable.bg_card_sleep);
+            resultsCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white));
+            tvStatus.setTextColor(ContextCompat.getColor(this, R.color.grey_text));
+            tvTotalDuration.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+            tvDeepSleep.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+            tvLightSleep.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+            tvSoundEventsResult.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+        }
     }
 
 }

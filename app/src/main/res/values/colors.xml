@@ -40,4 +40,63 @@
     <!-- Gris texte (utilisé pour les sous-titres) -->
     <color name="grey_text">#636E72</color>
 
+    <!-- ============================================== -->
+    <!--      SANTÉ SECTION - DARK MODE COLORS         -->
+    <!-- ============================================== -->
+    
+    <!-- Dark Mode Backgrounds -->
+    <color name="sante_dark_background">#1A1A2E</color>
+    <color name="sante_dark_surface">#16213E</color>
+    <color name="sante_dark_card">#1F2940</color>
+    
+    <!-- Dark Mode Text -->
+    <color name="sante_dark_text_primary">#FFFFFF</color>
+    <color name="sante_dark_text_secondary">#A0AEC0</color>
+    
+    <!-- Dark Mode Accents -->
+    <color name="sante_dark_accent">#FF8A80</color>
+    <color name="sante_dark_card_weight">#2D2A3D</color>
+    <color name="sante_dark_card_weekly">#1E3A3A</color>
+    <color name="sante_dark_card_sleep">#2A2545</color>
+    
+    <!-- Light Mode (for reference) -->
+    <color name="sante_light_background">#FAFAFA</color>
+    <color name="sante_light_surface">#FFFFFF</color>
+    <color name="sante_light_text_primary">#263238</color>
+    <color name="sante_light_text_secondary">#78909C</color>
+
+    <!-- ============================================== -->
+    <!--    MATERNAL HEALTH UX PALETTE (NEW!)          -->
+    <!-- ============================================== -->
+    
+    <!-- Gradient Colors -->
+    <color name="sante_gradient_start">#FFE5E0</color>
+    <color name="sante_gradient_end">#FFF5F7</color>
+    <color name="sante_gradient_coral">#FFCDD2</color>
+    
+    <!-- Accent Colors -->
+    <color name="sante_coral">#FF8A80</color>
+    <color name="sante_mint">#A8E6CF</color>
+    <color name="sante_lavender">#D4A5FF</color>
+    <color name="sante_warm_peach">#FFDAB9</color>
+    <color name="sante_soft_blue">#E3F2FD</color>
+    <color name="sante_rose">#F8BBD9</color>
+    
+    <!-- Card Backgrounds with soft tints -->
+    <color name="card_weight_bg">#FFF3E0</color>
+    <color name="card_weekly_bg">#E8F5E9</color>
+    <color name="card_sleep_bg">#EDE7F6</color>
+    <color name="card_recordings_bg">#E1F5FE</color>
+    <color name="card_insight_bg">#E3F2FD</color>
+    
+    <!-- Status Colors -->
+    <color name="status_good">#81C784</color>
+    <color name="status_warning">#FFD54F</color>
+    <color name="status_alert">#FF8A80</color>
+    
+    <!-- Night Sky Theme (Sleep) -->
+    <color name="night_sky_start">#1A1A2E</color>
+    <color name="night_sky_end">#16213E</color>
+    <color name="night_stars">#FFD700</color>
+
 </resources>

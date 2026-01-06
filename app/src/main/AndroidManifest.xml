@@ -30,6 +30,7 @@
 
     <!-- Services Spécifiques (Android 14+) -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
     <!-- AJOUT : Indispensable car un service utilise "specialUse" plus bas -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 

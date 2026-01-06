@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +24,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +34,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class HealthTrackerActivity extends AppCompatActivity {
+
+    private LightSensorManager lightSensorManager;
+    private View rootView;
 
     private MyDatabaseHelper db;
     private List<HealthMetric> metricsList = new ArrayList<>();
@@ -46,10 +52,15 @@ public class HealthTrackerActivity extends AppCompatActivity {
 
         db = new MyDatabaseHelper(this);
 
+        rootView = findViewById(android.R.id.content);
         // Initialisation des vues
         lineChart = findViewById(R.id.lineChart);
         tvHealthInsight = findViewById(R.id.tvHealthInsight);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
+        // Initialize light sensor
+        lightSensorManager = new LightSensorManager(this);
+        lightSensorManager.setThemeChangeListener(this::applyTheme);
 
         // RecyclerView pour Poids/Tension
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -306,5 +317,82 @@ public class HealthTrackerActivity extends AppCompatActivity {
         int h = minutes / 60;
         int m = minutes % 60;
         return String.format(Locale.getDefault(), "%dh %02dm", h, m);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        lightSensorManager.register();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        lightSensorManager.unregister();
+    }
+
+    private void applyTheme(boolean isDarkMode) {
+        if (isDarkMode) {
+            // Apply dark theme
+            rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_background));
+
+            // Update text colors
+            tvHealthInsight.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+
+            // Update chart colors for dark mode
+            lineChart.setBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_card));
+            lineChart.getLegend().setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_primary));
+            lineChart.getXAxis().setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_secondary));
+            lineChart.getAxisLeft().setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_secondary));
+            lineChart.getAxisRight().setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_secondary));
+
+            // Update sleep card if visible
+            updateSleepCardColors(true);
+        } else {
+            // Apply light theme
+            rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.mama_background));
+
+            // Update text colors
+            tvHealthInsight.setTextColor(ContextCompat.getColor(this, R.color.black));
+
+            // Update chart colors for light mode
+            lineChart.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+            lineChart.getLegend().setTextColor(ContextCompat.getColor(this, R.color.black));
+            lineChart.getXAxis().setTextColor(ContextCompat.getColor(this, R.color.grey_text));
+            lineChart.getAxisLeft().setTextColor(ContextCompat.getColor(this, R.color.grey_text));
+            lineChart.getAxisRight().setTextColor(ContextCompat.getColor(this, R.color.grey_text));
+
+            // Update sleep card if visible
+            updateSleepCardColors(false);
+        }
+        lineChart.invalidate();
+    }
+
+    private void updateSleepCardColors(boolean isDarkMode) {
+        int primaryColor = ContextCompat.getColor(this,
+                isDarkMode ? R.color.sante_dark_text_primary : R.color.black);
+        int secondaryColor = ContextCompat.getColor(this,
+                isDarkMode ? R.color.sante_dark_text_secondary : R.color.grey_text);
+
+        // Update sleep text colors
+        TextView tvSleepScore = findViewById(R.id.tvSleepScore);
+        TextView tvSleepDate = findViewById(R.id.tvSleepDate);
+        TextView tvTotalDurationVal = findViewById(R.id.tvTotalDurationVal);
+        TextView tvDeepSleepVal = findViewById(R.id.tvDeepSleepVal);
+        TextView tvLightSleepVal = findViewById(R.id.tvLightSleepVal);
+        TextView tvSoundEventsVal = findViewById(R.id.tvSoundEventsVal);
+
+        if (tvSleepScore != null)
+            tvSleepScore.setTextColor(primaryColor);
+        if (tvSleepDate != null)
+            tvSleepDate.setTextColor(secondaryColor);
+        if (tvTotalDurationVal != null)
+            tvTotalDurationVal.setTextColor(primaryColor);
+        if (tvDeepSleepVal != null)
+            tvDeepSleepVal.setTextColor(primaryColor);
+        if (tvLightSleepVal != null)
+            tvLightSleepVal.setTextColor(primaryColor);
+        if (tvSoundEventsVal != null)
+            tvSoundEventsVal.setTextColor(primaryColor);
     }
 }

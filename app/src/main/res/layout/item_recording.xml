@@ -1,75 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_sound_event"
-            app:tint="@color/mama_primary"
-            android:layout_marginEnd="16dp"/>
+        <!-- Waveform / Sound Icon -->
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_stat_badge">
 
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_sound_event"
+                app:tint="@color/sante_lavender"/>
+        </FrameLayout>
+
+        <!-- Recording Info -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginHorizontal="12dp">
 
             <TextView
                 android:id="@+id/tvRecordingName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Enregistrement 1"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/text_primary"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Son nocturne #3"/>
 
             <TextView
                 android:id="@+id/tvRecordingDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2023-10-27 14:30"
-                android:textSize="14sp"
-                android:textColor="@color/grey_text"/>
+                android:textSize="13sp"
+                android:textColor="@color/grey_text"
+                android:layout_marginTop="2dp"
+                tools:text="27 Oct 2024, 02:30"/>
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btnDownload"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@android:drawable/ic_menu_save"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/mama_primary"
-            android:layout_marginEnd="8dp"/>
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/btnDelete"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@android:drawable/ic_menu_delete"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="#F44336"/>
+            <ImageButton
+                android:id="@+id/btnDownload"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@android:drawable/ic_menu_save"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="@color/sante_mint"
+                android:contentDescription="Télécharger"/>
 
-        <ImageButton
-            android:id="@+id/btnPlay"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@android:drawable/ic_media_play"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/mama_primary"/>
+            <ImageButton
+                android:id="@+id/btnDelete"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@android:drawable/ic_menu_delete"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="@color/status_alert"
+                android:layout_marginStart="4dp"
+                android:contentDescription="Supprimer"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPlay"
+                style="@style/Widget.Material3.Button.IconButton.Filled"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                app:icon="@android:drawable/ic_media_play"
+                app:iconTint="@color/white"
+                app:backgroundTint="@color/sante_coral"
+                android:layout_marginStart="8dp"
+                android:contentDescription="Lecture"/>
+        </LinearLayout>
 
     </LinearLayout>
-
 </com.google.android.material.card.MaterialCardView>

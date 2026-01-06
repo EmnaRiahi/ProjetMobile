@@ -4,9 +4,11 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +23,9 @@ import java.util.List;
 
 public class RecordingsActivity extends AppCompatActivity {
 
+    private LightSensorManager lightSensorManager;
+    private View rootView;
+
     private RecyclerView recyclerView;
     private TextView tvEmpty;
     private ImageButton btnBack;
@@ -33,6 +38,7 @@ public class RecordingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recordings);
 
+        rootView = findViewById(android.R.id.content);
         recyclerView = findViewById(R.id.recyclerView);
         tvEmpty = findViewById(R.id.tvEmpty);
         btnBack = findViewById(R.id.btnBack);
@@ -40,6 +46,10 @@ public class RecordingsActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Initialize light sensor
+        lightSensorManager = new LightSensorManager(this);
+        lightSensorManager.setThemeChangeListener(this::applyTheme);
 
         loadRecordings();
     }
@@ -89,17 +99,43 @@ public class RecordingsActivity extends AppCompatActivity {
     }
 
     private void saveToDownloads(File file) {
-        android.content.ContentValues values = new android.content.ContentValues();
-        values.put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, file.getName());
-        values.put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "audio/mpeg");
-        values.put(android.provider.MediaStore.MediaColumns.RELATIVE_PATH,
-                android.os.Environment.DIRECTORY_DOWNLOADS + "/MAMA_Sleep");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            // API 29+ - Use MediaStore
+            android.content.ContentValues values = new android.content.ContentValues();
+            values.put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, file.getName());
+            values.put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "audio/mpeg");
+            values.put(android.provider.MediaStore.MediaColumns.RELATIVE_PATH,
+                    android.os.Environment.DIRECTORY_DOWNLOADS + "/MAMA_Sleep");
 
-        android.content.ContentResolver resolver = getContentResolver();
-        android.net.Uri uri = resolver.insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+            android.content.ContentResolver resolver = getContentResolver();
+            android.net.Uri uri = resolver.insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
 
-        if (uri != null) {
-            try (java.io.OutputStream out = resolver.openOutputStream(uri);
+            if (uri != null) {
+                try (java.io.OutputStream out = resolver.openOutputStream(uri);
+                        java.io.InputStream in = new java.io.FileInputStream(file)) {
+
+                    byte[] buffer = new byte[1024];
+                    int len;
+                    while ((len = in.read(buffer)) > 0) {
+                        out.write(buffer, 0, len);
+                    }
+                    Toast.makeText(this, "Téléchargé dans MAMA_Sleep", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Erreur de téléchargement", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else {
+            // API 24-28 - Copy to Downloads directory directly
+            File downloadsDir = android.os.Environment.getExternalStoragePublicDirectory(
+                    android.os.Environment.DIRECTORY_DOWNLOADS);
+            File destDir = new File(downloadsDir, "MAMA_Sleep");
+            if (!destDir.exists()) {
+                destDir.mkdirs();
+            }
+
+            File destFile = new File(destDir, file.getName());
+            try (java.io.OutputStream out = new java.io.FileOutputStream(destFile);
                     java.io.InputStream in = new java.io.FileInputStream(file)) {
 
                 byte[] buffer = new byte[1024];
@@ -144,6 +180,28 @@ public class RecordingsActivity extends AppCompatActivity {
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        lightSensorManager.register();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        lightSensorManager.unregister();
+    }
+
+    private void applyTheme(boolean isDarkMode) {
+        if (isDarkMode) {
+            rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.sante_dark_background));
+            tvEmpty.setTextColor(ContextCompat.getColor(this, R.color.sante_dark_text_secondary));
+        } else {
+            rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.mama_background));
+            tvEmpty.setTextColor(ContextCompat.getColor(this, R.color.grey_text));
         }
     }
 }
